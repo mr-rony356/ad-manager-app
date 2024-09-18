@@ -11,18 +11,17 @@ import { router } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import useScrollRestoration from "src/hooks/useScrollRestoration";
-
 export async function getServerSideProps({ req, locale }) {
   // Initialize the API helper class
   const api = new ApiController();
   // Authenticate the user
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
-  const user = await api.checkAuth(auth.token);
+  const user = (await api.checkAuth(auth.token)) || null;
   // Fetch all props server side
   const lang = locale === "de" ? "de" : "en";
-  const attributes = await api.fetchAttributes(lang);
-  const ads = await api.fetchAds(0);
-  const premiumAds = await api.fetchPremiumAds(0);
+  const attributes = (await api.fetchAttributes(lang)) || null;
+  const ads = (await api.fetchAds(0)) || null;
+  const premiumAds = (await api.fetchPremiumAds(0)) || null;
   // Return all props to the page
   return {
     props: {
@@ -44,7 +43,6 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   const { api } = useApi();
   const [ads, setAds] = useState(initialAds);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [filters, setFilters] = useState({
     regions: [],
     tags: [],
@@ -54,39 +52,19 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   });
   const [activeType, setActiveType] = useState(0);
 
-  // Fetch ads based on activeType when it changes
   const fetchAds = async (tab) => {
     setActiveType(tab);
-
     const res = await api.fetchAds(tab);
     if (res.err) setAds([]);
     else setAds(res);
   };
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsFilterVisible(!window.matchMedia("(max-width: 820px)").matches);
-    };
-
-    handleResize();
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
     if (!Cookies.get("cookiesPopupShown")) {
       setIsCookiesPopupOpen(true);
       Cookies.set("cookiesPopupShown", true);
     }
-  }, [isCookiesPopupOpen]);
-
-  const toggleFilter = () => {
-    setIsFilterVisible(!isFilterVisible);
-  };
+  }, []);
 
   return (
     <>
@@ -110,20 +88,17 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
       </Head>
-
       <div className="page page--home">
         <h1 className="home__title">
           {t("home__title", { region: "Schweiz" })}
         </h1>
         <div className="home__content">
           <div className="home__left">
-            {isFilterVisible && (
-              <FilterForm
-                filters={filters}
-                setFilters={setFilters}
-                attributes={attributes}
-              />
-            )}
+            <FilterForm
+              filters={filters}
+              setFilters={setFilters}
+              attributes={attributes}
+            />
           </div>
           <div className="home__right">
             <div className="button--inline">
@@ -143,12 +118,11 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
                     </button>
                   ))}
               <Image
-                src={"/assets/filter.png"}
+                src="/assets/filter.png"
                 width={500}
                 height={500}
                 alt="filter"
                 className="filter"
-                onClick={toggleFilter}
               />
             </div>
             <AdList
