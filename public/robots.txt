@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://onlyfriend.ch
+
+# Sitemaps
+Sitemap: https://onlyfriend.ch/sitemap.xml

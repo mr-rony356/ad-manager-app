@@ -1,0 +1,544 @@
+[
+  {
+    "name": "durations",
+    "values": [
+      {
+        "name": "Premium",
+        "duration": 1,
+        "credits": 8
+      },
+      {
+        "name": "Premium",
+        "duration": 3,
+        "credits": 20
+      },
+      {
+        "name": "Premium",
+        "duration": 7,
+        "credits": 45
+      },
+      {
+        "name": "Premium",
+        "duration": 31,
+        "credits": 90
+      }
+    ]
+  },
+  {
+    "name": "tags",
+    "values": [
+      "Sie sucht ihn",
+      "Er sucht sie",
+      "Sex-Party / Swinger",
+      "Shemale / Transen",
+      "Domina / BDSM Sex",
+      "Escort Service",
+      "Massagen",
+      "MILF & reife Frauen",
+      "Gay",
+      "Webcam Angebote",
+      "Private Bilder & Videos",
+      "Telefonsex",
+      "Gutscheine / Aktionen",
+      "Stellen & Jobs",
+      "Immobilien",
+      "Diverses"
+    ],
+    "language": "de"
+  },
+  {
+    "name": "tags",
+    "values": [
+      "Female looking for male",
+      "Male looking for female",
+      "Sex-Party / Swinger",
+      "TS / TV",
+      "Fetish / Bizarre",
+      "Escort",
+      "Massages",
+      "MILF & mature women",
+      "Gay",
+      "Webcam offers",
+      "Private pictures & videos",
+      "Phone sex",
+      "Coupons / Promotions",
+      "Jobs",
+      "Real Estate",
+      "Miscellaneous"
+    ],
+    "language": "en"
+  },
+  {
+    "name": "regions",
+    "values": [
+      "Aargau",
+      "Appenzell",
+      "Bern",
+      "Basel Stadt",
+      "Basel Land",
+      "Fribourg",
+      "Genf",
+      "Glarus",
+      "Graubünden",
+      "Jura",
+      "Luzern",
+      "Neuenburg",
+      "Nidwalden & Obwalden",
+      "Solothurn",
+      "St. Gallen",
+      "Schaffhausen",
+      "Schwyz",
+      "Thurgau",
+      "Tessin",
+      "Uri",
+      "Waadt",
+      "Wallis",
+      "Zug",
+      "Zürich Stadt",
+      "Zürich Umgebung",
+      "Deutschland",
+      "Österreich",
+      "Liechtenstein"
+    ],
+    "language": "de"
+  },
+  {
+    "name": "regions",
+    "values": [
+      "Aargau",
+      "Appenzell",
+      "Bern",
+      "Basel City",
+      "Basel Country",
+      "Fribourg",
+      "Geneva",
+      "Glarus",
+      "Grisons",
+      "Jura",
+      "Lucerne",
+      "Neuchâtel",
+      "Nidwalden & Obwalden",
+      "Solothurn",
+      "St. Gallen",
+      "Schaffhausen",
+      "Schwyz",
+      "Thurgovia",
+      "Ticino",
+      "Uri",
+      "Vaud",
+      "Valais",
+      "Zug",
+      "Zurich City",
+      "Greater Zürich",
+      "Germany",
+      "Austria",
+      "Liechtenstein"
+    ],
+    "language": "en"
+  },
+  {
+    "name": "offers",
+    "values": [
+      "69 Stellung",
+      "Analsex",
+      "Deep Throat",
+      "Eier lecken",
+      "Escort",
+      "Facesitting",
+      "Fisten",
+      "Französisch mit",
+      "Französisch ohne",
+      "Gangbang",
+      "Girlfriend Sex",
+      "Grosse Brüste",
+      "Handjob",
+      "Kaviar (aktiv)",
+      "Masturbieren",
+      "NS Spiele (aktiv)",
+      "NS Spiele (passiv)",
+      "Outdoor Sex",
+      "Reizwäsche",
+      "Sex in allen Positionen",
+      "Sperma schlucken",
+      "Strapon",
+      "Striptease / Lapdance",
+      "Zungenanal (passiv)",
+      "Zungenküssen"
+    ],
+    "language": "de"
+  },
+  {
+    "name": "offers",
+    "values": [
+      "69 Position",
+      "Anal Sex",
+      "Deep Throat",
+      "Ball Licking",
+      "Escort",
+      "Facesitting",
+      "Fisting",
+      "Everything with protection",
+      "French only",
+      "Gangbang",
+      "Girlfriend Sex",
+      "XXL breasts",
+      "Handjob",
+      "Caviar",
+      "Masturbating",
+      "Golden Shower",
+      "NS Spiele (passiv)",
+      "Outdoor Sex",
+      "Sexy Lingerie",
+      "Sex in all positions",
+      "Swallow semen",
+      "Strap on",
+      "Striptease / Lapdance",
+      "Rimming with you",
+      "Kissing"
+    ],
+    "language": "en"
+  },
+  {
+    "name": "ethnicities",
+    "values": [
+      "Arabisch",
+      "Asiatisch",
+      "Schwarz",
+      "Europäisch",
+      "Indisch",
+      "Latina",
+      "Gemischt"
+    ],
+    "language": "de"
+  },
+  {
+    "name": "ethnicities",
+    "values": [
+      "Arabic",
+      "Asian",
+      "Black",
+      "European",
+      "Indian",
+      "Latina",
+      "Mixed"
+    ],
+    "language": "en"
+  },
+  {
+    "name": "areaCodes",
+    "values": [
+      {
+        "id": 0,
+        "country": "AL",
+        "code": "+355"
+      },
+      {
+        "id": 1,
+        "country": "AD",
+        "code": "+376"
+      },
+      {
+        "id": 2,
+        "country": "AM",
+        "code": "+374"
+      },
+      {
+        "id": 3,
+        "country": "BE",
+        "code": "+32"
+      },
+      {
+        "id": 4,
+        "country": "BA",
+        "code": "+387"
+      },
+      {
+        "id": 5,
+        "country": "BG",
+        "code": "+359"
+      },
+      {
+        "id": 6,
+        "country": "DK",
+        "code": "+45"
+      },
+      {
+        "id": 7,
+        "country": "DE",
+        "code": "+49"
+      },
+      {
+        "id": 8,
+        "country": "EE",
+        "code": "+372"
+      },
+      {
+        "id": 9,
+        "country": "FI",
+        "code": "+358"
+      },
+      {
+        "id": 10,
+        "country": "FR",
+        "code": "+33"
+      },
+      {
+        "id": 11,
+        "country": "GE",
+        "code": "+995"
+      },
+      {
+        "id": 12,
+        "country": "GI",
+        "code": "+350"
+      },
+      {
+        "id": 13,
+        "country": "GR",
+        "code": "+30"
+      },
+      {
+        "id": 14,
+        "country": "IE",
+        "code": "+353"
+      },
+      {
+        "id": 15,
+        "country": "IS",
+        "code": "+354"
+      },
+      {
+        "id": 16,
+        "country": "IT",
+        "code": "+39"
+      },
+      {
+        "id": 17,
+        "country": "XK",
+        "code": "+383"
+      },
+      {
+        "id": 18,
+        "country": "HR",
+        "code": "+385"
+      },
+      {
+        "id": 19,
+        "country": "LV",
+        "code": "+371"
+      },
+      {
+        "id": 20,
+        "country": "LI",
+        "code": "+423"
+      },
+      {
+        "id": 21,
+        "country": "LT",
+        "code": "+370"
+      },
+      {
+        "id": 22,
+        "country": "LU",
+        "code": "+352"
+      },
+      {
+        "id": 23,
+        "country": "MT",
+        "code": "+356"
+      },
+      {
+        "id": 24,
+        "country": "MK",
+        "code": "+389"
+      },
+      {
+        "id": 25,
+        "country": "MD",
+        "code": "+373"
+      },
+      {
+        "id": 26,
+        "country": "MC",
+        "code": "+377"
+      },
+      {
+        "id": 27,
+        "country": "ME",
+        "code": "+382"
+      },
+      {
+        "id": 28,
+        "country": "NL",
+        "code": "+31"
+      },
+      {
+        "id": 29,
+        "country": "NO",
+        "code": "+47"
+      },
+      {
+        "id": 30,
+        "country": "AT",
+        "code": "+43"
+      },
+      {
+        "id": 31,
+        "country": "PL",
+        "code": "+48"
+      },
+      {
+        "id": 32,
+        "country": "PT",
+        "code": "+351"
+      },
+      {
+        "id": 33,
+        "country": "RO",
+        "code": "+40"
+      },
+      {
+        "id": 34,
+        "country": "RU",
+        "code": "+7"
+      },
+      {
+        "id": 35,
+        "country": "SM",
+        "code": "+378"
+      },
+      {
+        "id": 36,
+        "country": "SE",
+        "code": "+46"
+      },
+      {
+        "id": 37,
+        "country": "RS",
+        "code": "+381"
+      },
+      {
+        "id": 38,
+        "country": "SK",
+        "code": "+421"
+      },
+      {
+        "id": 39,
+        "country": "SI",
+        "code": "+386"
+      },
+      {
+        "id": 40,
+        "country": "ES",
+        "code": "+34"
+      },
+      {
+        "id": 41,
+        "country": "TH",
+        "code": "+66"
+      },
+      {
+        "id": 42,
+        "country": "CZ",
+        "code": "+420"
+      },
+      {
+        "id": 43,
+        "country": "TR",
+        "code": "+90"
+      },
+      {
+        "id": 44,
+        "country": "UA",
+        "code": "+380"
+      },
+      {
+        "id": 45,
+        "country": "HU",
+        "code": "+36"
+      },
+      {
+        "id": 46,
+        "country": "GB",
+        "code": "+44"
+      },
+      {
+        "id": 47,
+        "country": "US",
+        "code": "+1"
+      },
+      {
+        "id": 48,
+        "country": "BY",
+        "code": "+375"
+      },
+      {
+        "id": 49,
+        "country": "CY",
+        "code": "+357"
+      },
+      {
+        "id": "50",
+        "country": "CH",
+        "code": "+41"
+      }
+    ]
+  },
+  {
+    "name": "countries",
+    "values": [
+      {
+        "id": 0,
+        "name": "Schweiz"
+      },
+      {
+        "id": 1,
+        "name": "Deutschland"
+      },
+      {
+        "id": 2,
+        "name": "Österreich"
+      },
+      {
+        "id": 3,
+        "name": "Liechtenstein"
+      }
+    ],
+    "language": "de"
+  },
+  {
+    "name": "countries",
+    "values": [
+      {
+        "id": 0,
+        "name": "Switzerland"
+      },
+      {
+        "id": 1,
+        "name": "Germany"
+      },
+      {
+        "id": 2,
+        "name": "Austria"
+      },
+      {
+        "id": 3,
+        "name": "Liechtenstein"
+      }
+    ],
+    "language": "en"
+  },
+  {
+    "name": "types",
+    "values": [
+      {
+        "id": 0,
+        "name": "Sex"
+      },
+      {
+        "id": 1,
+        "name": "Onlyfans"
+      }
+    ]
+  }
+]

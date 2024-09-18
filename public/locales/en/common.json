@@ -1,0 +1,170 @@
+{
+  "home__title": "Sex and erotic ads in {{region}}",
+  "home__ad": "ads",
+  "home__adPlaceholder": "Currently no ads available",
+
+  "filterForm__filterButton": "Apply filter",
+  "filterForm__verifiedCheck": "Nur verifizierte Inserate",
+
+  "login__error": "Note, if you have forgotten your username, go to your mailbox, we have addressed you directly with the username.",
+
+  "searchInput": "Search",
+  "offerInput": "Offer",
+  "rubricInput": "Rubric",
+
+  "credits": "Current credits: ",
+
+  "login": "Log in",
+  "login__userName": "Username / Email",
+  "login__password": "Password",
+  "login__button": "Log in",
+  "login__passwordButton": "Forgot your password?",
+  "login__registerButton": "Register with Onlyfriends?",
+  "login__logOnButton": "Log into Onlyfriends?",
+
+  "signup__title": "Register",
+  "signup__userName": "Username",
+  "signUp__confirmPassword": "Confirm password",
+  "signUp__button": "Register",
+
+  "forgotPassword__title": "Reset password",
+  "forgotPassword__button": "Reset",
+  "forgotPassword__success": "Thank you. We have sent you an email with instructions on how to reset your password. Please check your inbox, including your spam folder, and follow the instructions in the email.",
+  "resetPassword__success": "Thank you. Your password has been reset successfully. You can log in now.",
+
+  "navBar__adButton": "Place an ad",
+  "navBar__SignUpButton": "Log-in",
+
+  "adManager__title": "Ad Manager",
+  "adManager__filterActive": "Active",
+  "adManager__filterPending": "Pending",
+  "adManager__filterInactive": "Inactive",
+  "adManager__filterExpired": "Expired",
+  "adManager__filterDrafts": "Drafts",
+  "adManager__filterDeleted": "Deleted",
+  "adManager__noAds": "Here are the results",
+
+  "admin__linkTitle": "My account",
+  "admin__linkOfferManager": "Offer Manager",
+  "admin__linkCredits": "Top up credit",
+  "admin__linkMessages": "Messages",
+  "admin__linkSubscription": "Subscriptions",
+  "admin__linkFavorites": "Favorites",
+  "admin__linkSettings": "Account settings",
+  "admin__linkVerifications": "Verifications",
+  "admin__linkLogout": "Logout",
+
+  "adminLandingPage__titleCredits": "Credit",
+  "adminLandingPage__textCredit1": "Your current balance is ",
+  "adminLandingPage__credits": " Credits",
+  "adminLandingPage__textCredit2": ". Please charge to create or upload listings.",
+  "adminLandingPage__creditsButton": "Top up credit",
+
+  "adminLandingPage__titleOffer": "My latest ad",
+  "adminLandingPage__textOffer": "No ads yet",
+  "adminLandingPage__offersButton": "All ads",
+
+  "adminLandingPage__titleMessages": "Messages",
+  "adminLandingPage__textMessages": "Latest messages",
+  "adminLandingPage__messagesButton": "All messages",
+
+  "creditForm__titleCredit": "Select credit",
+  "creditForm__subtitleCredit": "Choose amount",
+  "creditForm__creditButton": "Top up now",
+
+  "creditForm__titleCoupon": "Redeem voucher",
+  "creditForm__textCoupon": "Enter your voucher code here",
+  "creditForm__couponButton": "Submit now",
+
+  "admin__messagesTitle": "Messages",
+  "admin__messagesText": "No messages yet",
+
+  "admin__subscriptionsTitle": "Subscriptions",
+  "admin__subscriptionsText1": "Stay informed when listings you follow are updated. New listings from users are also displayed here.",
+  "admin__subscriptionsText2": "You do not follow any advertisements yet",
+
+  "admin__favoritesTitle": "Favorites",
+  "admin__favoritesText": "No favorites yet",
+
+  "admin__settingsTitle": "User account",
+  "admin__settingsSubTitle1": "Profile picture",
+  "admin__settingsSubTitle2": "Personal data",
+  "admin__settingsChangePasswordButton": "Change password",
+  "admin__settingsCurrentPassword": "Current password",
+  "admin__settingsNewPassword": "New password",
+  "admin__settingsConfirmNewPassword": "Confirm new password",
+  "admin__settingsSaveButton": "Save",
+
+  "adModal__edit": "Edit Offer",
+  "adModal__premium": "Set ad to Premium for the day - 30 Credits",
+  "admModal__first": "Move ad to the top of the list - 5 Credits",
+  "adModal__inactive": "Set ad as inactive",
+  "adModal__active": "Set ad as active",
+  "adModal__reactive": "Reactivate",
+  "adModal__delete": "Delete",
+
+  "adForm1__title-left": "Advertisement length*",
+  "adForm1__title-right": "Advertisement type*",
+  "adForm1__textType": "Here you can decide whether it is an erotic advertisement of any kind or an Onlyfans advertisement. The prerequisite for the Onlyfans ad is that you already have an Onlyfans account. You can then add your Onlyfans link to the ad and customers can go directly to your Onlyfans profile.",
+  "adForm1__day": "Day",
+  "adForm1__days": "Days",
+  "adForm1__credits": "Credits",
+
+  "adForm1__titleRubric": "Rubrics",
+  "adForm1__textRubric": "First rubric free, additional rubrics + 10 credits",
+
+  "adForm1__titleRegion": "Region",
+  "adForm1__textRegion": "First region free, additional regions + 10 credits",
+
+  "adForm1__titleOffer": "Offer",
+
+  "adForm1__titleType": "Type*",
+  "adForm1__chooseType": "Choose type",
+
+  "continueButton": "Continue",
+  "backButton": "Back",
+  "switchOn": "Create advertisement: ",
+  "saveAd": "Save advertisement: ",
+
+  "adDetail__verifiedImages": "Verified images",
+
+  "adForm2__title": "Offer-Text",
+
+  "adForm2__offerTitle": "Title",
+
+  "adForm2__contactDataTitle": "Contact details",
+  "adForm2__contactDataText": "First rubric free, additional rubrics + 10 credits",
+  "adForm2__dropdownTextAreaCode": "Select area code",
+  "adForm2__inputNumber": "Number",
+  "adForm2__checkBoxSMS": "Accept SMS",
+  "adForm2__checkBoxWhatsapp": "Accept Whatsapp",
+
+  "adForm2__locationTitle": "Location",
+  "adForm2__inputStreet": "Street",
+  "adForm2__inputAddressSuffix": "Address suffix",
+  "adForm2__inputZIPCode": "Postcode",
+  "adForm2__inputPlace": "Place",
+  "adForm2__inputCountry": "Choose Country",
+
+  "adForm2__websiteTitle": "Website",
+  "adForm2__inputWebsite": "Website",
+
+  "adForm3__picturesTitle": "Pictures*",
+  "adForm3__picturesText": "You can upload up to 8 listings images.",
+
+  "adForm3__videosTitle": "Videos",
+  "adForm3__videosText": "Videos give customers a better insight into your services. Show yourself in the best light!",
+
+  "adForm3__verificationTitle": "Verification",
+  "adForm3__coverPictureTitle": "Coverpicture",
+  "adForm3__verificationText1": "If you would like to verify your listing, you can upload an image here with the following instructions. We will check your images for authenticity and if it matches the verification image, your listing will be verified. Verification increases your exposure and your ad will be marked with verification.",
+  "adForm3__verificationText2": "Increase the chances of contact by verifying the authenticity of your images.",
+  "adForm3__verificationText3": "1. Write \"onlyfriends and code below\" on a piece of paper",
+  "adForm3__verificationText4": " 2. Take a photo of yourself and the sheet of paper",
+  "adForm3__verificationText5": " 3. Upload the photo afterwards",
+  "adForm3__verificationText6": "This picture will not be published",
+
+  "popUp__twint1": "Please transfer",
+  "popUp__twint2": "using the QR code above. Once the transfer is successful, you will be redirected.",
+  "popUp__twint3": "IMPORTANT: Please enter your username or email address in the contact form."
+}

@@ -1,0 +1,172 @@
+{
+  "home__title": "Sex und Erotik Inserate in  der {{region}}",
+  "home__ad": "Inserate",
+  "home__adPlaceholder": "Aktuell keine Inserate vorhanden",
+
+  "filterForm__filterButton": "Filter Anwenden",
+  "filterForm__verifiedCheck": "Nur verifizierte Inserate",
+
+  "login__error": "Hinweis, falls Sie ihr Benutzername vergessen haben, gehen Sie in Ihre Mailbox, wir haben Sie direkt mit dem Benutzername angesprochen",
+
+  "searchInput": "Suchen",
+  "offerInput": "Angebot",
+  "rubricInput": "Rubrik",
+
+  "credits": "Aktuelle Credits: ",
+
+  "login": "Anmelden",
+  "login__userName": "Benutzername/Email",
+  "login__password": "Passwort",
+  "login__button": "Anmelden",
+  "login__passwordButton": "Passwort vergessen?",
+  "login__registerButton": "Bei Onlyfriends registrieren?",
+  "login__logOnButton": "Bei Onlyfriends anmelden?",
+
+  "signup__title": "Registrieren",
+  "signup__userName": "Benutzername",
+  "signUp__confirmPassword": "Passwort bestätigen",
+  "signUp__button": "Registrieren",
+
+  "forgotPassword__title": "Passwort zurücksetzen",
+  "forgotPassword__button": "Zurücksetzen",
+  "forgotPassword__success": "Vielen Dank. Wir haben Ihnen eine Email gesendet, die Anweisungen enthält, wie Sie Ihr Passwort zurücksetzen können. Bitte überprüfen Sie Ihren Posteingang, inklusive Ihrem Spam-Ordner, und folgen Sie den Anweisungen in der Email.",
+  "resetPassword__success": "Vielen Dank. Ihr Passwort wurde erfolgreich zurückgesetzt. Sie können sich jetzt anmelden.",
+
+  "navBar__adButton": "Inserat aufgeben",
+  "navBar__SignUpButton": "Anmelden",
+
+  "adManager__title": "Inserat Manager",
+  "adManager__filterActive": "Aktiv",
+  "adManager__filterPending": "Ausstehend",
+  "adManager__filterInactive": "Inaktiv",
+  "adManager__filterExpired": "Abgelaufen",
+  "adManager__filterDrafts": "Entwürfe",
+  "adManager__filterDeleted": "Gelöscht",
+  "adManager__noAds": "Hier Kommen die Resultate",
+
+  "admin__linkTitle": "Mein Konto",
+  "admin__linkOfferManager": "Inserat Manager",
+  "admin__linkCredits": "Guthaben aufladen",
+  "admin__linkMessages": "Nachrichten",
+  "admin__linkSubscription": "Abonements",
+  "admin__linkFavorites": "Favoritenliste",
+  "admin__linkSettings": "Kontoeinstellungen",
+  "admin__linkVerifications": "Verifizierungen",
+  "admin__linkLogout": "Abmelden",
+
+  "adminLandingPage__titleCredits": "Guthaben",
+  "adminLandingPage__textCredit1": "Dein aktuelles Guthaben ist ",
+  "adminLandingPage__credits": " Credits",
+  "adminLandingPage__textCredit2": ". Bitte aufladen um Inserate zu erstellen oder hochzusetzen.",
+  "adminLandingPage__creditsButton": "Guthaben Aufladen",
+
+  "adminLandingPage__titleOffer": "Mein neustes Inserat",
+  "adminLandingPage__textOffer": "Noch keine Inserate",
+  "adminLandingPage__offersButton": "Alle Inserate",
+
+  "adminLandingPage__titleMessages": "Nachrichten",
+  "adminLandingPage__textMessages": "Hier kommen dan die Nachrichten",
+  "adminLandingPage__messagesButton": "Alle Nachrichten",
+
+  "creditForm__titleCredit": "Guthaben auswählen",
+  "creditForm__subtitleCredit": "Betrag wählen",
+  "creditForm__creditButton": "Jetzt aufladen",
+
+  "creditForm__titleCoupon": "Gutschein einlösen",
+  "creditForm__textCoupon": "Tragen Sie hier Ihren Gutschein-Code ein",
+  "creditForm__couponButton": "Jetzt einreichen",
+
+  "admin__messagesTitle": "Nachrichten",
+  "admin__messagesText": "Noch keine Nachrichten",
+
+  "admin__subscriptionsTitle": "Abonements",
+  "admin__subscriptionsText1": "Bleiben Sie informiert wenn Inserate aktualisiert werden, welchen Sie folgen. Neue Inserate von Usern werden hier ebenfalls angezeigt.",
+  "admin__subscriptionsText2": "Sie folgen noch keinen Inseraten",
+
+  "admin__favoritesTitle": "Favoriten",
+  "admin__favoritesText": "Noch keine Favoriten vorhanden",
+
+  "admin__settingsTitle": "Nutzerkonto",
+  "admin__settingsSubTitle1": "Profilbild",
+  "admin__settingsSubTitle2": "Persönliche Daten",
+  "admin__settingsChangePasswordButton": "Passwort ändern",
+  "admin__settingsCurrentPassword": "Derzeitiges Passwort",
+  "admin__settingsNewPassword": "Neues Passwort",
+  "admin__settingsConfirmNewPassword": "Neues Passwort bestätigen",
+  "admin__settingsSaveButton": "Speichern",
+
+  "adModal__edit": "Inserat bearbeiten",
+  "adModal__premium": "Setze das Inserat als Premium Inserat für 24 Stunden – 30 Credits",
+  "admModal__first": "Setze das Inserat auf den 1. Platz – 5 Credits",
+  "adModal__inactive": "Schalte das Inserat auf Inaktiv",
+  "adModal__active": "Schalte das Inserat auf Aktiv",
+  "adModal__reactive": "Reaktivieren",
+  "adModal__delete": "Löschen",
+
+  "admin__verificationsTitle": "Hallo Cyrill viel Spass beim verifizieren",
+
+  "adForm1__title-left": "Inserate-Dauer*",
+  "adForm1__title-right": "Inserate-Typ*",
+  "adForm1__textType": "Hier können Sie entscheiden, ob es sich um ein Erotik Inserat jeglicher Art oder um ein Onlyfans Inserat handelt. Die Voraus- setzung beim Onlyfans Inserat ist, dass Sie bereits einen Onlyfans Account besitzen. Sie können folgend beim Inserat Ihren Onlyfans Link hinzufügen und die Kunden können direkt auf Ihr Onlyfans Profil gelangen.",
+  "adForm1__day": "Tag",
+  "adForm1__days": "Tage",
+  "adForm1__credits": "Credits",
+
+  "adForm1__titleRubric": "Rubriken",
+  "adForm1__textRubric": "Erste Rubrik gratis, zusätzliche Rubriken + 10 Credits",
+
+  "adForm1__titleRegion": "Region",
+  "adForm1__textRegion": "Erste Region gratis, zusätzliche Regionen + 10 Credits",
+
+  "adForm1__titleOffer": "Angebot",
+
+  "adForm1__titleType": "Typ*",
+  "adForm1__chooseType": "Typ wählen",
+
+  "continueButton": "Weiter",
+  "backButton": "Zurück",
+  "switchOn": "Inserat erstellen: ",
+  "saveAd": "Inserat speichern: ",
+
+  "adDetail__verifiedImages": "Verifizierte Bilder",
+
+  "adForm2__title": "Inserate-Text",
+
+  "adForm2__contactDataTitle": "Kontaktdaten",
+  "adForm2__contactDataText": "Erste Rubrik gratis, zusätzliche Rubriken + 10 Credits",
+  "adForm2__dropdownTextAreaCode": "Vorwahl wählen",
+  "adForm2__inputNumber": "Nummer",
+  "adForm2__checkBoxSMS": "SMS akzeptiert",
+  "adForm2__checkBoxWhatsapp": "Whatsapp akzeptiert",
+
+  "adForm2__offerTitle": "Titel",
+
+  "adForm2__locationTitle": "Standort",
+  "adForm2__inputStreet": "Strasse",
+  "adForm2__inputAddressSuffix": "Adresszusatz",
+  "adForm2__inputZIPCode": "PLZ",
+  "adForm2__inputPlace": "Ort",
+  "adForm2__inputCountry": "Land wählen",
+
+  "adForm2__websiteTitle": "Website",
+  "adForm2__inputWebsite": "Webseite",
+
+  "adForm3__picturesTitle": "Bilder*",
+  "adForm3__picturesText": "Sie können bis zu 8 Bilder hochladen.",
+
+  "adForm3__videosTitle": "Videos",
+  "adForm3__videosText": "Videos geben dem Kunden eine bessere Einsicht in Ihren Service. Zeigen Sie sich von Ihrer besten Seite.",
+
+  "adForm3__verificationTitle": "Verifikation",
+  "adForm3__coverPictureTitle": "Coverbild",
+  "adForm3__verificationText1": "Wenn Sie Ihr Inserat verifizieren möchten, können Sie hier ein Bild mit den folgenden Anweisungen hochladen. Wir werden ihre Bilder nach der Echtheit überprüfen und wenn diese mit dem Verifizierungsbild übereinstimmt, wird Ihr Inserat verifiziert. Durch die Verifikation Erhöhen Sie Ihre Aufmerksamkeit und Ihr Inserat wird mit der Verifikation gekennzeichnet. ",
+  "adForm3__verificationText2": "Erhöhen Sie die Kontaktchancen durch die Prüfung der Echtheit Ihrer Bilder. So funktioniert es:",
+  "adForm3__verificationText3": "1. Schreiben Sie \"onlyfriends und untenstehenden Code\" auf ein Blatt Papier ",
+  "adForm3__verificationText4": " 2. Erstellen Sie ein Foto auf dem Sie und das Blatt Papier ersichtlich sind",
+  "adForm3__verificationText5": " 3. Laden Sie das Foto anschliessend hoch",
+  "adForm3__verificationText6": "Bild wird nicht veröffentlicht",
+
+  "popUp__twint1": " Bitte überweisen Sie",
+  "popUp__twint2": "via obigem QR Code und wenn es geklappt hat, werden Sie weitergeleitet.",
+  "popUp__twint3": "WICHTIG: Bitte geben Sie Ihren Benutzername oder E-Mail Adresse in dem Kontaktformular an."
+}

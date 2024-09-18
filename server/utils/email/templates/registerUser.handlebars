@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <style>
+      .button { display: inline-block; background: #29ace3; color: white;
+      border-radius: 5px; border: solid 1px #29ace3; padding: 15px; font-size:
+      medium; font-weight: bold; cursor: pointer; text-decoration: none;
+      max-width: max-content; }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>
+          Willkommen bei onlyfriend.ch
+        </h1>
+      </div>
+      <div class="body">
+        <p>
+          Guten Tag {{name}},
+        </p>
+        <p>
+          Herzlich Willkommen bei onlyfriend.ch.
+        </p>
+        <a class="button" href="{{url}}">
+          E-Mail-Adresse bestätigen
+        </a>
+        <p>
+          Wenn Sie sich nicht bei onlyfriend.ch angemeldet haben, bitten wir Sie
+          diese Nachricht zu entschuldigen und zu ignorieren. Ein Benutzer hat
+          bei der Registrierung Ihre E-Mail-Adresse angegeben. Sie werden in
+          diesem Fall keine weiteren E-Mails von uns erhalten.
+        </p>
+      </div>
+      <div class="footer">
+        <p>
+          Mit freundlichen Grüssen,
+        </p>
+        <p>
+          Ihr onlyfriend.ch Team
+        </p>
+        <img src="../logos/logo.png" alt="Onlyfriend" />
+      </div>
+    </div>
+  </body>
+</html>
