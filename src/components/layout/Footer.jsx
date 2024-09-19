@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
-  const logo = "/assets/logo.png";
+  const logo = "/assets/logo.svg";
   const whatsapp = "/assets/whatsapp.png";
 
   return (
@@ -11,8 +11,8 @@ const Footer = () => {
       <Link href="/">
         <Image
           src={logo}
-          width={500}
-          height={500}
+          width={100}
+          height={100}
           alt="logo"
           className="logo__support"
           loading="lazy"

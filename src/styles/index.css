@@ -85,6 +85,7 @@ a:-webkit-any-link {
   overflow: auto; /* Enable scroll if needed */
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  z-index: 9999;
 }
 
 /* Modal Content/Box */
@@ -101,12 +102,14 @@ a:-webkit-any-link {
   justify-content: center;
   border-radius: 10px;
   gap: 1em;
+  height: 100vh;
 }
 
 .modal__check {
   width: 30%;
   object-fit: contain;
   align-items: center;
+  height: 150px;
 }
 
 /* The Close Button */
@@ -115,7 +118,7 @@ a:-webkit-any-link {
   position: absolute;
   float: right;
   right: 10px;
-  top: 5px;
+  top: 15px;
   font-size: 28px;
   font-weight: bold;
 }
@@ -187,8 +190,8 @@ a:-webkit-any-link {
   align-items: flex-start;
   margin: 0;
   padding: 0;
+  color: lightblue;
 }
-
 .container {
   display: block;
   position: relative;
@@ -498,7 +501,19 @@ a:-webkit-any-link {
   text-overflow: ellipsis;
   width: 100%; /* Keep the width constrained to 100% */
 }
-
+.verify-message {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  gap: 25px;
+}
+.verify-message p{
+  padding: 0 25px;
+  text-align: justify;
+}
 .ad__text {
   color: black;
   font-weight: light;
@@ -621,6 +636,9 @@ a:-webkit-any-link {
 
 .ads__placeholderText {
   text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: #0c8bcd;
 }
 
 .adpage_title {
@@ -1749,6 +1767,7 @@ a:-webkit-any-link {
 
 .modal-content {
   width: 70%;
+  max-height: 100vh;
 }
 
 .subscribed__ads {
@@ -1792,7 +1811,21 @@ a:-webkit-any-link {
   .logo {
     width: 55%;
   }
-
+  .modal-content {
+    width: 100%;
+  }
+  .modal-content {
+    height: 100%;
+  }
+  .modal__check {
+    width: 30%;
+    object-fit: contain;
+    align-items: center;
+    height: 150px;
+  }
+  .close {
+    top: 25px;
+  }
   .logo__support {
     width: 14em;
   }
@@ -1885,6 +1918,11 @@ a:-webkit-any-link {
     transform: rotate(-405deg);
     margin-top: 0px;
     background: var(--blue);
+  }
+  .ads__placeholderText {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
   }
 
   .mobile_menu > li {

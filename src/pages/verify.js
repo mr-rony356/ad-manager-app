@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 
 function Verify() {
-  const { t } = useTranslation();
   const { api } = useApi();
   const router = useRouter();
   const { id } = router.query;
@@ -40,16 +39,17 @@ function Verify() {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
       </Head>
-
-      <h1>Herzlichen Glückwunsch!</h1>
-      <p>
-        Deine Registrierung war erfolgreich und deine E-Mail-Adresse wurde
-        verifiziert. Du kannst jetzt mit deinem neuen Konto auf alle Funktionen
-        und Inhalte unserer Webseite zugreifen.
-      </p>
-      <button className="button form--button" onClick={handleLogin}>
-        {t("login__button")}
-      </button>
+      <div className="verify-message">
+        <h1>Herzlichen Glückwunsch!</h1>
+        <p>
+          Deine Registrierung war erfolgreich und deine E-Mail-Adresse wurde
+          verifiziert. Du kannst jetzt mit deinem neuen Konto auf alle
+          Funktionen und Inhalte unserer Webseite zugreifen.
+        </p>
+        <button className="button form--button" onClick={handleLogin}>
+          Login
+        </button>
+      </div>
     </>
   );
 }

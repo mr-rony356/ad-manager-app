@@ -51,7 +51,11 @@ server
     // Allow CORS
     app.use(
       cors({
-        origin: [process.env.FRONTEND_URL, process.env.FRONTEND_URL_WWW],
+        origin: [
+          process.env.FRONTEND_URL,
+          process.env.FRONTEND_URL_WWW,
+          process.env.API_URL,
+        ],
       }),
     );
 
