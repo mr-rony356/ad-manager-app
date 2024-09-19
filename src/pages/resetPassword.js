@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useApi } from "@contexts/APIContext";
-import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router"; // Use useRouter for Next.js
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ locale }) {
