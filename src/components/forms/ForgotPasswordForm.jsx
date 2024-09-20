@@ -13,7 +13,7 @@ const ForgotPasswordForm = () => {
     const name = event.target.name.value;
 
     const res = await api.forgotPassword(name);
-    if (res.err) setErr(res.err);
+    if (res?.err) setErr(res.err);
     else setSuc(true);
   };
 

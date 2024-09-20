@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useApi } from "@contexts/APIContext";
-import { useRouter } from "next/router"; // Use useRouter for Next.js
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(
-        locale,
-        ["common", "resetPassword"],
-        null,
-        ["en", "de"],
-      )),
+      ...(await serverSideTranslations(locale, ["common", "resetPassword"])),
     },
   };
 }
@@ -20,38 +15,57 @@ export async function getServerSideProps({ locale }) {
 const ResetPasswordForm = () => {
   const { t } = useTranslation();
   const { api } = useApi();
-  const [err, setErr] = useState("");
-  const [suc, setSuc] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const router = useRouter();
+  const { token, id } = router.query;
 
-  const router = useRouter(); // useRouter hook from Next.js
-  const { token, id } = router.query; // Get query params directly
+  useEffect(() => {
+    if (!token || !id) {
+      setError(t("resetPassword__missingParams"));
+    }
+  }, [token, id, t]);
 
   const resetPassword = async (event) => {
     event.preventDefault();
+    setError("");
+    setSuccess(false);
+
     const password = event.target.password.value;
     const password2 = event.target.password2.value;
 
-    // Ensure that token and id are present before making API call
     if (!token || !id) {
-      setErr("Missing token or user ID");
+      setError(t("resetPassword__missingParams"));
       return;
     }
 
-    const res = await api.resetPassword(token, id, password, password2);
-    if (res.err) setErr(res.err);
-    else setSuc(true);
+    if (password !== password2) {
+      setError(t("resetPassword__passwordMismatch"));
+      return;
+    }
+
+    try {
+      const res = await api.resetPassword(token, id, password, password2);
+      if (res.err) {
+        setError(res.err);
+      } else {
+        setSuccess(true);
+      }
+    } catch (err) {
+      setError(t("resetPassword__genericError"));
+    }
   };
 
   return (
     <form className="form form--resetPassword" onSubmit={resetPassword}>
       <h3 className="form__title">{t("forgotPassword__title")}</h3>
 
-      {!suc ? (
+      {!success ? (
         <>
           <div className="inputBox">
-            <span className="form__label" htmlFor="password">
+            <label className="form__label" htmlFor="password">
               {t("login__password")}
-            </span>
+            </label>
             <input
               className="form__input"
               id="password"
@@ -62,9 +76,9 @@ const ResetPasswordForm = () => {
           </div>
 
           <div className="inputBox">
-            <span className="form__label" htmlFor="password-2">
+            <label className="form__label" htmlFor="password2">
               {t("signUp__confirmPassword")}
-            </span>
+            </label>
             <input
               className="form__input"
               id="password2"
@@ -74,7 +88,7 @@ const ResetPasswordForm = () => {
             />
           </div>
 
-          {err && typeof err === "string" && <p>{err}</p>}
+          {error && <p className="form__error">{error}</p>}
 
           <button
             style={{ marginTop: "1em" }}
@@ -85,7 +99,7 @@ const ResetPasswordForm = () => {
           </button>
         </>
       ) : (
-        <p>{t("resetPassword__success")}</p>
+        <p className="form__success">{t("resetPassword__success")}</p>
       )}
     </form>
   );
