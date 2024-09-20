@@ -13,7 +13,7 @@ export async function getServerSideProps({ locale }) {
   };
 }
 
-const AGB = () => {
+const PageAGB = () => {
   return (
     <>
       <Head>
@@ -346,4 +346,4 @@ const AGB = () => {
   );
 };
 
-export default AGB;
+export default PageAGB;

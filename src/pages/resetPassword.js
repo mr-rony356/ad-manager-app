@@ -56,6 +56,10 @@ const ResetPasswordForm = () => {
     }
   };
 
+  const handleLoginRedirect = () => {
+    router.push("/login"); // Redirect to login page
+  };
+
   return (
     <form className="form form--resetPassword" onSubmit={resetPassword}>
       <h3 className="form__title">{t("forgotPassword__title")}</h3>
@@ -99,7 +103,17 @@ const ResetPasswordForm = () => {
           </button>
         </>
       ) : (
-        <p className="form__success">{t("resetPassword__success")}</p>
+        <div className="form__success-message">
+          <p className="form__success">{t("resetPassword__success")}</p>
+          <button
+            style={{ marginTop: "1em" }}
+            className="button form--button"
+            type="button"
+            onClick={handleLoginRedirect}
+          >
+            {t("login__button")}
+          </button>
+        </div>
       )}
     </form>
   );

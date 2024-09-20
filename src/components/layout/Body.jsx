@@ -11,7 +11,7 @@ import Messages from "@pages/admin/messages/index.js";
 import HomePage from "@pages/admin/pay/sucess";
 import Settings from "@pages/admin/settings";
 import Verifications from "@pages/admin/verifications";
-import AGB from "@pages/agb";
+import PageAGB from "@pages/pageAgb";
 import BlogCreate from "@pages/blog";
 import BlogDetail from "@pages/blog/[id]/[slug]";
 import BlogList from "@pages/blogs";
@@ -120,7 +120,7 @@ const Body = (props) => {
         </Route>
         <Route path="/blogs" element={<BlogList />} />
         <Route path="/pageSupport" element={<Support />} />
-        <Route path="/agb" element={<AGB />} />
+        <Route path="/pageAgb" element={<PageAGB />} />
         <Route path="/imprint" element={<Imprint />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
