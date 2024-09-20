@@ -26,10 +26,9 @@ const ResetPasswordForm = () => {
     }
   }, [token, id, t]);
   useEffect(() => {
-    // if (success) {
-    //   router.push("/login");
-    // }
-    setSuccess(true); // Reset success if there's an error
+    if (success) {
+      setSuccess(true); // Reset success if there's an error
+    }
   }, [success, router]);
   const resetPassword = async (event) => {
     event.preventDefault();
