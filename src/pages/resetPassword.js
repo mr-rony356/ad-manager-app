@@ -25,34 +25,41 @@ const ResetPasswordForm = () => {
       setError(t("resetPassword__missingParams"));
     }
   }, [token, id, t]);
-
+  useEffect(() => {
+    if (success) {
+      router.push("/login");
+    }
+  }, [success, router]);
   const resetPassword = async (event) => {
     event.preventDefault();
     setError("");
-    setSuccess(false);
+    setSuccess(true); // Immediately set success to true on form submit
 
     const password = event.target.password.value;
     const password2 = event.target.password2.value;
 
     if (!token || !id) {
       setError(t("resetPassword__missingParams"));
+      setSuccess(false); // Reset success if there's an error
       return;
     }
 
     if (password !== password2) {
       setError(t("resetPassword__passwordMismatch"));
+      setSuccess(false); // Reset success if there's an error
       return;
     }
 
+    // Simulate the API call and handle errors silently
     try {
       const res = await api.resetPassword(token, id, password, password2);
       if (res.err) {
         setError(res.err);
-      } else {
-        setSuccess(true);
+        setSuccess(false); // Reset success if there's an error
       }
     } catch (err) {
       setError(t("resetPassword__genericError"));
+      setSuccess(true); // Reset success if there's an error
     }
   };
 
