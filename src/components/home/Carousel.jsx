@@ -21,12 +21,15 @@ const Carousel = ({ ad }) => {
     ...ad.images.map(() => "image"),
   ].filter(Boolean);
 
-  const handleImageClick = useCallback((index) => {
-    if (!isDragging) {
-      setCurrentSlide(index);
-      setToggler(!toggler);
-    }
-  }, [isDragging, toggler]);
+  const handleImageClick = useCallback(
+    (index) => {
+      if (!isDragging) {
+        setCurrentSlide(index);
+        setToggler(!toggler);
+      }
+    },
+    [isDragging, toggler],
+  );
 
   const settings = {
     infinite: false,
