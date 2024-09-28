@@ -72,7 +72,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
     if (type) {
       setAd((prevAd) => ({
         ...prevAd,
-        type: type || null,
+        cost: type || null,
       }));
     }
   }, [type]);

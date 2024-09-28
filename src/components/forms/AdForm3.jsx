@@ -297,7 +297,7 @@ const AdForm3 = (props) => {
           </button>
         ) : type === "free" ? (
           <button className="button form--button" type="submit">
-            {t("switchOn")}0 Credits
+            {t("switchOn")} 0 Credits
           </button>
         ) : (
           <button className="button form--button" type="submit">
