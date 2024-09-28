@@ -46,7 +46,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
   const { api } = useApi();
   const router = useRouter();
   const [body, setBody] = useState(1);
-  const [displayModal, setDisplayModal] = useState(false);
+  const [displayModal, setDisplayModal] = useState(null);
   const [formatError, setFormatError] = useState(null);
   const [ad, setAd] = useState(
     tempAd || {
@@ -201,21 +201,31 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
       </Head>
 
       <div className="page">
-        {displayModal && (
+        {displayModal !== null && (
           <PopUp
-            isOpen={!!displayModal}
-            onClose={() => router.push("/")}
+            isOpen={true} // Modal should be open when displayModal is not null
+            onClose={() => {
+              setDisplayModal(null); // Reset modal state on close
+              router.push("/");
+            }}
             displayModal={displayModal}
             title={"Erfolg"}
             message={
-              <>
-                <h1>
-                  Für das Inserat {ad && ad.title} wurden {displayModal} Credits
-                  von Ihrem Konto abgebucht.
-                </h1>
-                <br />
-                <p> {user.credits} Credits verbleibend</p>
-              </>
+              displayModal === 0 ? (
+                <>
+                  <h1>Ihr Inserat {ad.title} wurde erfolgreich aufgegeben.</h1>
+                  <p>Das Inserat war kostenlos.</p>
+                </>
+              ) : (
+                <>
+                  <h1>
+                    Für das Inserat {ad.title} wurden {displayModal} Credits von
+                    Ihrem Konto abgebucht.
+                  </h1>
+                  <br />
+                  <p>{user.credits} Credits verbleibend</p>
+                </>
+              )
             }
             setDisplayModal={setDisplayModal}
           />
