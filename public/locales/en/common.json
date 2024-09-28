@@ -33,6 +33,7 @@
   "resetPassword__success": "Thank you. Your password has been reset successfully. You can log in now.",
 
   "navBar__adButton": "Place an ad",
+  "FreeButton": "For Free!",
   "navBar__SignUpButton": "Log-in",
 
   "adManager__title": "Ad Manager",

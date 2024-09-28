@@ -929,7 +929,6 @@ server
         ]),
       ],
       async (req, res) => {
-        // Get the object from the request body
         const ad = JSON.parse(req.body.ad);
 
         try {
@@ -941,13 +940,23 @@ server
             .findOne({ name: "durations" });
           const duration = durations.values[ad.duration];
 
-          // Calculate the total credits
-          const cDuration = duration.credits;
-          const cTags = ad.tags.length > 0 ? (ad.tags.length - 1) * 10 : 0;
+          // Calculate total credits
+          const cDuration = ad.type === "free" ? 0 : duration.credits;
+          const cTags =
+            ad.type === "free"
+              ? 0
+              : ad.tags.length > 0
+                ? (ad.tags.length - 1) * 10
+                : 0;
           const cRegions =
-            ad.regions.length > 0 ? (ad.regions.length - 1) * 10 : 0;
+            ad.type === "free"
+              ? 0
+              : ad.regions.length > 0
+                ? (ad.regions.length - 1) * 10
+                : 0;
           const cTotal = cDuration + cTags + cRegions;
-          // Check the credit score of the user
+
+          // Check user's credit score
           if (user.credits < cTotal) {
             return res.status(400).json({ err: "The credit score is too low" });
           }
@@ -959,7 +968,7 @@ server
           ad.user = user._id;
           ad.startDate = Date.now();
           ad.endDate = Date.now() + duration.duration * 24 * 60 * 60 * 1000;
-          // Properly reference the files
+
           if (req.files && req.files.image) {
             req.files.image.map((image, i) => (ad.images[i] = image.path));
           }
@@ -969,21 +978,18 @@ server
             ad.verificationImage = req.files.verificationImage[0].path;
           }
 
-          // Insert the ad to the database
-          await req.db.collection("ads").insertOne(ad, async (err, item) => {
-            if (err) return res.status(500).json({ err });
-          });
+          // Insert the ad into the database
+          await req.db.collection("ads").insertOne(ad);
 
-          // Update the credits of the user
-          await req.db
-            .collection("users")
-            .updateOne(
-              { name: user.name },
-              { $set: { credits: user.credits - cTotal } },
-              (err, item) => {
-                if (err) return res.status(500).json({ err });
-              },
-            );
+          // Update the credits if not free
+          if (ad.type !== "free") {
+            await req.db
+              .collection("users")
+              .updateOne(
+                { name: user.name },
+                { $set: { credits: user.credits - cTotal } },
+              );
+          }
 
           return res.status(200).json({ ok: true, usedCredits: cTotal });
         } catch (err) {

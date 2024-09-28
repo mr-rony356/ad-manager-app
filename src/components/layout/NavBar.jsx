@@ -73,6 +73,16 @@ const NavBar = ({ user }) => {
               Blogs
             </Link>
           </li>
+          <li className="freeAdButton">
+            <Link
+              href="/ad?type=free"
+              passHref
+              className="button"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              {t("FreeButton")}
+            </Link>
+          </li>
           <li>
             <Link
               href="/ad"

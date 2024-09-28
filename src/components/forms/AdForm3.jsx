@@ -19,6 +19,7 @@ const AdForm3 = (props) => {
     editMode,
     originalAd,
     formatError,
+    type,
   } = props;
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -32,10 +33,18 @@ const AdForm3 = (props) => {
 
   const validateForm = (event) => {
     event.preventDefault();
-    if (editMode) updateAd();
-    else createAd();
-  };
 
+    if (type === "free") {
+      ad.credits = 0;
+    }
+
+    if (editMode) {
+      updateAd();
+    } else {
+      createAd();
+    }
+  };
+  console.log("form 3", type);
   return (
     <form className="form form--ad" onSubmit={validateForm}>
       <div className="form__section">
@@ -285,6 +294,10 @@ const AdForm3 = (props) => {
                 ? (ad.regions.length - originalAd.regions.length) * 10
                 : 0)}{" "}
             Credits
+          </button>
+        ) : type === "free" ? (
+          <button className="button form--button" type="submit">
+            {t("switchOn")}0 Credits
           </button>
         ) : (
           <button className="button form--button" type="submit">

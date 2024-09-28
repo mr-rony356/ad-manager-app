@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PopUp from "@components/alerts/PopUp";
 import AdForm1 from "@components/forms/AdForm1";
 import AdForm2 from "@components/forms/AdForm2";
@@ -11,24 +11,22 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ req, locale, query }) {
-  // Initialize the API helper class
   const api = new ApiController();
-  // Authenticate the user
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
   const user = await api.checkAuth(auth.token);
-  // Redirect the user if he is not authenticated
   if (!user || user.err) {
     return {
       redirect: {
-        destination: "/login",
+        destination: "/ad",
         permanent: false,
       },
     };
   }
-  // Fetch all props server side
+
   const { tempAd, editMode } = query;
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer"], null, [
@@ -66,34 +64,36 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
   );
   const [err, setErr] = useState("");
 
-  const updateProperty = (property, number, value) => {
-    // Shallow copy the ad object
-    const oc = { ...ad };
+  // Extract type from the query
+  const { type } = router.query;
 
+  // Update the ad state when type is present in the URL
+  useEffect(() => {
+    if (type) {
+      setAd((prevAd) => ({
+        ...prevAd,
+        type: type || null,
+      }));
+    }
+  }, [type]);
+  console.log(type);
+  console.log(ad);
+  const updateProperty = (property, number, value) => {
+    const oc = { ...ad };
     const allowedImageFormats = [
       "image/png",
-      "image/PNG",
       "image/jpeg",
-      "image/JPEG",
       "image/jpg",
-      "image/JPG",
       "image/gif",
-      "image/GIF",
     ];
     const allowedVideoFormats = [
       "video/mp4",
-      "video/MP4",
       "video/mpeg-4",
-      "video/MPEG-4",
       "video/mov",
-      "video/MOV",
       "video/quicktime",
-      "video/x-m4v",
     ];
 
-    // Check if value is an array (for images) or an individual file (for video and verificationImage)
     const files = Array.isArray(value) ? value : [value];
-
     for (const file of files) {
       if (property === "images" || property === "verificationImage") {
         if (!allowedImageFormats.includes(file?.type)) {
@@ -113,42 +113,23 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
     }
 
     setFormatError(null);
-
-    // Update radio button & dropdown properties
     if (number === -1) {
       if (property === "images") oc[property] = [...ad.images, ...value];
       else oc[property] = value;
     }
-    // Update checkbox properties
     if (number >= 0) {
       const i = oc[property].indexOf(value);
       if (i === -1) oc[property].push(value);
       else oc[property].splice(i, 1);
     }
-
-    // Update state of the ad
-    setAd({
-      ...ad,
-      [property]: oc[property],
-    });
+    setAd({ ...ad, [property]: oc[property] });
   };
 
   const deleteProperty = (property, index) => {
-    // Shallow copy the ad object
     const oc = { ...ad };
-
-    if (property === "video") {
-      // Set video to null
-      oc[property] = null;
-    } else if (property === "verificationImage") {
-      // Set verificationImage to null
-      oc[property] = null;
-    } else {
-      // Remove the image from the images array
-      oc[property].splice(index, 1);
-    }
-
-    // Update state of the ad
+    if (property === "video") oc[property] = null;
+    else if (property === "verificationImage") oc[property] = null;
+    else oc[property].splice(index, 1);
     setAd({
       ...ad,
       [property]: oc[property],
@@ -157,20 +138,19 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
   };
 
   const selectImage = (index) => {
-    // Update state of the ad
-    setAd({
-      ...ad,
-      frontImage: index,
-    });
+    setAd({ ...ad, frontImage: index });
   };
 
   const createAd = () => {
-    // Create form data
     const data = new FormData();
     ad.images.forEach((image) => data.append("image", image));
     data.append("video", ad.video);
     data.append("verificationImage", ad.verificationImage);
     data.append("ad", JSON.stringify(ad));
+
+    if (type === "free") {
+      ad.credits = 0;
+    }
 
     api.createAd(data).then((res) => {
       if (res.err) setErr(res.err);
@@ -179,7 +159,6 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
   };
 
   const updateAd = () => {
-    // Create form data
     const data = new FormData();
     if (tempAd.images !== ad.images) {
       ad.images.forEach((image) => {
@@ -189,14 +168,10 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
         }
       });
     }
-    if (tempAd.video !== ad.video) {
-      data.append("video", ad.video);
-    }
-    if (tempAd.verificationImage !== ad.verificationImage) {
+    if (tempAd.video !== ad.video) data.append("video", ad.video);
+    if (tempAd.verificationImage !== ad.verificationImage)
       data.append("verificationImage", ad.verificationImage);
-    }
     data.append("ad", JSON.stringify(ad));
-
     api.updateAd(ad._id, data).then((res) => {
       if (res.err) setErr(res.err);
       else {
@@ -259,6 +234,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
             )}
           </p>
         </div>
+
         {body === 1 && (
           <AdForm1
             setBody={setBody}
@@ -266,6 +242,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
             attributes={attributes}
             updateProperty={updateProperty}
             editMode={editMode}
+            type={type || null}
           />
         )}
         {body === 2 && (
@@ -274,6 +251,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
             ad={ad}
             attributes={attributes}
             updateProperty={updateProperty}
+            type={type || null}
           />
         )}
         {body === 3 && (
@@ -290,6 +268,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
             editMode={editMode}
             originalAd={tempAd}
             formatError={formatError}
+            type={type || null}
           />
         )}
       </div>

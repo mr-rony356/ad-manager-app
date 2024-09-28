@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import { Checkbox, Radio } from "@components/tags/Inputs";
 import { useTranslation } from "next-i18next";
 import Select from "react-select";
+import e from "cors";
 
 const AdForm1 = (props) => {
-  const { t } = useTranslation("common");
-  const { setBody, ad, attributes, updateProperty, editMode } = props;
+  const { t, i18n } = useTranslation("common");
+  const { setBody, ad, attributes, updateProperty, editMode, type } = props;
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -13,8 +14,15 @@ const AdForm1 = (props) => {
 
   const validateForm = (event) => {
     event.preventDefault();
+
+    // If the type is free, set the credit amount to 0
+    if (type === "free") {
+      updateProperty("credits", -1, 0);
+    }
+    console.log(event);
     setBody(2);
   };
+
 
   return (
     <form className="form form--ad" onSubmit={validateForm}>
@@ -43,7 +51,9 @@ const AdForm1 = (props) => {
                             : value.duration + " " + t("adForm1__day")}
                         </p>
                         <p>
-                          {value.credits} {t("adForm1__credits")}
+                          {type === "free"
+                            ? t("FreeButton")
+                            : `${value.credits} ${t("adForm1__credits")}`}
                         </p>
                       </>
                     }
