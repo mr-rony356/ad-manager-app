@@ -1050,7 +1050,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  width: 10em;
+  width: 15em;
   padding-top: 1em;
 }
 
@@ -1077,12 +1077,13 @@ a:-webkit-any-link {
 .adminPage__contentLinks {
   display: flex;
   flex-direction: column;
-  width: 10em;
+  width: 15em;
   border-radius: 5px;
   box-shadow: var(--gray) 1px 1px 7px 0px;
   min-width: 15%;
   padding: 20px;
   height: fit-content;
+  justify-content: start;
 }
 
 .adminPage__contentComponents {
@@ -2329,4 +2330,10 @@ a:-webkit-any-link {
 .freeAdButton .button {
   background-color: skyblue !important;
   color: black !important;
+}
+.freeAdButtons {
+  background-color: skyblue !important;
+  color: black !important;
+  padding: 4px 10px;
+  border-radius: 12px;
 }
