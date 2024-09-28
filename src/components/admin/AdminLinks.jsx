@@ -24,19 +24,20 @@ const AdminLinks = ({ user }) => {
         <h3 className="adminPage__contentTitle">{t("admin__linkTitle")}</h3>
       </Link>
       <div className="admin__links">
-        <div  style={{
-          display: "flex",
-          gap: "10px",
-          alignItems: "center",
-          fontWeight: "bold",
-        }}>
-        <Link href="/ad" className="tab">
-          {t("navBar__adButton")}
-        </Link>
-        <Link href="/ad?type=free" className="tab freeAdButtons">
-          {t("FreeButton")}
-        </Link>
-
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            fontWeight: "bold",
+          }}
+        >
+          <Link href="/ad" className="tab">
+            {t("navBar__adButton")}
+          </Link>
+          <Link href="/ad?type=free" className="tab freeAdButtons">
+            {t("FreeButton")}
+          </Link>
         </div>
         <Link
           href="/admin/manager"
