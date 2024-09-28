@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { Checkbox, Radio } from "@components/tags/Inputs";
 import { useTranslation } from "next-i18next";
 import Select from "react-select";
-import e from "cors";
 
 const AdForm1 = (props) => {
   const { t, i18n } = useTranslation("common");
@@ -22,7 +21,6 @@ const AdForm1 = (props) => {
     console.log(event);
     setBody(2);
   };
-
 
   return (
     <form className="form form--ad" onSubmit={validateForm}>
