@@ -265,9 +265,9 @@ a:-webkit-any-link {
   display: flex;
   justify-content: space-between;
   background-color: #1a1a1a;
-
+  position: relative;
   align-items: center;
-  padding: 2rem 10% 3em;
+  padding: 10px 10% 1em;
 }
 .nav__login {
   display: flex;
@@ -1050,7 +1050,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 1em;
-  width: 15em;
+  width: 18em;
   padding-top: 1em;
 }
 
@@ -1077,7 +1077,7 @@ a:-webkit-any-link {
 .adminPage__contentLinks {
   display: flex;
   flex-direction: column;
-  width: 15em;
+  width: 18em;
   border-radius: 5px;
   box-shadow: var(--gray) 1px 1px 7px 0px;
   min-width: 15%;
@@ -2335,5 +2335,33 @@ a:-webkit-any-link {
   background-color: skyblue !important;
   color: black !important;
   padding: 4px 10px;
-  border-radius: 12px;
+  border-radius: 5px;
+}
+.freeBtn {
+  position: absolute;
+  background-color: skyblue !important;
+  color: black !important;
+  padding: 4px 10px;
+  border-radius: 5px;
+  z-index: 999999;
+  left: 45px;
+  bottom: 12px;
+}
+
+.menu {
+  height: 100px;
+  position: relative;
+}
+@media (max-width: 768px) {
+  .freeBtn {
+    position: absolute;
+    background-color: skyblue !important;
+    color: black !important;
+    padding: 4px 10px;
+    border-radius: 5px;
+    z-index: 999999;
+    left: 95px;
+    bottom: 74%;
+    translate: transform(-50%, -50%);
+  }
 }

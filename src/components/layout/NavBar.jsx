@@ -73,26 +73,18 @@ const NavBar = ({ user }) => {
               Blogs
             </Link>
           </li>
-          <li className="freeAdButton">
+          <li>
             <Link
               href="/ad?type=free"
               passHref
-              className="button"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {t("FreeButton")}
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/ad"
-              passHref
-              className="button"
+              className="button mainAdButton"
               onClick={() => setIsMenuOpen(false)}
             >
               {t("navBar__adButton")}
             </Link>
+            <span className="freeBtn">{t("FreeButton")}</span>
           </li>
+
           <li>
             <Link
               href={user && !user.err ? "/admin" : "/login"}
@@ -143,23 +135,14 @@ const NavBar = ({ user }) => {
             </li>
             <li>
               <Link
-                href="/ad"
+                href="/ad?type=free"
                 passHref
                 className="button"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t("navBar__adButton")}
               </Link>
-            </li>
-            <li className="freeAdButton">
-              <Link
-                href="/ad?type=free"
-                passHref
-                className="button"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t("FreeButton")}
-              </Link>
+              <span className="freeBtn">{t("FreeButton")}</span>
             </li>
 
             <li>

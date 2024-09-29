@@ -17,7 +17,7 @@ export async function getServerSideProps({ req, locale, query }) {
   if (!user || user.err) {
     return {
       redirect: {
-        destination: "/ad",
+        destination: "/login",
         permanent: false,
       },
     };

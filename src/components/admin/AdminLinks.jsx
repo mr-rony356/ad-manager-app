@@ -32,11 +32,17 @@ const AdminLinks = ({ user }) => {
             fontWeight: "bold",
           }}
         >
-          <Link href="/ad" className="tab">
-            {t("navBar__adButton")}
-          </Link>
-          <Link href="/ad?type=free" className="tab freeAdButtons">
-            {t("FreeButton")}
+          <Link
+            href="/ad?type=free"
+            className="tab"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            {t("navBar__adButton")}{" "}
+            <span className="freeAdButtons">{t("FreeButton")}</span>
           </Link>
         </div>
         <Link
