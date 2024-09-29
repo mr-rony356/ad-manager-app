@@ -1874,7 +1874,7 @@ a:-webkit-any-link {
   .mobile_menu {
     position: absolute;
     top: 0;
-    margin-top: 5em;
+    margin-top: 4.5em;
     left: 0;
     flex-direction: column;
     width: 100%;
@@ -2353,7 +2353,7 @@ a:-webkit-any-link {
   position: relative;
 }
 @media (max-width: 768px) {
-  .freeBtn {
+  .freeBtn-mobile {
     position: absolute;
     background-color: skyblue !important;
     color: black !important;
@@ -2361,7 +2361,14 @@ a:-webkit-any-link {
     border-radius: 5px;
     z-index: 999999;
     left: 95px;
-    bottom: 74%;
-    translate: transform(-50%, -50%);
+    bottom: 10px;
+  }
+  .free-mobile-menu {
+    position: relative;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }

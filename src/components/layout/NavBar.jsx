@@ -133,7 +133,7 @@ const NavBar = ({ user }) => {
                 Blogs
               </Link>
             </li>
-            <li>
+            <li className="free-mobile-menu">
               <Link
                 href="/ad?type=free"
                 passHref
@@ -142,7 +142,7 @@ const NavBar = ({ user }) => {
               >
                 {t("navBar__adButton")}
               </Link>
-              <span className="freeBtn">{t("FreeButton")}</span>
+              <span className="freeBtn-mobile">{t("FreeButton")}</span>
             </li>
 
             <li>
