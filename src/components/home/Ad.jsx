@@ -90,6 +90,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
               alt="test"
               className="ad__image"
               loading="lazy"
+              unoptimized
             />
           )}
           {ad.verified && (
@@ -100,6 +101,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
               alt="edit"
               className="ad__verifiedPicture"
               loading="lazy"
+              unoptimized
             />
           )}
         </div>
@@ -139,6 +141,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                 alt="edit"
                 className="ad__verified"
                 loading="lazy"
+                unoptimized
               />
             ) : (
               <div className="spacer" style={{ flexGrow: 1 }}></div>
@@ -152,7 +155,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
               </h1>
               {/* {ad.verified && (
                 <img
-                  loading="lazy"
+                  loading="lazy" unoptimized
                   src={verified}
                   alt="edit"
                   className="ad__verified"
@@ -166,6 +169,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                   alt="edit"
                   className="ad__edit"
                   loading="lazy"
+                  unoptimized
                   onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -194,6 +198,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                 alt="tag"
                 className="tag"
                 loading="lazy"
+                unoptimized
               />
               {ad.tags &&
                 attributes &&
@@ -217,6 +222,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                 alt="region"
                 className="region"
                 loading="lazy"
+                unoptimized
               />
               {ad.regions &&
                 attributes &&
