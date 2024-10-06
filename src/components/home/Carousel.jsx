@@ -67,7 +67,7 @@ const Carousel = ({ ad }) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          variableWidth: false,
+          variableWidth: true,
           centerMode: true,
         },
       },

@@ -730,7 +730,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: row;
   gap: 0.5em;
-  margin-bottom: 3em;
+  margin-bottom: 0.5em;
   align-items: center;
   color: white;
 }
@@ -2371,4 +2371,21 @@ a:-webkit-any-link {
     align-items: center;
     justify-content: center;
   }
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel div {
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+}
+
+.ad__video, .carousel__image {
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Ensures video and images cover the slide area without extra space */
 }
