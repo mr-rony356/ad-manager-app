@@ -1942,7 +1942,7 @@ server
     });
 
     // Listen on port
-    app.listen(SERVER_PORT, "127.0.0.1", () => {
+    app.listen(SERVER_PORT, "0.0.0.0", () => {
       console.log(`Server listening on ${SERVER_PORT}`);
     });
   })
