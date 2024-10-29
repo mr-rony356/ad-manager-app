@@ -12,13 +12,13 @@ module.exports = {
       },
       {
         protocol: "https",
-        hostname: "api.onlyfriend.ch",
+        hostname: "onlyfriend.ch",
         port: "",
         pathname: "/server/public/files/**",
       },
       {
         protocol: "https",
-        hostname: "api.onlyfriend.ch",
+        hostname: "onlyfriend.ch",
         port: "",
         pathname: "/server/public/files/**",
       },
