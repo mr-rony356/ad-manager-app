@@ -53,9 +53,8 @@ server
       cors({
         origin: [
           "https://onlyfriend.ch",
-          "https://onlyfriend.live",
-          "localhost:3000",
         ],
+        credentials: true,
       }),
     );
 
