@@ -51,7 +51,11 @@ server
     // Allow CORS
     app.use(
       cors({
-        origin: ["https://onlyfriend.live", "localhost:3000"],
+        origin: [
+          "https://onlyfriend.ch",
+          "https://onlyfriend.live",
+          "localhost:3000",
+        ],
       }),
     );
 
