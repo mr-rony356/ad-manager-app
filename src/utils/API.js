@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
  */
 export const API_ADDRESS =
   process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
-    ? "https://onlyfriend.live/"
+    ? "http://localhost:3000/"
     : "http://localhost:3000/";
 
 /**
