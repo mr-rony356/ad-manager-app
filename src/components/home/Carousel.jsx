@@ -111,7 +111,6 @@ const Carousel = ({ ad }) => {
               loading={i === 0 ? "eager" : "lazy"}
               priority={i === 0}
               placeholder="blur"
-              unoptimized
               blurDataURL="/path-to-low-res-image"
               sizes="(max-width: 500px) 100vw, 500px"
               onMouseDown={(e) => e.preventDefault()}
