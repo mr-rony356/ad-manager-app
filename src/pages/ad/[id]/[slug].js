@@ -84,17 +84,24 @@ const AdDetail = ({
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobileButtonVisible(
-        !window.matchMedia("(max-width: 820px)").matches,
-      );
+      if (typeof window !== "undefined") {
+        setIsMobileButtonVisible(
+          !window.matchMedia("(max-width: 820px)").matches,
+        );
+      }
     };
 
+    // Run on component mount to set initial state
     handleResize();
 
-    window.addEventListener("resize", handleResize);
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", handleResize);
+    }
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      if (typeof window !== "undefined") {
+        window.removeEventListener("resize", handleResize);
+      }
     };
   }, []);
 

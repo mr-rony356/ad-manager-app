@@ -51,9 +51,7 @@ server
     // Allow CORS
     app.use(
       cors({
-        origin: [
-          "https://onlyfriend.ch",
-        ],
+        origin: ["https://onlyfriend.ch", "http://localhost:3000"],
         credentials: true,
       }),
     );
