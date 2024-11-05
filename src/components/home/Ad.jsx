@@ -87,7 +87,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
               src={API_ADDRESS + ad.images[ad.frontImage]}
               width={500}
               height={500}
-              alt="test"
+              alt={ad.title}
               className="ad__image"
               loading="lazy"
             />
