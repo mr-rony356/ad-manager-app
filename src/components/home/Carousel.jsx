@@ -104,15 +104,12 @@ const Carousel = ({ ad }) => {
           <div key={i}>
             <Image
               src={API_ADDRESS + image}
-              width={500}
-              height={500}
+              width={100}
+              height={100}
               alt={`Bild ${i + 1}`}
               className="carousel__image"
               loading={i === 0 ? "eager" : "lazy"}
               priority={i === 0}
-              placeholder="blur"
-              blurDataURL="/path-to-low-res-image"
-              sizes="(max-width: 500px) 100vw, 500px"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => handleImageClick(i + (ad.video ? 1 : 0))}
             />

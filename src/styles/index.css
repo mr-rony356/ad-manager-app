@@ -2384,8 +2384,15 @@ a:-webkit-any-link {
   padding: 0; /* Remove any default padding */
 }
 
-.ad__video, .carousel__image {
+.ad__video,
+.carousel__image {
   width: 100%;
-  height: auto;
+  height: 400px;
+  width: 300px;
   object-fit: cover; /* Ensures video and images cover the slide area without extra space */
+}
+.fslightboxs img {
+  object-fit: cover; /* Ensures video and images cover the slide area without extra space */
+  height: 100% !important;
+  width: 100%;
 }
