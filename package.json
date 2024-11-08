@@ -44,7 +44,6 @@
     "build:prod": "NEXT_PUBLIC_ENVIRONMENT=production next build",
     "test": "jest",
     "eject": "next eject",
-    "lint": "next lint",
     "postbuild": "next-sitemap"
   },
   "eslintConfig": {
