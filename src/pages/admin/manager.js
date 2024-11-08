@@ -7,12 +7,10 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ req, locale }) {
-  // Initialize the API helper class
   const api = new ApiController();
-  // Authenticate the user
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
   const user = await api.checkAuth(auth.token);
-  // Redirect the user if he is not authenticated
+
   if (!user || user.err) {
     return {
       redirect: {
@@ -21,11 +19,11 @@ export async function getServerSideProps({ req, locale }) {
       },
     };
   }
-  // Fetch all props server side
+
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
-  const ads = await api.fetchAdsByMe(auth.token, 30);
-  // Return all props to the page
+  const ads = await api.fetchAdsByMe(auth.token, 0);
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer"], null, [
@@ -43,6 +41,18 @@ const AdManager = ({ user, attributes, ads }) => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("active");
 
+  const tabFilters = {
+    active: (ad) => ad.endDate >= Date.now(),
+    pending: (ad) => !ad.endDate,
+    inactive: (ad) => ad.active === false && ad.endDate >= Date.now(),
+    expired: (ad) => ad.endDate < Date.now(),
+  };
+
+  const adCounts = Object.keys(tabFilters).reduce((counts, key) => {
+    counts[key] = ads.filter(tabFilters[key]).length;
+    return counts;
+  }, {});
+
   return (
     <>
       <Head>
@@ -57,65 +67,39 @@ const AdManager = ({ user, attributes, ads }) => {
 
       <div className="page">
         <h1 className="adminPage__activeUser">Hallo {user.name}</h1>
-
         <div className="adminPage__content">
           <AdminLinks user={user} />
           <div className="adminPage__contentComponents">
             <div className="adminCardNavigation">
-              <h1 className="title manager--title"> {t("adManager__title")}</h1>
+              <h1 className="title manager--title">{t("adManager__title")}</h1>
               <div className="tabs">
-                <label
-                  id="active"
-                  onClick={() => setActiveTab("active")}
-                  className={activeTab === "active" ? "tab active" : "tab"}
-                >
-                  {t("adManager__filterActive")}
-                </label>
-                <label
-                  onClick={() => setActiveTab("pending")}
-                  className={activeTab === "pending" ? "tab active" : "tab"}
-                  id="pending"
-                >
-                  {t("adManager__filterPending")}
-                </label>
-                <label
-                  onClick={() => setActiveTab("inactive")}
-                  className={activeTab === "inactive" ? "tab active" : "tab"}
-                  id="inactive"
-                >
-                  {t("adManager__filterInactive")}
-                </label>
-                <label
-                  onClick={() => setActiveTab("expired")}
-                  className={activeTab === "expired" ? "tab active" : "tab"}
-                  id="expired"
-                >
-                  {t("adManager__filterExpired")}
-                </label>
+                {Object.keys(tabFilters).map((tab) => (
+                  <label
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`tab ${activeTab === tab ? "active" : ""}`}
+                  >
+                    <div className="ad_tab_content">
+                      <p className="ad_count">
+                        {adCounts[tab] > 0 && adCounts[tab]}
+                      </p>
+                      <p className="ad_tab__title">
+                        {t(
+                          `adManager__filter${tab.charAt(0).toUpperCase() + tab.slice(1)}`,
+                        )}{" "}
+                      </p>
+                    </div>
+                  </label>
+                ))}
               </div>
             </div>
+
             <div className="offerList adManager--offerList">
-              {ads && ads.length === 0 ? (
+              {ads.length === 0 ? (
                 <p>{t("adManager__noAds")}</p>
               ) : (
-                ads &&
-                ads.length > 0 &&
-                ads
-                  .filter((ad) => {
-                    switch (activeTab) {
-                      case "expired":
-                        return ad.endDate < Date.now();
-                      case "inactive":
-                        return ad.active === false && ad.endDate >= Date.now();
-                      case "pending":
-                        return !ad.endDate;
-                      case "active":
-                        return ad.endDate >= Date.now();
-                      default:
-                        return null;
-                    }
-                  })
-                  .map((ad) => (
+                ads.filter(tabFilters[activeTab]).map((ad, index) => (
+                  <>
                     <Ad
                       user={user}
                       key={ad._id}
@@ -123,7 +107,8 @@ const AdManager = ({ user, attributes, ads }) => {
                       attributes={attributes}
                       isAdmin={true}
                     />
-                  ))
+                  </>
+                ))
               )}
             </div>
           </div>

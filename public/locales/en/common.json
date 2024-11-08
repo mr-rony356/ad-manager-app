@@ -1,6 +1,7 @@
 {
   "home__title": "Sex and erotic ads in {{region}}",
   "home__ad": "ads",
+  "ads_count": "adverts",
   "home__adPlaceholder": "Currently no ads available",
 
   "filterForm__filterButton": "Apply filter",
@@ -128,6 +129,7 @@
   "saveAd": "Save advertisement: ",
 
   "adDetail__verifiedImages": "Verified images",
+  "adDetail__videotext": "Video in the advert",
 
   "adForm2__title": "Offer-Text",
 

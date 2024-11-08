@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Verification from "@components/admin/Verification";
 import { useApi } from "@contexts/APIContext";
 import ApiController from "@utils/API";
@@ -7,12 +7,10 @@ import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 export async function getServerSideProps({ req, locale }) {
-  // Initialize the API helper class
   const api = new ApiController();
-  // Authenticate the user
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
   const user = await api.checkAuth(auth.token);
-  // Redirect the user if he is not authenticated
+
   if (!user || user.err) {
     return {
       redirect: {
@@ -21,17 +19,14 @@ export async function getServerSideProps({ req, locale }) {
       },
     };
   }
-  // Fetch all props server side
+
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
   const ads = await api.fetchPendingAds(auth.token);
-  // Return all props to the page
+
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "footer"], null, [
-        "en",
-        "de",
-      ])),
+      ...(await serverSideTranslations(locale, ["common", "footer"])),
       user,
       attributes,
       ads,
@@ -39,16 +34,19 @@ export async function getServerSideProps({ req, locale }) {
   };
 }
 
-const Verifications = ({ user, attributes, ads }) => {
+const Verifications = ({ user, attributes, ads: initialAds }) => {
   const { t } = useTranslation("common");
   const { api } = useApi();
+  const [ads, setAds] = useState(initialAds);
 
-  const handleVerify = (id) => {
-    api.verifyAd(id);
+  const handleVerify = async (id) => {
+    await api.verifyAd(id);
+    setAds((prevAds) => prevAds.filter((ad) => ad._id !== id));
   };
 
-  const handleDelete = (id) => {
-    api.deleteAd(id);
+  const handleDelete = async (id) => {
+    await api.deleteAd(id);
+    setAds((prevAds) => prevAds.filter((ad) => ad._id !== id));
   };
 
   return (
@@ -67,28 +65,21 @@ const Verifications = ({ user, attributes, ads }) => {
         <h1 className="title favorites--title">
           {t("admin__verificationsTitle")}
         </h1>
-        {ads && ads.length > 0 ? (
+        {ads.length > 0 ? (
           ads
-            .sort((a, b) =>
-              new Date(a.startDate ? a.startDate : a.startDate) >
-              new Date(b.startDate ? b.startDate : b.startDate)
-                ? 1
-                : -1,
-            )
+            .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
             .map((ad) => (
               <Verification
+                key={ad._id}
+                id={ad._id}
+                ad={ad}
+                user={user}
                 handleDelete={handleDelete}
                 handleVerify={handleVerify}
-                key={ad._id + ad.verificationCode}
-                id={ad._id}
-                user={user}
-                ad={ad}
               />
             ))
         ) : (
-          <p className="ads__placeholderText">
-            Momentan gibt es keine zu verifizieren
-          </p>
+          <p className="ads__placeholderText">{t("no_verifications")}</p>
         )}
       </div>
     </>

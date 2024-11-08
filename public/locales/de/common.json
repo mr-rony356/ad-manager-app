@@ -1,6 +1,7 @@
 {
   "home__title": "Sex und Erotik Inserate in  der {{region}}",
   "home__ad": "Inserate",
+  "ads_count": "Inserate",
   "home__adPlaceholder": "Aktuell keine Inserate vorhanden",
 
   "filterForm__filterButton": "Filter Anwenden",
@@ -130,6 +131,7 @@
   "saveAd": "Inserat speichern: ",
 
   "adDetail__verifiedImages": "Verifizierte Bilder",
+  "adDetail__videotext": "Video im Inserat",
 
   "adForm2__title": "Inserate-Text",
 

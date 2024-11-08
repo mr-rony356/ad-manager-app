@@ -74,10 +74,12 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
   const whatsapp = "/assets/whatsapp-white.png";
   const whatsappBlue = "/assets/whatsapp.png";
   const home = "/assets/menue.png";
+  const video = "/assets/video-icon.png";
 
   useEffect(() => {
     if (user._id === ad.user) setIsUser(true);
   }, [ad.user, user._id]);
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggleFavorite = () => {
     api.updateFavorite(ad._id);
@@ -114,6 +116,27 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
     });
   };
 
+  useEffect(() => {
+    // Check if `window` is defined (we are in the browser)
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        // Update state based on screen width
+        setIsMobile(window.matchMedia("(max-width: 820px)").matches);
+      };
+
+      // Call once to set initial value
+      handleResize();
+
+      // Add resize event listener
+      window.addEventListener("resize", handleResize);
+
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
+    }
+  }, []);
+
   return (
     <>
       <Head>
@@ -148,6 +171,7 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
               />
               <div className="adDetail__verified"></div>
             </div>
+
             <div className="adDetail__buttons">
               <Image
                 src={isFavorite ? fav : linedHeart}
@@ -171,7 +195,11 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
               )}
             </div>
           </div>
-          <h1 className="adDetail__title"> {ad.title}</h1>
+
+          <div className="adDetail__container">
+            <h1 className="adDetail__title"> {ad.title}</h1>
+          </div>
+
           {ad.verified && (
             <div className="adDetail__verifiedPart">
               <Image
@@ -183,6 +211,27 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
                 loading="lazy"
               />
               <p>{t("adDetail__verifiedImages")}</p>
+            </div>
+          )}
+          {ad.video && (
+            <div className="adDetail__container__images" style={ 
+              {
+                margin:"10px"
+              }
+            }>
+              <Image
+                src={video}
+                width={500}
+                height={500}
+                loading="lazy"
+                style={{
+                  width: "25px",
+                  height: "auto",
+                  borderRadius: "10px",
+                  color: "white",
+                }}
+              />
+              <p>{t("adDetail__videotext")}</p>
             </div>
           )}
 
@@ -224,6 +273,11 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
                       setCurrentSlide(ad.video ? i + 1 : i);
                       setToggler(!toggler);
                     }}
+                    style={{
+                      objectFit: "cover",
+                      width: "100%",
+                      height: "100%",
+                    }}
                   />
                 ))}
               {ad.images && ad.images.length > (ad.video !== "" ? 2 : 3) && (
@@ -243,7 +297,11 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
               className="carousel__lightbox"
               sources={(ad && ad.video
                 ? [
-                    <video controls key={-1}>
+                    <video
+                      controls
+                      key={-1}
+                      style={{ width: "100%", height: "auto" }}
+                    >
                       <source src={API_ADDRESS + ad.video} />
                     </video>,
                   ]
@@ -259,6 +317,11 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
                       height={500}
                       alt={"image-" + i}
                       loading="lazy"
+                      style={{
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "100%",
+                      }}
                     />
                   )),
               )}
@@ -453,11 +516,7 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
               </div>
               {ad.phone || number ? (
                 <div
-                  style={
-                    !window.matchMedia("(max-width: 820px)").matches
-                      ? { display: "none" }
-                      : { display: "flex" }
-                  }
+                  style={isMobile ? { display: "flex" } : { display: "none" }}
                   className="sticky-buttons"
                 >
                   {ad.phone && (

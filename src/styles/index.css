@@ -2396,3 +2396,53 @@ a:-webkit-any-link {
   height: 100% !important;
   width: 100%;
 }
+.home__adsHeader {
+  width: 100%;
+  color: rgb(148, 146, 146);
+  font-size: 1em;
+  text-align: right;
+  margin: 20px 0;
+  font-weight: 400;
+}
+.tabs {
+  align-items: center;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+.ad_count {
+  color: #858181;
+  font-weight: 500;
+  font-size: 1em;
+  text-align: center;
+}
+.ad_tab_content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+  gap: 5px;
+}
+@media (max-width: 768px) {
+  .adDetail__title {
+    font-size: 1.5em;
+  }
+  .ad_tab_content {
+    flex-direction: column;
+  }
+  .tabs {
+    align-items: end;
+    margin-bottom: 25px;
+    justify-content: center;
+  }
+}
+.adDetail__container {
+  color: white;
+}
+.adDetail__container__images {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 10px;
+  padding: 0 15px;
+  color: white;
+}

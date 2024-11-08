@@ -104,8 +104,8 @@ const Carousel = ({ ad }) => {
           <div key={i}>
             <Image
               src={API_ADDRESS + image}
-              width={100}
-              height={100}
+              width={500}
+              height={500}
               alt={`Bild ${i + 1}`}
               className="carousel__image"
               loading={i === 0 ? "eager" : "lazy"}
