@@ -17,6 +17,7 @@
     "i18next": "^23.8.2",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",
+    "lucide-react": "^0.456.0",
     "mongodb": "^6.3.0",
     "multer": "^1.4.5-lts.1",
     "next": "^14.1.0",

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { User } from "lucide-react";
 
 export async function getServerSideProps({ params, req, locale }) {
   // Initialize your API client
@@ -77,6 +78,7 @@ const AdDetail = ({
   const whatsappBlue = "/assets/whatsapp.png";
   const home = "/assets/menue.png";
   const [isMobileButtonVisible, setIsMobileButtonVisible] = useState(false);
+  const video = "/assets/video-icon.png";
 
   useEffect(() => {
     if (user._id === ad.user) setIsUser(true);
@@ -167,7 +169,8 @@ const AdDetail = ({
       behavior: "smooth",
     });
   };
-
+  console.log(ad);
+  console.log(attributes);
   return (
     <>
       <Head>
@@ -257,6 +260,28 @@ const AdDetail = ({
                 loading="lazy"
               />
               <p>{t("adDetail__verifiedImages")}</p>
+            </div>
+          )}
+          {ad.video && (
+            <div
+              className="adDetail__container__images"
+              style={{
+                margin: "10px",
+              }}
+            >
+              <Image
+                src={video}
+                width={500}
+                height={500}
+                loading="lazy"
+                style={{
+                  width: "25px",
+                  height: "auto",
+                  borderRadius: "10px",
+                  color: "white",
+                }}
+              />
+              <p>{t("adDetail__videotext")}</p>
             </div>
           )}
 
@@ -453,6 +478,18 @@ const AdDetail = ({
                         ,
                       </p>
                     ))}
+                </div>
+                <div className="adDetail__regions">
+                  <User />
+                  {ad.ethnicity && attributes.length > 0 && (
+                    <p className="adDetail__region">
+                      {
+                        attributes.find(
+                          (attribute) => attribute.name === "ethnicities",
+                        ).values[ad.ethnicity]
+                      }
+                    </p>
+                  )}
                 </div>
               </div>
 

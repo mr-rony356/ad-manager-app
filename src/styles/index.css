@@ -187,7 +187,7 @@ a:-webkit-any-link {
 /* Customize the label (the container) */
 .verificationCheck {
   display: flex;
-  align-items: flex-start;
+  align-items: start;
   margin: 0;
   padding: 0;
   color: lightblue;
@@ -272,7 +272,7 @@ a:-webkit-any-link {
 .nav__login {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: end;
   cursor: pointer;
 }
 
@@ -381,7 +381,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 0.4em;
-  align-items: flex-end;
+  justify-content: end;
 }
 
 .ad,
@@ -1161,7 +1161,7 @@ a:-webkit-any-link {
 
 .ad__time {
   display: flex;
-  justify-content: flex-end;
+  justify-content: end;
 }
 
 .message__title {
@@ -1187,7 +1187,7 @@ a:-webkit-any-link {
 }
 
 .chat__partnerMessage {
-  justify-content: flex-start;
+  justify-content: start;
   padding: 1em;
   border-radius: 10px;
   background-color: gray;
@@ -1197,7 +1197,7 @@ a:-webkit-any-link {
 }
 
 .chat__myMessage {
-  justify-content: flex-end;
+  justify-content: end;
   padding: 1em;
   border-radius: 10px;
   background-color: var(--blue);
@@ -1412,7 +1412,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: row;
   gap: 1em;
-  justify-content: flex-end;
+  justify-content: end;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -1589,7 +1589,7 @@ a:-webkit-any-link {
   align-items: center;
   gap: 0 1em;
   width: 50%;
-  justify-content: flex-end;
+  justify-content: end;
 }
 
 .form__sections {
@@ -1716,7 +1716,7 @@ a:-webkit-any-link {
 
 .home__content {
   display: flex;
-  align-items: flex-start;
+  align-items: start;
   justify-content: center;
 
   gap: 3em;
@@ -2096,7 +2096,7 @@ a:-webkit-any-link {
   .adpage_title {
     margin-bottom: 1em;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: start;
     gap: 0.5em;
   }
 
@@ -2220,7 +2220,7 @@ a:-webkit-any-link {
   .form__sectionPart {
     flex-direction: row;
     gap: 1em;
-    align-items: flex-start;
+    align-items: start;
     width: 100%;
     margin-top: 1em;
     align-items: center;
@@ -2230,7 +2230,7 @@ a:-webkit-any-link {
   .form__sectionPart3 {
     flex-direction: row;
     gap: 1em;
-    align-items: flex-start;
+    align-items: start;
     width: 100%;
     justify-content: center;
   }
@@ -2301,7 +2301,7 @@ a:-webkit-any-link {
   }
 
   .carousel__image {
-    min-width: 100px; /* Example minimum width */
+    min-width: 250px; /* Example minimum width */
     max-width: 100%; /* Ensure images don't overflow the slider */
   }
 

@@ -96,6 +96,7 @@
   "admin__settingsNewPassword": "New password",
   "admin__settingsConfirmNewPassword": "Confirm new password",
   "admin__settingsSaveButton": "Save",
+  "no_verifications:": "No verifications yet",
 
   "adModal__edit": "Edit Offer",
   "adModal__premium": "Set ad to Premium for the day - 30 Credits",

@@ -275,7 +275,7 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
                     }}
                     style={{
                       objectFit: "cover",
-                      width: "100%",
+                      width: "300px",
                       height: "100%",
                     }}
                   />

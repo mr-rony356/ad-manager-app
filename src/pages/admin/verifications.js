@@ -79,7 +79,7 @@ const Verifications = ({ user, attributes, ads: initialAds }) => {
               />
             ))
         ) : (
-          <p className="ads__placeholderText">{t("no_verifications")}</p>
+          <p className="ads__placeholderText">{t("no_verifications")} </p>
         )}
       </div>
     </>

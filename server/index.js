@@ -938,26 +938,28 @@ server
           const duration = durations.values[ad.duration];
 
           // Calculate total credits
-          const cDuration = ad.type === "free" ? 0 : duration.credits;
+          const cDuration = ad.cost === "free" ? 0 : duration.credits;
           const cTags =
-            ad.type === "free"
+            ad.cost === "free"
               ? 0
               : ad.tags.length > 0
                 ? (ad.tags.length - 1) * 10
                 : 0;
           const cRegions =
-            ad.type === "free"
+            ad.cost === "free"
               ? 0
               : ad.regions.length > 0
                 ? (ad.regions.length - 1) * 10
                 : 0;
           const cTotal = cDuration + cTags + cRegions;
-
-          // Check user's credit score
-          if (user.credits < cTotal) {
-            return res.status(400).json({ err: "The credit score is too low" });
+          if (adcost !== "free") {
+            // Check user's credit score
+            if (user.credits < cTotal) {
+              return res
+                .status(400)
+                .json({ err: "The credit score is too low" });
+            }
           }
-
           // Modify the ad for the database
           if (!req.files || (req.files && !req.files.verificationImage)) {
             delete ad.duration;
@@ -979,7 +981,7 @@ server
           await req.db.collection("ads").insertOne(ad);
 
           // Update the credits if not free
-          if (ad.type !== "free") {
+          if (ad.cost !== "free") {
             await req.db
               .collection("users")
               .updateOne(

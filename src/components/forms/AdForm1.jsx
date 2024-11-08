@@ -6,7 +6,8 @@ import Select from "react-select";
 const AdForm1 = (props) => {
   const { t, i18n } = useTranslation("common");
   const { setBody, ad, attributes, updateProperty, editMode, type } = props;
-
+  console.log("ad", ad);
+  console.log("attrue", attributes);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
