@@ -1,11 +1,9 @@
 const { i18n } = require("./next-i18next.config");
 
 module.exports = {
-  plugins: {
-    autoprefixer: {
-      // Customize browser support if needed
-      overrideBrowserslist: ['> 1%', 'last 2 versions'],
-    }
+  autoprefixer: {
+    // Customize browser support if needed
+    overrideBrowserslist: ["> 1%", "last 2 versions"],
   },
   eslint: {
     ignoreDuringBuilds: true,
