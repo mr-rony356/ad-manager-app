@@ -36,6 +36,7 @@ const AdForm3 = (props) => {
 
     if (type === "free") {
       ad.credits = 0;
+      console.log("form 3", ad.credits);
     }
 
     if (editMode) {

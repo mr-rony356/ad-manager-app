@@ -926,73 +926,95 @@ server
         ]),
       ],
       async (req, res) => {
-        const ad = JSON.parse(req.body.ad);
-
         try {
+          // Parse the ad object from the request body
+          const ad = JSON.parse(req.body.ad);
+          console.log("Ad data received:", ad);
+
+          // Retrieve the user based on the authenticated token
           const user = await req.db
             .collection("users")
             .findOne({ name: res.locals.user });
+          if (!user) {
+            console.log("User not found.");
+            return res.status(404).json({ err: "User not found" });
+          }
+          console.log("User found:", user.name);
+
+          // Fetch available ad durations from the database
           const durations = await req.db
             .collection("attributes")
             .findOne({ name: "durations" });
-          const duration = durations.values[ad.duration];
+          const duration = durations?.values[ad.duration];
+          console.log("Duration fetched:", duration);
 
-          // Calculate total credits
-          const cDuration = ad.cost === "free" ? 0 : duration.credits;
-          const cTags =
-            ad.cost === "free"
-              ? 0
-              : ad.tags.length > 0
-                ? (ad.tags.length - 1) * 10
-                : 0;
-          const cRegions =
-            ad.cost === "free"
-              ? 0
-              : ad.regions.length > 0
-                ? (ad.regions.length - 1) * 10
-                : 0;
+          // *** Credit Calculation - Set to zero credits for now ***
+          const cTotal = 0;
+          // Future: Uncomment the below lines to enable credit calculation
+          /*
+          const cDuration = duration.credits;
+          const cTags = ad.tags.length > 0 ? (ad.tags.length - 1) * 10 : 0;
+          const cRegions = ad.regions.length > 0 ? (ad.regions.length - 1) * 10 : 0;
           const cTotal = cDuration + cTags + cRegions;
-          if (adcost !== "free") {
-            // Check user's credit score
-            if (user.credits < cTotal) {
-              return res
-                .status(400)
-                .json({ err: "The credit score is too low" });
-            }
+    
+          // Check if the user has enough credits
+          if (user.credits < cTotal) {
+            console.log("Insufficient credits:", user.credits);
+            return res.status(400).json({ err: "The credit score is too low" });
           }
-          // Modify the ad for the database
-          if (!req.files || (req.files && !req.files.verificationImage)) {
-            delete ad.duration;
+          */
+          console.log(
+            "Total credits required (currently set to zero):",
+            cTotal,
+          );
+
+          // Modify the ad for insertion
+          if (!req.files || !req.files.verificationImage) {
+            delete ad.duration; // Only remove duration if no verification image is provided
           }
           ad.user = user._id;
           ad.startDate = Date.now();
-          ad.endDate = Date.now() + duration.duration * 24 * 60 * 60 * 1000;
+          ad.endDate = Date.now() + duration.duration * 24 * 60 * 60 * 1000; // Expiration date based on duration
 
-          if (req.files && req.files.image) {
-            req.files.image.map((image, i) => (ad.images[i] = image.path));
+          // Handle file uploads and add file paths to the ad object
+          if (req.files?.image) {
+            ad.images = req.files.image.map((image) => image.path);
           }
-          if (req.files && req.files.video) ad.video = req.files.video[0].path;
-          if (req.files && req.files.verificationImage) {
-            delete ad.endDate;
+          if (req.files?.video) {
+            ad.video = req.files.video[0].path;
+          }
+          if (req.files?.verificationImage) {
+            delete ad.endDate; // No end date for verified ads
             ad.verificationImage = req.files.verificationImage[0].path;
           }
 
           // Insert the ad into the database
-          await req.db.collection("ads").insertOne(ad);
-
-          // Update the credits if not free
-          if (ad.cost !== "free") {
-            await req.db
-              .collection("users")
-              .updateOne(
-                { name: user.name },
-                { $set: { credits: user.credits - cTotal } },
-              );
+          const adInsertionResult = await req.db
+            .collection("ads")
+            .insertOne(ad);
+          if (!adInsertionResult.insertedId) {
+            console.log("Failed to insert ad.");
+            return res.status(500).json({ err: "Failed to insert ad" });
           }
+          console.log("Ad inserted with ID:", adInsertionResult.insertedId);
 
+          // Update user's credit balance
+          await req.db
+            .collection("users")
+            .updateOne(
+              { name: user.name },
+              { $set: { credits: user.credits - cTotal } },
+            );
+          console.log(
+            "User credits updated. New balance:",
+            user.credits - cTotal,
+          );
+
+          // Return success response
           return res.status(200).json({ ok: true, usedCredits: cTotal });
         } catch (err) {
-          return res.status(500).json({ err });
+          console.error("Error creating ad:", err);
+          return res.status(500).json({ err: "Internal server error" });
         }
       },
     );
