@@ -188,7 +188,12 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
               marginTop: "0.5em",
             }}
           >
-            <div className="ad__tags">
+            <div
+              className="ad__tags"
+              style={{
+                fontWeight: "bold",
+              }}
+            >
               <Image
                 src={"/assets/tag.png"}
                 width={500}
@@ -211,7 +216,12 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                 )}
             </div>
 
-            <div className="ad__regions">
+            <div
+              className="ad__regions"
+              style={{
+                fontWeight: "bold",
+              }}
+            >
               <Image
                 src={"/assets/place.png"}
                 width={500}

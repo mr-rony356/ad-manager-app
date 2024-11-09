@@ -71,6 +71,13 @@ const Carousel = ({ ad }) => {
           centerMode: true,
         },
       },
+      {
+        breakpoint: 400,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
     ],
     beforeChange: () => setIsDragging(true),
     afterChange: (current) => {

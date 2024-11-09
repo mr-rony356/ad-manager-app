@@ -175,7 +175,6 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
                   </>
                 )}
               </li>
-              {owner && (
                 <li>
                   <a
                     href="#0"
@@ -189,7 +188,6 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
                     {t("adModal__delete")}
                   </a>
                 </li>
-              )}
             </>
           )}
         </ul>

@@ -125,12 +125,6 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
                 className="filter"
               />
             </div>
-            <div className="home__adsHeader">
-              <h3>
-                <span className="home__adsCount">{ads.length} </span>
-                {t("ads_count")}
-              </h3>
-            </div>
             <AdList
               user={user}
               className="home__ads"
