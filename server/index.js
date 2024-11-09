@@ -1697,60 +1697,64 @@ server
           const objectId = ObjectId.isValid(req.params.id)
             ? new ObjectId(req.params.id)
             : null;
-
+    
           // Retrieve the ad
           const ad = await req.db.collection("ads").findOne({ _id: objectId });
-
+    
           // Handle if ad not found
           if (!ad) {
             return res.status(404).json({ error: "Ad not found" });
           }
-
+    
           // Retrieve the user
           const user = await req.db
             .collection("users")
             .findOne({ name: res.locals.user });
-
+    
           // Retrieve the duration
           const durations = await req.db
             .collection("attributes")
             .findOne({ name: "durations" });
           const duration = durations.values[req.params.durationId];
-
-          // Calculate the total credits
-          const cDuration = duration.credits;
-          const cTags = ad.tags.length > 0 ? (ad.tags.length - 1) * 10 : 0;
-          const cRegions =
-            ad.regions.length > 0 ? (ad.regions.length - 1) * 10 : 0;
+    
+          // Set to true to enable cost calculation in the future
+          const isCostEnabled = false;
+    
+          // Calculate the total credits if cost is enabled
+          const cDuration = isCostEnabled ? duration.credits : 0;
+          const cTags = isCostEnabled && ad.tags.length > 0 ? (ad.tags.length - 1) * 10 : 0;
+          const cRegions = isCostEnabled && ad.regions.length > 0 ? (ad.regions.length - 1) * 10 : 0;
           const cTotal = cDuration + cTags + cRegions;
-
-          // Check the credit score of the user
-          if (user.credits < cTotal) {
+    
+          // Check the credit score of the user if cost is enabled
+          if (isCostEnabled && user.credits < cTotal) {
             return res.status(400).json({ err: "The credit score is too low" });
           }
-
+    
           // Update the ad's startDate and endDate in the database
           const startDate = Date.now();
           const endDate = startDate + duration.duration * 24 * 60 * 60 * 1000;
           await req.db
             .collection("ads")
             .updateOne({ _id: ad._id }, { $set: { startDate, endDate } });
-
-          // Deduct the credits from the user's account
-          await req.db
-            .collection("users")
-            .updateOne(
-              { name: user.name },
-              { $set: { credits: user.credits - cTotal } },
-            );
-
+    
+          // Deduct the credits from the user's account if cost is enabled
+          if (isCostEnabled) {
+            await req.db
+              .collection("users")
+              .updateOne(
+                { name: user.name },
+                { $set: { credits: user.credits - cTotal } }
+              );
+          }
+    
           return res.status(200).json({ ok: true });
         } catch (err) {
           return res.status(500).json({ err });
         }
-      },
+      }
     );
-
+    
     /** Updates the attributes of a blog post */
     app.put(
       "/api/blog/:id",

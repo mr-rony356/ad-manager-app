@@ -81,7 +81,8 @@ const AdDetail = ({
   const video = "/assets/video-icon.png";
 
   useEffect(() => {
-    if (user._id === ad.user) setIsUser(true);
+    if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
+      setIsUser(true);
   }, [ad.user, user._id]);
 
   useEffect(() => {
@@ -480,7 +481,7 @@ const AdDetail = ({
                     ))}
                 </div>
                 <div className="adDetail__regions">
-                  <User />
+                  <User size={20} />
                   {ad.ethnicity && attributes.length > 0 && (
                     <p className="adDetail__region">
                       {

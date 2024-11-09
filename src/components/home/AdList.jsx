@@ -15,7 +15,12 @@ const AdList = ({ ads, premiumAds, attributes, user }) => {
         {ads &&
           ads.length > 0 &&
           ads.map((ad) => (
-            <Ad key={ad._id} user={user} ad={ad} attributes={attributes} />
+            <Ad
+              key={ad._id}
+              user={user}
+              ad={ad}
+              attributes={attributes}
+            />
           ))}
         {ads.length === 0 && (
           <p className="ads__placeholderText">{t("home__adPlaceholder")}</p>

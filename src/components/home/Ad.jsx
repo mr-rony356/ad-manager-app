@@ -13,7 +13,8 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
   const [displayModal, setDisplayModal] = useState("");
 
   useEffect(() => {
-    if (user?._id === ad.user) setIsUser(true);
+    if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
+      setIsUser(true);
   }, [ad.user, user?._id]);
 
   const startDate = ad.startDate;
@@ -71,7 +72,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
-
+  const isOwner = user.email === "cyrill.mueller@onlyfriend.ch";
   return (
     <Link
       href={{
@@ -125,6 +126,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                 ad={ad}
                 setShowModal={setShowModal}
                 setErr={setErr}
+                owner={isOwner}
                 setDisplayModal={setDisplayModal}
               />
             )}

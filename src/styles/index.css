@@ -2434,6 +2434,9 @@ a:-webkit-any-link {
     margin-bottom: 25px;
     justify-content: center;
   }
+  .slick-list {
+    padding: 0 !important;
+}
 }
 .adDetail__container {
   color: white;
@@ -2445,4 +2448,8 @@ a:-webkit-any-link {
   gap: 10px;
   padding: 0 15px;
   color: white;
+}
+
+.adDetail__filters{
+  font-weight: 800;
 }
