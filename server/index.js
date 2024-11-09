@@ -176,7 +176,11 @@ server
             .sort({ startDate: -1 })
             .toArray();
         }
-
+        // Ensure each ad has an `active` field, defaulting to `true` if missing
+        ads = ads.map((ad) => ({
+          ...ad,
+          active: ad.active !== undefined ? ad.active : true, // Default to true if undefined
+        }));
         return res.status(200).json(ads);
       } catch (err) {
         return res.status(500).json({ err });
