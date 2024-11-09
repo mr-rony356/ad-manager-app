@@ -64,24 +64,14 @@ export default class ApiController {
    * @param {*} type The type of ads to be fetched
    * @returns All the ads
    */
-  async fetchAds(type, limit = 20, page = 1) {
+  async fetchAds(type) {
     try {
-      const skip = (page - 1) * limit;
-      const url = this.buildRequest(
-        `api/ads?type=${type}&limit=${limit}&skip=${skip}`,
-        "GET",
-      );
-
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error("API: Failed to fetch ads");
-      }
-
-      const ads = await response.json();
-      return ads;
+      const promise = await fetch(
+        this.buildRequest("api/ads?type=" + type, "GET"),
+      ).then((res) => res.json());
+      return promise;
     } catch (err) {
       console.error("API: Could not fetch ads", err);
-      return [];
     }
   }
 
