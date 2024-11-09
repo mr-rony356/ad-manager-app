@@ -40,9 +40,8 @@ export async function getServerSideProps({ req, locale }) {
 const AdManager = ({ user, attributes, ads }) => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("active");
-
   const tabFilters = {
-    active: (ad) => ad.endDate >= Date.now(),
+    active: (ad) => ad.endDate >= Date.now() && ad.active,
     pending: (ad) => !ad.endDate,
     inactive: (ad) => ad.active === false && ad.endDate >= Date.now(),
     expired: (ad) => ad.endDate < Date.now(),
@@ -52,7 +51,7 @@ const AdManager = ({ user, attributes, ads }) => {
     counts[key] = ads.filter(tabFilters[key]).length;
     return counts;
   }, {});
-
+  ads.map((ad) => console.log(ad.active));
   return (
     <>
       <Head>

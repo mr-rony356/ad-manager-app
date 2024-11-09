@@ -76,8 +76,6 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
       }));
     }
   }, [type]);
-  console.log(type);
-  console.log(ad);
   const updateProperty = (property, number, value) => {
     const oc = { ...ad };
     const allowedImageFormats = [

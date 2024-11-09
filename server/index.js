@@ -129,10 +129,12 @@ server
      */
     app.get("/api/ads", async (req, res) => {
       try {
-        // Retrieve the type parameter submitted in the url
+        // Retrieve type, limit, and skip from the query parameters
         const type = req.query.type;
+        const limit = parseInt(req.query.limit) || 20; // default to 20 ads per page
+        const skip = parseInt(req.query.skip) || 0;
 
-        // Fetch all ads from the database
+        // Fetch ads based on type and other conditions with pagination
         const ads = await req.db
           .collection("ads")
           .find({
@@ -143,7 +145,10 @@ server
             ],
           })
           .sort({ startDate: 1 })
+          .skip(skip)
+          .limit(limit)
           .toArray();
+
         return res.status(200).json(ads);
       } catch (err) {
         return res.status(500).json({ err });
