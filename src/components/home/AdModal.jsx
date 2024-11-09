@@ -61,7 +61,7 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
               </a>
             </li>
           )}
-          {ad.active === false || ad.endDate < Date.now() ? null : (
+          {ad.active === false || ad.endDate < Date.now() ? null : !owner ? (
             <>
               <li>
                 <a
@@ -90,7 +90,7 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
                 </a>
               </li>
             </>
-          )}
+          ) : null}
           {ad.endDate < Date.now() ? null : (
             <li>
               {ad.active === false ? (
