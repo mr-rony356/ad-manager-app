@@ -69,10 +69,9 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
     }
   }, []);
 
-  const indexOfLastAd = currentPage * adsPerPage;
-  const indexOfFirstAd = indexOfLastAd - adsPerPage;
+  const indexOfFirstAd = (currentPage - 1) * adsPerPage;
+  const indexOfLastAd = Math.min(indexOfFirstAd + adsPerPage, ads.length);
   const currentAds = ads.slice(indexOfFirstAd, indexOfLastAd);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -130,7 +129,6 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
             )}
           </div>
         </div>
-        <div>{/* ... */}</div>
         <div className="pagination">
           {[...Array(Math.ceil(ads.length / adsPerPage)).keys()].map(
             (pageNumber) => (
@@ -143,6 +141,63 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
               </button>
             ),
           )}
+        </div>
+        <div>
+          <br />
+          <br />
+          <h3>
+            Sextreffen in der Schweiz: die besten Sexinserate und Kontakte auf
+            onlyfriend.ch - Onlyfriends
+          </h3>
+          <p>
+            Onlyfriends ist ein Erotikportal, wo frei arbeitende Frauen ein
+            Inserat erstellen und mit Kunden in Kontakt treten. Onlyfriends
+            verfügt auch eine Verlinkung zu Onlyfans. Wenn man unter der Rubrik
+            Onlyfans Inserate sucht, erscheinen Inserate, die eine direkte
+            Verlinkung zu Ihrem Onlyfans Account haben. Onlyfriends bezieht sich
+            somit auf Sex und Erotik Inserate und auch auf Onlyfans Inserate.
+            Onlyfriends überprüft jedes Inserat nach Ihrer Echtheit und bei
+            doppelter Überprüfung werden die Inserate noch verifiziert. Hierbei
+            will Onlyfriends vermeiden, dass gefälschte Inserate erstellt
+            werden. Du möchtest heisse Sextreffen in der Schweiz erleben? Bei
+            uns findest du die besten Sexkontakte und Erotikanzeigen. Egal,
+            welche Wünsche oder Neigungen du ausleben möchtest – bei
+            onlyfriend.ch (Onlyfriends) ist für jeden Geschmack etwas dabei.
+            Wähle aus verschiedenen Kategorien deine Vorliebe und finde private
+            Sexkontakte.
+          </p>
+          <br />
+          <br />
+          <h3>Sexinserate für jeden Geschmack</h3>
+          <p>
+            Onlyfriends verfügt über ein breites Angebot an Services: Escort
+            Service, Sextreffen, Erotik Massagen, Sex Beziehungen, Onlyfans
+            Benutzer, Sexpartys, Callgirls, Erotikjobs und vieles mehr! Suchst
+            du nach Escort Service in Zürich, Sextreffen in Aargau, Erotik
+            Massage in Winterthur oder Sugar Babe treffen. Vielleicht suchst du
+            nach einem Seriösen Begleitservice oder eine langfristige
+            Sexbeziehung in der Schweiz. Onlyfriends verfügt auch über Adult
+            Dating, Fetisch-Anzeigen und BDSM-Kontakte.
+            <br />
+            <br />
+            Für sie, Erotikjobs <br /> Du wünschst dir einen dominanten Mann mit
+            grossem Schwanz und Sixpack? Auf onlyfriend.ch - Onlyfriends findest
+            du garantiert den passenden Sexpartner.
+          </p>
+          <br />
+          <br />
+          <h3>Sex und Escort in der Schweiz</h3>
+          <p>
+            Von Zürich über Aargau bis hin zu Zug – bei uns findest du
+            Sexanzeigen von willigen Frauen in der gesamten Schweiz. So kannst
+            du dich ganz nach deinen Wünschen befriedigen lassen – sowohl bei
+            dir zu Hause als auch bei einem Sexpartner in deiner Nähe. Sexy
+            Girls lassen deine Erotikträume wahr werden. In unserem Schweizer
+            Sexforum kannst du dich ausserdem mit anderen Mitgliedern
+            austauschen und erfährst alles über die besten Sexclubs und Escorts
+            in deiner Region. Bestelle die schärfsten Sexpartner zu dir nach
+            Hause oder besuche sie ganz privat für geilen Sex in der Schweiz.
+          </p>
         </div>
       </div>
     </>
