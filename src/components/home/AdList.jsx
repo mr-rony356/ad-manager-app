@@ -22,7 +22,7 @@ const AdList = ({
             {" "}
             {indexOfFirstAd + 1} - {indexOfLastAd}
           </span>{" "}
-          <small>out of</small> {totalAds} {t("ads_count")}
+          <small>{t("ads_count_of")}</small> {totalAds} {t("ads_count")}
         </h3>
       </div>
       {premiumAds && premiumAds.length > 0 && (

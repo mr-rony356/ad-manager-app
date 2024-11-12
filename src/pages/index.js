@@ -72,7 +72,14 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   const indexOfFirstAd = (currentPage - 1) * adsPerPage;
   const indexOfLastAd = Math.min(indexOfFirstAd + adsPerPage, ads.length);
   const currentAds = ads.slice(indexOfFirstAd, indexOfLastAd);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({
+      top: 300,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>

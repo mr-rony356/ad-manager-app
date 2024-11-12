@@ -115,8 +115,14 @@ function HomePage({
     setIsFilterVisible(!isFilterVisible);
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({
+      top: 300,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
   const offers =
     initialFilters.offers.map(
       (o) => attributes.find((a) => a.name === "offers")?.values[o],
