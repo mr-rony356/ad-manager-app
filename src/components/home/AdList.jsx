@@ -29,7 +29,7 @@ const AdList = ({
         <PremiumAdCarousel ads={premiumAds} attributes={attributes} />
       )}
       <div className="ads">
-        {ads.map((ad) => (
+        {ads.reverse().map((ad) => (
           <Ad key={ad._id} user={user} ad={ad} attributes={attributes} />
         ))}
         {ads.length === 0 && (
