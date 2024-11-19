@@ -173,10 +173,25 @@ function HomePage({
             : null}
 
           {!tags.length && locations.length > 0
-            ? `Sex und Erotik Inserate in ${locations.join(", ")}`
+            ? `Sex und Erotik Inserate in 
+          ${locations.join(" , ")} `
             : null}
-          {/* Additional conditions omitted for brevity */}
-        </h1>
+          {tags.length && locations.length < 1
+            ? `${tags[0]} - ganze Schweiz`
+            : null}
+          {tags.length && locations.length > 0 && offers.length < 1
+            ? `${tags[0]} in ${locations.join(" , ")}`
+            : null}
+          {tags.length < 1 && locations.length < 1 && offers.length > 0
+            ? ` ${offers[0]} - ganze Schweiz`
+            : null}
+          {tags.length < 1 && locations.length > 0 && offers.length > 0
+            ? ` ${offers[0]} in ${locations.join(" , ")}`
+            : null}
+          {tags.length > 0 && locations.length > 0 && offers.length > 0
+            ? ` ${tags[0]} / ${offers[0]} in ${locations.join(" , ")}`
+            : null}
+        </h1>{" "}
         <div className="home__content">
           <div className="home__left">
             {isFilterVisible && (
@@ -242,58 +257,145 @@ function HomePage({
           <br />
           <br />
           <h3>
-            Sextreffen in der Schweiz: die besten Sexinserate und Kontakte auf
-            onlyfriend.ch - Onlyfriends
+            Sextreffen in der Schweiz: Die besten Sexinserate und Kontakte auf
+            onlyfriend.ch
           </h3>
+          <br />
           <p>
-            Onlyfriends ist ein Erotikportal, wo frei arbeitende Frauen ein
-            Inserat erstellen und mit Kunden in Kontakt treten. Onlyfriends
-            verfügt auch eine Verlinkung zu Onlyfans. Wenn man unter der Rubrik
-            Onlyfans Inserate sucht, erscheinen Inserate, die eine direkte
-            Verlinkung zu Ihrem Onlyfans Account haben. Onlyfriends bezieht sich
-            somit auf Sex und Erotik Inserate und auch auf Onlyfans Inserate.
-            Onlyfriends überprüft jedes Inserat nach Ihrer Echtheit und bei
-            doppelter Überprüfung werden die Inserate noch verifiziert. Hierbei
-            will Onlyfriends vermeiden, dass gefälschte Inserate erstellt
-            werden. Du möchtest heisse Sextreffen in der Schweiz erleben? Bei
-            uns findest du die besten Sexkontakte und Erotikanzeigen. Egal,
-            welche Wünsche oder Neigungen du ausleben möchtest – bei
-            onlyfriend.ch (Onlyfriends) ist für jeden Geschmack etwas dabei.
-            Wähle aus verschiedenen Kategorien deine Vorliebe und finde private
-            Sexkontakte.
+            Du möchtest aufregende Sextreffen in der Schweiz erleben? Auf
+            <strong> onlyfriend.ch</strong> findest du die besten Sexkontakte
+            und Erotikanzeigen für jeden Geschmack. Egal, welche Wünsche,
+            Fantasien oder Neigungen du ausleben möchtest – bei uns gibt es für
+            alle etwas Passendes! Wähle aus verschiedenen Kategorien, entdecke
+            private Sexkontakte und erlebe sinnliche Abenteuer.{" "}
           </p>
           <br />
           <br />
-          <h3>Sexinserate für jeden Geschmack</h3>
+          <h3>
+            onlyfriend.ch – Dein Erotikportal für diskrete Sextreffen und heisse
+            Kontakte
+          </h3>
+          <br />
           <p>
-            Onlyfriends verfügt über ein breites Angebot an Services: Escort
-            Service, Sextreffen, Erotik Massagen, Sex Beziehungen, Onlyfans
-            Benutzer, Sexpartys, Callgirls, Erotikjobs und vieles mehr! Suchst
-            du nach Escort Service in Zürich, Sextreffen in Aargau, Erotik
-            Massage in Winterthur oder Sugar Babe treffen. Vielleicht suchst du
-            nach einem Seriösen Begleitservice oder eine langfristige
-            Sexbeziehung in der Schweiz. Onlyfriends verfügt auch über Adult
-            Dating, Fetisch-Anzeigen und BDSM-Kontakte.
+            <strong> onlyfriend.ch</strong> ist dein Schweizer Erotikportal für
+            unverbindliche Sextreffen, diskrete Sexkontakte und aufregende
+            Inserate. Unsere Plattform bietet dir eine grosse Auswahl an
+            Angeboten – von privaten Erotikanzeigen bis hin zu exklusiven
+            Verlinkungen zu deinem Lieblings-<strong>OnlyFans</strong>-Account.
+            Mit uns kannst du schnell und einfach heisse Begegnungen
+            arrangieren, die genau deinen Vorlieben entsprechen.
             <br />
             <br />
-            Für sie, Erotikjobs <br /> Du wünschst dir einen dominanten Mann mit
-            grossem Schwanz und Sixpack? Auf onlyfriend.ch - Onlyfriends findest
-            du garantiert den passenden Sexpartner.
+            Um höchste Qualität zu gewährleisten, überprüft unser Team jedes
+            Inserat auf Echtheit und Verifizierung, damit du dich auf eine
+            sichere und seriöse Plattform verlassen kannst.
           </p>
           <br />
           <br />
-          <h3>Sex und Escort in der Schweiz</h3>
+          <h3>Vielfältige Sexinserate für jeden Geschmack</h3> <br />
+          <br />
           <p>
-            Von Zürich über Aargau bis hin zu Zug – bei uns findest du
-            Sexanzeigen von willigen Frauen in der gesamten Schweiz. So kannst
-            du dich ganz nach deinen Wünschen befriedigen lassen – sowohl bei
-            dir zu Hause als auch bei einem Sexpartner in deiner Nähe. Sexy
-            Girls lassen deine Erotikträume wahr werden. In unserem Schweizer
-            Sexforum kannst du dich ausserdem mit anderen Mitgliedern
-            austauschen und erfährst alles über die besten Sexclubs und Escorts
-            in deiner Region. Bestelle die schärfsten Sexpartner zu dir nach
-            Hause oder besuche sie ganz privat für geilen Sex in der Schweiz.
+            Ob Escort-Service, erotische Massagen, Casual-Dates oder aufregende
+            Fetisch-Abenteuer – bei onlyfriend.ch findest du alles, was das Herz
+            begehrt. Hier sind einige Highlights unseres Angebots:
+            <br />
+            <br />
+            <ui>
+              <li>
+                <strong>Escort-Service </strong> : Finde diskrete Begleitungen
+                in Städten wie Zürich,
+              </li>
+              <li>
+                <strong>Erotik-Massagen </strong> : Entspanne dich bei
+                sinnlichen Massagen in deiner Nähe.
+              </li>
+              <li>
+                <strong>OnlyFans-Verlinkungen </strong> : Entdecke exklusive
+                Inhalte von frei arbeitenden Frauen.
+              </li>
+              <li>
+                <strong>Sextreffen & Abenteuer </strong> : Plane aufregende
+                Begegnungen in der ganzen Schweiz.
+              </li>
+              <li>
+                <strong>Fetisch & BDSM </strong> : Tauche ein in eine Welt
+                voller Fantasien und spezieller Vorlieben.
+              </li>
+            </ui>
+            <br />
+            Unser breites Angebot umfasst auch Sexpartys, Callgirls,
+            Sugar-Babe-Dates und vieles mehr. Finde jetzt deine Vorliebe und
+            erlebe unvergleichliche Stunden.
           </p>
+          <br />
+          <h3>Für jeden das passende Abenteuer: unser Angebot </h3>
+          <br />
+          <strong>Für inh</strong>
+          <p>
+            Suchst du nach aufregendem Privatsex mit scharfen Girls, heißen
+            MILFs oder erfahrenen Frauen? Möchtest du deine Fantasien bei
+            Gangbangs, Gruppensex oder Fetisch-Treffen ausleben? Bei
+            onlyfriend.ch findest du Frauen, die dir all das und mehr
+            ermöglichen.{" "}
+          </p>
+          <br /> <strong>Für sie</strong>
+          <p>
+            Du wünschst dir einen starken, dominanten Mann mit Ausstrahlung? Ob
+            sinnliche Dates, leidenschaftliche Abenteuer oder wilder Sex – auf
+            onlyfriend.ch findest du garantiert den richtigen Partner, der deine
+            Wünsche wahr werden lässt.
+          </p>
+          <br />
+          <h3>Erotik und Abenteuer in deiner Nähe </h3>
+          <br />
+          <p>
+            Von Zürich über Aargau bis hin zu Zug – bei uns findest du Inserate
+            von sexhungrigen Frauen und Männern in der ganzen Schweiz. Bestelle
+            dir deinen Wunsch- partner direkt nach Hause oder triff dich in
+            einem privaten Umfeld für heiße Stunden.
+            <br />
+            <br />
+            In unserem <strong> Schweizer Erotikforum</strong> kannst du dich
+            ausserdem mit anderen Mitgliedern austauschen und alles über die
+            besten Clubs und Events in deiner Re- gion erfahren. Von Bordellen
+            über Swingerclubs bis hin zu Domina-Studios – entdecke jetzt die
+            heissesten Locations für deine Fantasien.
+            <br />
+            <br />
+            <strong>Deine Plattform für Erotik, Sex und Leidenschaft</strong>
+            <br />
+            Erlebe unverbindliche Abenteuer, entdecke spannende Inserate und
+            geniesse aufregende Treffen – alles diskret und sicher. Besuche
+            jetzt <strong> onlyfriend.ch</strong> und finde deinen perfekten
+            Sexpartner. Deine Erotikträume warten nur darauf, wahr zu werden!{" "}
+          </p>
+          <br />
+          <br />
+          <h3>Keywords für dein Erotikabenteuer in der Schweiz </h3>
+          <br />
+          <p>
+            Auf <strong> onlyfriend.ch</strong> findest du eine grosse Auswahl
+            an Erotik-Kleinanzeigen und Sexinseraten für jede Vorliebe. Ob du
+            nach Callgirls, Escortservice, eroti- schen Massagen,
+            Fetisch-Anzeigen oder BDSM-Kontakten suchst – bei uns bist du
+            richtig. Unsere Plattform bietet zusätzlich Inserate für Sexpartys,
+            Swin- ger-Kontakte, Adult-Dating, Dominas, Webcam-Shows und mehr.{" "}
+            <br />
+            <br />
+            Finde private <strong> Sexkontakte </strong> in Städten wie{" "}
+            <strong> Zürich, Luzern, Aargau</strong> oder anderen Regionen der
+            Schweiz. Lass dich von aufregenden{" "}
+            <strong>Sexpartys, Stripper-Inse- raten,</strong> oder diskreten
+            TS-Inseraten inspirieren. Onlyfriend.ch ist dein verlässlicher
+            Begleiter für <strong> Bordell-Inserate, Erotikjobs</strong> und
+            alle anderen erotischen Aben- teuer. <br />
+            <br />
+            Erlebe prickelnde Stunden, entdecke die besten{" "}
+            <strong>Erotik-Shops</strong> und genieße eine diskrete Atmosphäre –
+            sicher, einfach und aufregend. Starte noch heute und entdecke deine
+            Fantasien auf <strong> onlyfriend.ch</strong> .{" "}
+          </p>
+          <br />
         </div>
       </div>
     </>

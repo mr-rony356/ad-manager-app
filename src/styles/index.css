@@ -2476,3 +2476,11 @@ a:-webkit-any-link {
   background-color: #333;
   color: #fff;
 }
+.pagination .ellipsis {
+  padding: 0.5rem 1rem;
+  color: #333;
+  font-size: 16px;
+}
+li{
+  margin: 5px 0;
+}
