@@ -232,27 +232,41 @@ function HomePage({
               user={user}
               className="home__ads"
               ads={currentAds}
-              totalAds={ads.length}
+              total={ads.length}
               premiumAds={premiumAds}
               attributes={attributes}
-              indexOfFirstAd={indexOfFirstAd}
-              indexOfLastAd={indexOfLastAd}
             />
           </div>
         </div>
         <div className="pagination">
-          {[...Array(Math.ceil(ads.length / adsPerPage)).keys()].map(
-            (pageNumber) => (
-              <button
-                key={pageNumber + 1}
-                className={currentPage === pageNumber + 1 ? "active" : ""}
-                onClick={() => paginate(pageNumber + 1)}
-              >
-                {pageNumber + 1}
-              </button>
-            ),
-          )}
-        </div>
+          {[...Array(Math.ceil(ads.length / adsPerPage)).keys()]
+            .filter((pageNumber) => {
+              const page = pageNumber + 1;
+              const isStart = page <= 3; // Always show the first 3 pages
+              const isEnd = page >= ads.length / adsPerPage - 2; // Always show the last 3 pages
+              const isNearCurrent =
+                page >= currentPage - 1 && page <= currentPage + 1; // Show current page and its neighbors
+
+              return isStart || isEnd || isNearCurrent;
+            })
+            .map((pageNumber, index, filteredArray) => {
+              const page = pageNumber + 1;
+              const isEllipsis =
+                index > 0 && filteredArray[index - 1] + 1 !== pageNumber; // Check for gaps
+
+              return (
+                <React.Fragment key={page}>
+                  {isEllipsis && <span className="ellipsis">...</span>}
+                  <button
+                    className={currentPage === page ? "active" : ""}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </button>
+                </React.Fragment>
+              );
+            })}
+        </div>{" "}
         <div>
           <br />
           <br />

@@ -21,6 +21,7 @@ const SignupForm = ({ setBody }) => {
     setEmail(email);
 
     const res = await api.doSignup(name, email, password, password2);
+    console.log("signup", res);
     if (res.err) setErr(res.err);
     else setDisplayModal("register");
   };

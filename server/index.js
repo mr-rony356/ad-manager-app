@@ -766,16 +766,21 @@ server
 
       // Send the verification email
       const url = `${process.env.FRONTEND_URL}/verify?id=${item.insertedId}`;
-      sendEmail(
+      // console.log('Verification URL:', url);
+      // console.log('User email:', user.email);
+      // console.log('User name:', user.name);
+      await sendEmail(
         user.email,
         "Registrierung abschliessen",
         { name: user.name, url },
         "./templates/registerUser.handlebars",
       );
+      // console.log('Verification email sent successfully');
 
-      return res.status(200).json({ ok: true });
+      return res
+        .status(200)
+        .json({ ok: true, verifyId: item.insertedId, url: url });
     });
-
     /**
      * Check whether the user has a valid token
      */
@@ -928,7 +933,7 @@ server
       const ads = await req.db
         .collection("ads")
         .find(query)
-        .sort({ startDate: 1 })
+        .sort({ startDate: -1 })
         .toArray();
 
       return res.status(200).json(ads);

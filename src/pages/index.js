@@ -5,10 +5,8 @@ import ApiController from "@utils/API";
 import Cookies from "js-cookie";
 import Head from "next/head";
 import Image from "next/image";
-import { router } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import useScrollRestoration from "src/hooks/useScrollRestoration";
 import dynamic from "next/dynamic";
 // Dynamic imports for non-critical components
 const CookiesPopup = dynamic(() => import("@components/alerts/CookiesPopup"), {
@@ -126,7 +124,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
       try {
         const res = await api.fetchAds(tab, page);
         if (res) {
-          setAds(res.ads.reverse());
+          setAds(res.ads);
           setTotalPages(res.totalPages);
           setTotal(res.total);
           setCurrentPage(res.currentPage);
@@ -144,8 +142,8 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   // Pagination handler
   const paginate = useCallback(
     (pageNumber) => {
-      fetchAds(activeType, pageNumber);
       window.scrollTo({ top: 300, behavior: "smooth" });
+      fetchAds(activeType, pageNumber);
     },
     [fetchAds, activeType],
   );
@@ -197,6 +195,17 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
             </div>
             {loading ? (
               <div className="ads-skeleton-container">
+                <h1
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "bold",
+                    color: "#374151",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  Please Wait Ads Loading...
+                </h1>
+
                 {[...Array(5)].map((_, index) => (
                   <AdSkeleton key={index} />
                 ))}

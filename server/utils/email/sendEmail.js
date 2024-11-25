@@ -4,15 +4,17 @@ const fs = require("fs");
 const path = require("path");
 
 const sendEmail = async (email, subject, payload, template) => {
+  // console.log("Sending email to", email);
+  console.log("Subject:", process.env.EMAIL_HOST);
   try {
     // create reusable transporter object using the default SMTP transport
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: 587,
-      auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
-      },
+      // auth: {
+      //   user: process.env.EMAIL_USERNAME,
+      //   pass: process.env.EMAIL_PASSWORD,
+      // },
     });
 
     const source = fs.readFileSync(path.join(__dirname, template), "utf8");

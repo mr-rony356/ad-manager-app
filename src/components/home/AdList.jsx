@@ -3,15 +3,7 @@ import Ad from "@components/home/Ad";
 import PremiumAdCarousel from "@components/home/PremiumAdCarousel";
 import { useTranslation } from "next-i18next";
 
-const AdList = ({
-  ads,
-  premiumAds,
-  attributes,
-  user,
-  total,
-  indexOfLastAd,
-  indexOfFirstAd,
-}) => {
+const AdList = ({ ads, premiumAds, attributes, user, total }) => {
   const { t } = useTranslation();
 
   return (
@@ -25,7 +17,7 @@ const AdList = ({
         <PremiumAdCarousel ads={premiumAds} attributes={attributes} />
       )}
       <div className="ads">
-        {ads.map((ad) => (
+        {ads.slice().reverse().map((ad) => (
           <Ad key={ad._id} user={user} ad={ad} attributes={attributes} />
         ))}
         {ads.length === 0 && (
