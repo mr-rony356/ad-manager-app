@@ -133,43 +133,42 @@ server
         const page = parseInt(req.query.page) || 1;
         const limit = 50;
         const skip = (page - 1) * limit;
-        
-        // Parse sort option from query
-        const sort = req.query.sort ? JSON.parse(req.query.sort) : { startDate: 1 };
-    
+
         const [ads, total] = await Promise.all([
-          req.db.collection("ads")
+          req.db
+            .collection("ads")
             .find({
               $and: [
                 { endDate: { $gte: Date.now() } },
                 { type: parseInt(type) },
-                { $or: [{ active: { $exists: false } }, { active: true }] }
-              ]
+                { $or: [{ active: { $exists: false } }, { active: true }] },
+              ],
             })
-            .sort(sort)
+            .sort({ startDate: -1 })
             .skip(skip)
             .limit(limit)
             .toArray(),
-          
+
           req.db.collection("ads").countDocuments({
             $and: [
               { endDate: { $gte: Date.now() } },
               { type: parseInt(type) },
-              { $or: [{ active: { $exists: false } }, { active: true }] }
-            ]
-          })
+              { $or: [{ active: { $exists: false } }, { active: true }] },
+            ],
+          }),
         ]);
-    
+
         return res.status(200).json({
           ads,
           total,
           currentPage: page,
-          totalPages: Math.ceil(total / limit)
+          totalPages: Math.ceil(total / limit),
         });
       } catch (err) {
         return res.status(500).json({ err });
       }
-    });    /**
+    });
+    /**
      * Fetches all the ads created by me from the database
      */
     app.get("/api/ads/me", verifyJWT, async (req, res) => {
@@ -1716,64 +1715,68 @@ server
           const objectId = ObjectId.isValid(req.params.id)
             ? new ObjectId(req.params.id)
             : null;
-    
+
           // Retrieve the ad
           const ad = await req.db.collection("ads").findOne({ _id: objectId });
-    
+
           // Handle if ad not found
           if (!ad) {
             return res.status(404).json({ error: "Ad not found" });
           }
-    
+
           // Retrieve the user
           const user = await req.db
             .collection("users")
             .findOne({ name: res.locals.user });
-    
+
           // Retrieve the duration
           const durations = await req.db
             .collection("attributes")
             .findOne({ name: "durations" });
           const duration = durations.values[req.params.durationId];
-    
+
           // Set to true to enable cost calculation in the future
           const isCostEnabled = false;
-    
+
           // Calculate the total credits if cost is enabled
           const cDuration = isCostEnabled ? duration.credits : 0;
-          const cTags = isCostEnabled && ad.tags.length > 0 ? (ad.tags.length - 1) * 10 : 0;
-          const cRegions = isCostEnabled && ad.regions.length > 0 ? (ad.regions.length - 1) * 10 : 0;
+          const cTags =
+            isCostEnabled && ad.tags.length > 0 ? (ad.tags.length - 1) * 10 : 0;
+          const cRegions =
+            isCostEnabled && ad.regions.length > 0
+              ? (ad.regions.length - 1) * 10
+              : 0;
           const cTotal = cDuration + cTags + cRegions;
-    
+
           // Check the credit score of the user if cost is enabled
           if (isCostEnabled && user.credits < cTotal) {
             return res.status(400).json({ err: "The credit score is too low" });
           }
-    
+
           // Update the ad's startDate and endDate in the database
           const startDate = Date.now();
           const endDate = startDate + duration.duration * 24 * 60 * 60 * 1000;
           await req.db
             .collection("ads")
             .updateOne({ _id: ad._id }, { $set: { startDate, endDate } });
-    
+
           // Deduct the credits from the user's account if cost is enabled
           if (isCostEnabled) {
             await req.db
               .collection("users")
               .updateOne(
                 { name: user.name },
-                { $set: { credits: user.credits - cTotal } }
+                { $set: { credits: user.credits - cTotal } },
               );
           }
-    
+
           return res.status(200).json({ ok: true });
         } catch (err) {
           return res.status(500).json({ err });
         }
-      }
+      },
     );
-    
+
     /** Updates the attributes of a blog post */
     app.put(
       "/api/blog/:id",

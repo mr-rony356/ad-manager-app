@@ -105,7 +105,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
     search: null,
     verified: false,
   });
-
+  const adsPerPage = 50;
   // Memoized filtered ads
   const filteredAds = useMemo(() => {
     return ads.filter((ad) => {
@@ -161,7 +161,6 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
         <h1 className="home__title">
           {t("home__title", { region: "Schweiz" })}
         </h1>
-
         <div className="home__content">
           <div className="home__left">
             <FilterForm
@@ -216,18 +215,35 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
             )}{" "}
           </div>
         </div>
-
         <div className="pagination">
-          {[...Array(totalPages).keys()].map((pageNumber) => (
-            <button
-              key={pageNumber}
-              className={currentPage === pageNumber + 1 ? "active" : ""}
-              onClick={() => paginate(pageNumber + 1)}
-            >
-              {pageNumber + 1}
-            </button>
-          ))}
-        </div>
+          {[...Array(Math.ceil(total / adsPerPage)).keys()]
+            .filter((pageNumber) => {
+              const page = pageNumber + 1;
+              const isStart = page <= 3; // Always show the first 3 pages
+              const isEnd = page >= total / adsPerPage - 2; // Always show the last 3 pages
+              const isNearCurrent =
+                page >= currentPage - 1 && page <= currentPage + 1; // Show current page and its neighbors
+
+              return isStart || isEnd || isNearCurrent;
+            })
+            .map((pageNumber, index, filteredArray) => {
+              const page = pageNumber + 1;
+              const isEllipsis =
+                index > 0 && filteredArray[index - 1] + 1 !== pageNumber; // Check for gaps
+
+              return (
+                <React.Fragment key={page}>
+                  {isEllipsis && <span className="ellipsis">...</span>}
+                  <button
+                    className={currentPage === page ? "active" : ""}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </button>
+                </React.Fragment>
+              );
+            })}
+        </div>{" "}
       </div>
     </>
   );

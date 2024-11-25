@@ -64,20 +64,17 @@ export default class ApiController {
    * @param {*} type The type of ads to be fetched
    * @returns All the ads
    */
-  async fetchAds(type, page = 1, newest = false) {
+  async fetchAds(type, page = 1) {
     try {
-      const sortOption = newest ? { startDate: -1 } : { startDate: 1 };
       const promise = await fetch(
-        this.buildRequest(
-          `api/ads?type=${type}&page=${page}&sort=${JSON.stringify(sortOption)}`,
-          "GET",
-        ),
+        this.buildRequest(`api/ads?type=${type}&page=${page}`, "GET")
       ).then((res) => res.json());
       return promise;
     } catch (err) {
       console.error("API: Could not fetch ads", err);
     }
-  } /**
+  }
+  /**
    * Fetches all the ads created by me from the database
    * @param {*} token The JWT token of the user
    * @param {*} limit The limit of ads to be fetched
