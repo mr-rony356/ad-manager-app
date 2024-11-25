@@ -8,7 +8,7 @@ const AdList = ({
   premiumAds,
   attributes,
   user,
-  totalAds,
+  total,
   indexOfLastAd,
   indexOfFirstAd,
 }) => {
@@ -18,18 +18,14 @@ const AdList = ({
     <div className="ad__list">
       <div className="home__adsHeader">
         <h3>
-          <span className="home__adsCount">
-            {" "}
-            {indexOfFirstAd + 1} - {indexOfLastAd}
-          </span>{" "}
-          <small>{t("ads_count_of")}</small> {totalAds} {t("ads_count")}
+          {total} {t("ads_count")}
         </h3>
       </div>
       {premiumAds && premiumAds.length > 0 && (
         <PremiumAdCarousel ads={premiumAds} attributes={attributes} />
       )}
       <div className="ads">
-        {ads.reverse().map((ad) => (
+        {ads.map((ad) => (
           <Ad key={ad._id} user={user} ad={ad} attributes={attributes} />
         ))}
         {ads.length === 0 && (

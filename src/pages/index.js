@@ -15,7 +15,53 @@ const CookiesPopup = dynamic(() => import("@components/alerts/CookiesPopup"), {
   loading: () => null,
   ssr: false,
 });
-
+// Skeleton Loader Component
+const AdSkeleton = () => (
+  <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      padding: "1rem",
+      border: "1px solid #e5e7eb",
+      borderRadius: "0.5rem",
+      marginBottom: "1rem",
+    }}
+  >
+    <div
+      style={{
+        width: "100%",
+        height: "200px",
+        backgroundColor: "#d1d5db",
+        marginBottom: "1rem",
+        borderRadius: "0.375rem",
+      }}
+    ></div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+      }}
+    >
+      <div
+        style={{
+          height: "1rem",
+          backgroundColor: "#d1d5db",
+          marginBottom: "0.5rem",
+          borderRadius: "0.25rem",
+        }}
+      ></div>
+      <div
+        style={{
+          height: "1rem",
+          backgroundColor: "#d1d5db",
+          width: "75%",
+          borderRadius: "0.25rem",
+        }}
+      ></div>
+    </div>
+  </div>
+);
 const FilterForm = dynamic(() => import("@components/forms/FilterForm"), {
   loading: () => <div>Loading filters...</div>,
 });
@@ -47,7 +93,9 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
 
   const [ads, setAds] = useState(initialAds.ads || []);
   const [totalPages, setTotalPages] = useState(initialAds.totalPages || 1);
+  const [total, setTotal] = useState(initialAds.total || 1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [activeType, setActiveType] = useState(0);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -74,16 +122,20 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   // Efficient ad fetching
   const fetchAds = useCallback(
     async (tab, page = 1) => {
+      setLoading(true);
       try {
         const res = await api.fetchAds(tab, page);
         if (res) {
-          setAds(res.ads);
+          setAds(res.ads.reverse());
           setTotalPages(res.totalPages);
+          setTotal(res.total);
           setCurrentPage(res.currentPage);
         }
       } catch (error) {
         console.error("Failed to fetch ads", error);
         setAds([]);
+      } finally {
+        setLoading(false);
       }
     },
     [api],
@@ -144,12 +196,21 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
                 priority
               />
             </div>
-            <AdList
-              user={user}
-              ads={filteredAds}
-              attributes={attributes}
-              premiumAds={premiumAds}
-            />
+            {loading ? (
+              <div className="ads-skeleton-container">
+                {[...Array(5)].map((_, index) => (
+                  <AdSkeleton key={index} />
+                ))}
+              </div>
+            ) : (
+              <AdList
+                user={user}
+                ads={ads}
+                attributes={attributes}
+                premiumAds={premiumAds}
+                total={total}
+              />
+            )}{" "}
             {isCookiesPopupOpen && (
               <CookiesPopup setIsCookiesPopupOpen={setIsCookiesPopupOpen} />
             )}{" "}

@@ -133,6 +133,9 @@ server
         const page = parseInt(req.query.page) || 1;
         const limit = 50;
         const skip = (page - 1) * limit;
+        
+        // Parse sort option from query
+        const sort = req.query.sort ? JSON.parse(req.query.sort) : { startDate: 1 };
     
         const [ads, total] = await Promise.all([
           req.db.collection("ads")
@@ -143,7 +146,7 @@ server
                 { $or: [{ active: { $exists: false } }, { active: true }] }
               ]
             })
-            .sort({ startDate: 1 })
+            .sort(sort)
             .skip(skip)
             .limit(limit)
             .toArray(),
@@ -166,8 +169,7 @@ server
       } catch (err) {
         return res.status(500).json({ err });
       }
-    });
-    /**
+    });    /**
      * Fetches all the ads created by me from the database
      */
     app.get("/api/ads/me", verifyJWT, async (req, res) => {
