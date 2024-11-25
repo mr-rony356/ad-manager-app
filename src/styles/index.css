@@ -187,7 +187,7 @@ a:-webkit-any-link {
 /* Customize the label (the container) */
 .verificationCheck {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   margin: 0;
   padding: 0;
   color: lightblue;
@@ -272,7 +272,7 @@ a:-webkit-any-link {
 .nav__login {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   cursor: pointer;
 }
 
@@ -381,7 +381,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 0.4em;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .ad,
@@ -1083,7 +1083,7 @@ a:-webkit-any-link {
   min-width: 15%;
   padding: 20px;
   height: fit-content;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 .adminPage__contentComponents {
@@ -1161,7 +1161,7 @@ a:-webkit-any-link {
 
 .ad__time {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .message__title {
@@ -1187,7 +1187,7 @@ a:-webkit-any-link {
 }
 
 .chat__partnerMessage {
-  justify-content: start;
+  justify-content: flex-start;
   padding: 1em;
   border-radius: 10px;
   background-color: gray;
@@ -1197,7 +1197,7 @@ a:-webkit-any-link {
 }
 
 .chat__myMessage {
-  justify-content: end;
+  justify-content: flex-end;
   padding: 1em;
   border-radius: 10px;
   background-color: var(--blue);
@@ -1412,7 +1412,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: row;
   gap: 1em;
-  justify-content: end;
+  justify-content: flex-end;
   flex-wrap: wrap;
   align-items: center;
 }
@@ -1589,7 +1589,7 @@ a:-webkit-any-link {
   align-items: center;
   gap: 0 1em;
   width: 50%;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 .form__sections {
@@ -1716,7 +1716,7 @@ a:-webkit-any-link {
 
 .home__content {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: center;
 
   gap: 3em;
@@ -2096,7 +2096,7 @@ a:-webkit-any-link {
   .adpage_title {
     margin-bottom: 1em;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     gap: 0.5em;
   }
 
@@ -2220,7 +2220,7 @@ a:-webkit-any-link {
   .form__sectionPart {
     flex-direction: row;
     gap: 1em;
-    align-items: start;
+    align-items: flex-start;
     width: 100%;
     margin-top: 1em;
     align-items: center;
@@ -2230,7 +2230,7 @@ a:-webkit-any-link {
   .form__sectionPart3 {
     flex-direction: row;
     gap: 1em;
-    align-items: start;
+    align-items: flex-start;
     width: 100%;
     justify-content: center;
   }
@@ -2282,7 +2282,7 @@ a:-webkit-any-link {
   }
 
   .support__number {
-    text-align: start;
+    text-align: flex-start;
   }
 
   .sticky-buttons {
@@ -2430,7 +2430,7 @@ a:-webkit-any-link {
     flex-direction: column;
   }
   .tabs {
-    align-items: end;
+    align-items: flex-end;
     margin-bottom: 25px;
     justify-content: center;
   }
@@ -2444,7 +2444,7 @@ a:-webkit-any-link {
 .adDetail__container__images {
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   gap: 10px;
   padding: 0 15px;
   color: white;

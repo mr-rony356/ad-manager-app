@@ -170,8 +170,6 @@ const AdDetail = ({
       behavior: "smooth",
     });
   };
-  console.log(ad);
-  console.log(attributes);
   return (
     <>
       <Head>

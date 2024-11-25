@@ -129,27 +129,44 @@ server
      */
     app.get("/api/ads", async (req, res) => {
       try {
-        // Retrieve the type parameter submitted in the url
         const type = req.query.type;
-
-        // Fetch all ads from the database
-        const ads = await req.db
-          .collection("ads")
-          .find({
+        const page = parseInt(req.query.page) || 1;
+        const limit = 50;
+        const skip = (page - 1) * limit;
+    
+        const [ads, total] = await Promise.all([
+          req.db.collection("ads")
+            .find({
+              $and: [
+                { endDate: { $gte: Date.now() } },
+                { type: parseInt(type) },
+                { $or: [{ active: { $exists: false } }, { active: true }] }
+              ]
+            })
+            .sort({ startDate: 1 })
+            .skip(skip)
+            .limit(limit)
+            .toArray(),
+          
+          req.db.collection("ads").countDocuments({
             $and: [
               { endDate: { $gte: Date.now() } },
               { type: parseInt(type) },
-              { $or: [{ active: { $exists: false } }, { active: true }] },
-            ],
+              { $or: [{ active: { $exists: false } }, { active: true }] }
+            ]
           })
-          .sort({ startDate: 1 })
-          .toArray();
-        return res.status(200).json(ads);
+        ]);
+    
+        return res.status(200).json({
+          ads,
+          total,
+          currentPage: page,
+          totalPages: Math.ceil(total / limit)
+        });
       } catch (err) {
         return res.status(500).json({ err });
       }
     });
-
     /**
      * Fetches all the ads created by me from the database
      */
