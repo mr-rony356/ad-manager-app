@@ -140,13 +140,14 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   );
 
   // Pagination handler
-  const paginate = useCallback(
-    (pageNumber) => {
-      window.scrollTo({ top: 300, behavior: "smooth" });
-      fetchAds(activeType, pageNumber);
-    },
-    [fetchAds, activeType],
-  );
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    window.scrollTo({
+      top: 300,
+      left: 0,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <>
