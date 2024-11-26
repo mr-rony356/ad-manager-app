@@ -140,14 +140,18 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
   );
 
   // Pagination handler
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({
-      top: 300,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
+  const paginate = useCallback(
+    (pageNumber) => {
+      // Scroll to top immediately
+      window.scrollTo({ top: 300, left: 0, behavior: "smooth" });
+
+      // Add a slight delay before fetching ads to ensure scrolling is prioritized
+      setTimeout(() => {
+        fetchAds(activeType, pageNumber);
+      }, 300); // Adjust delay as necessary for smoother experience
+    },
+    [fetchAds, activeType],
+  );
 
   return (
     <>
@@ -186,20 +190,24 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
 
           <div className="home__right">
             <div className="button--inline">
-              {attributes
-                ?.find((a) => a.name === "types")
-                ?.values.map((value) => (
-                  <button
-                    key={value.id}
-                    className={
-                      activeType === value.id ? "button" : "button inactive"
-                    }
-                    onClick={() => fetchAds(value.id)}
-                  >
-                    {value.name} {t("home__ad")}
-                  </button>
-                ))}
-
+              {attributes &&
+                attributes.length > 0 &&
+                attributes
+                  .find((attribute) => attribute.name === "types")
+                  .values.map((value) => (
+                    <button
+                      key={value.id}
+                      className={
+                        activeType === value.id ? "button" : "button inactive"
+                      }
+                      onClick={() => {
+                         fetchAds(value.id)
+                         setActiveType(value.id)
+                        }}
+                    >
+                      {value.name} {t("home__ad")}
+                    </button>
+                  ))}
               <Image
                 src="/assets/filter.png"
                 width={500}
