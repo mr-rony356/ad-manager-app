@@ -11,10 +11,10 @@ const sendEmail = async (email, subject, payload, template) => {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: 587,
-      // auth: {
-      //   user: process.env.EMAIL_USERNAME,
-      //   pass: process.env.EMAIL_PASSWORD,
-      // },
+      auth: {
+        user: process.env.HOST_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
     });
 
     const source = fs.readFileSync(path.join(__dirname, template), "utf8");
