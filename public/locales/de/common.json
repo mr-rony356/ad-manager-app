@@ -4,6 +4,7 @@
   "ads_count": "Inserate",
   "ads_count_of": "von",
   "home__adPlaceholder": "Aktuell keine Inserate vorhanden",
+  "skeleton_text": "Bitte warten, Inserate werden geladen...",
 
   "filterForm__filterButton": "Filter Anwenden",
   "filterForm__verifiedCheck": "Nur verifizierte Inserate",

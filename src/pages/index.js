@@ -201,9 +201,9 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
                         activeType === value.id ? "button" : "button inactive"
                       }
                       onClick={() => {
-                         fetchAds(value.id)
-                         setActiveType(value.id)
-                        }}
+                        fetchAds(value.id);
+                        setActiveType(value.id);
+                      }}
                     >
                       {value.name} {t("home__ad")}
                     </button>
@@ -227,7 +227,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
                     marginBottom: "1rem",
                   }}
                 >
-                  Please Wait Ads Loading...
+                  {t("skeleton_text")}
                 </h1>
 
                 {[...Array(5)].map((_, index) => (
