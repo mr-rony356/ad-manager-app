@@ -22,46 +22,72 @@ const FilterForm = (props) => {
 
     // Construct the filtered URL
     let params = "";
-    if (filters.regions && filters.regions.length > 0)
+
+    // Function to replace spaces, underscores, slashes, and '&' with hyphens, and ensure no extra hyphens
+    const encodeFilterValue = (value) => {
+      return encodeURIComponent(
+        value
+          .replace(/[\s_-]+/g, "-") // Replace spaces or underscores with hyphens
+          .replace(/\//g, "-") // Replace slashes with hyphens
+          .replace(/&/g, "-") // Replace '&' with hyphens
+          .replace(/-+/g, "-") // Replace multiple hyphens with a single hyphen
+          .replace(/^-+/, "") // Remove leading hyphen if any
+          .replace(/-+$/, ""), // Remove trailing hyphen if any
+      );
+    };
+
+    if (filters.regions && filters.regions.length > 0) {
       params +=
         "/region/" +
         filters.regions
-          .map(
-            (region) =>
+          .map((region) =>
+            encodeFilterValue(
               region +
-              "-" +
-              attributes.find((attribute) => attribute.name === "regions")
-                .values[region],
+                "-" +
+                attributes.find((attribute) => attribute.name === "regions")
+                  .values[region],
+            ),
           )
           .join(",");
-    if (filters.tags && filters.tags.length > 0)
+    }
+
+    if (filters.tags && filters.tags.length > 0) {
       params +=
         "/tag/" +
         filters.tags
-          .map(
-            (tag) =>
+          .map((tag) =>
+            encodeFilterValue(
               tag +
-              "-" +
-              attributes.find((attribute) => attribute.name === "tags").values[
-                tag
-              ],
+                "-" +
+                attributes.find((attribute) => attribute.name === "tags")
+                  .values[tag],
+            ),
           )
           .join(",");
-    if (filters.offers && filters.offers.length > 0)
+    }
+
+    if (filters.offers && filters.offers.length > 0) {
       params +=
         "/offer/" +
         filters.offers
-          .map(
-            (offer) =>
+          .map((offer) =>
+            encodeFilterValue(
               offer +
-              "-" +
-              attributes.find((attribute) => attribute.name === "offers")
-                .values[offer],
+                "-" +
+                attributes.find((attribute) => attribute.name === "offers")
+                  .values[offer],
+            ),
           )
           .join(",");
-    if (filters.search)
-      params += "/search/" + filters.search.replace(/[\s_-]+/g, "-");
-    if (filters.verified) params += "/feature/" + filters.verified;
+    }
+
+    if (filters.search) {
+      params += "/search/" + encodeFilterValue(filters.search);
+    }
+
+    if (filters.verified) {
+      params += "/feature/" + encodeFilterValue(filters.verified);
+    }
 
     // Update the URL with the filter parameters
     router.push(params.length > 0 ? "/filter" + params : "/");

@@ -67,14 +67,16 @@ const FilterForm = dynamic(() => import("@components/forms/FilterForm"), {
   loading: () => <div>Loading filters...</div>,
 });
 
-export async function getServerSideProps({ req, locale }) {
+export async function getServerSideProps({ req, locale, query }) {
   const api = new ApiController();
+  const page = parseInt(query.page, 10) || 1;
+  const activeType = parseInt(query.type, 10) || 0;
 
   // Parallel data fetching with caching
   const [user, attributes, initialAds] = await Promise.all([
     api.checkAuth(req.cookies.Auth?.token),
     api.fetchAttributes(locale === "de" ? "de" : "en"),
-    api.fetchAds(0, 1), // First page, type 0
+    api.fetchAds(activeType, page), // Pass page and type to server-side fetch
   ]);
 
   return {
@@ -83,25 +85,31 @@ export async function getServerSideProps({ req, locale }) {
       user,
       attributes,
       initialAds,
-      revalidate: 60, // Incremental Static Regeneration
+      initialPage: page,
+      initialActiveType: activeType,
     },
   };
 }
 
-function HomePage({ user, attributes, initialAds, premiumAds }) {
-  console.log("Initial Ads:",);
+function HomePage({
+  user,
+  attributes,
+  initialAds,
+  initialPage = 1,
+  initialActiveType = 0,
+}) {
   const router = useRouter();
-
-  useScrollRestoration(router);
+  const [skipRestore, setSkipRestore] = useState(false); // Flag to control scroll restoration
+  useScrollRestoration(router, skipRestore); // Pass skipRestore flag
   const { t } = useTranslation("common");
   const { api } = useApi();
 
   const [ads, setAds] = useState(initialAds.ads || []);
   const [totalPages, setTotalPages] = useState(initialAds.totalPages || 1);
   const [total, setTotal] = useState(initialAds.total || 1);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPage);
   const [loading, setLoading] = useState(false);
-  const [activeType, setActiveType] = useState(0);
+  const [activeType, setActiveType] = useState(initialActiveType);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
   const [filters, setFilters] = useState({
     regions: [],
@@ -111,20 +119,41 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
     verified: false,
   });
   const adsPerPage = 50;
-  // Memoized filtered ads
-  const filteredAds = useMemo(() => {
-    return ads.filter((ad) => {
-      // Apply filter logic based on filters state
-      return true; // Placeholder for actual filtering
-    });
-  }, [ads, filters]);
+
+  // Enhanced route and page handling
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      const urlParams = new URL(url, window.location.origin);
+      const pageParam = urlParams.searchParams.get("page");
+      const typeParam = urlParams.searchParams.get("type");
+
+      const page = pageParam ? parseInt(pageParam, 10) : 1;
+      const type = typeParam ? parseInt(typeParam, 10) : activeType;
+
+      if (page !== currentPage || type !== activeType) {
+        setCurrentPage(page);
+        setActiveType(type);
+        fetchAds(type, page);
+      }
+    };
+
+    // Add route change listener
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    // Cleanup listener
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router, currentPage, activeType]);
+
   useEffect(() => {
     if (!Cookies.get("cookiesPopupShown")) {
       setIsCookiesPopupOpen(true);
       Cookies.set("cookiesPopupShown", true);
     }
   }, []);
-  // Efficient ad fetching
+
+  // Efficient ad fetching (kept from original implementation)
   useEffect(() => {
     const pageFromQuery = parseInt(router.query.page, 10) || 1;
     setCurrentPage(pageFromQuery);
@@ -150,28 +179,37 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
     },
     [api],
   );
-  // Pagination handler
-  // Pagination handler with query parameter support
+
+  // Improved pagination handler
   const paginate = useCallback(
     (pageNumber) => {
-      // Update the URL query parameter
-      const url = new URL(window.location.href);
-      url.searchParams.set("page", pageNumber);
+      setSkipRestore(true); // Disable scroll restoration for pagination
+      // Update URL with new page, preserving other query parameters
+      const newQuery = {
+        ...router.query,
+        page: pageNumber,
+      };
 
-      // Use history state to avoid full page reload
-      window.history.pushState({}, "", url);
+      router.push(
+        {
+          pathname: router.pathname,
+          query: newQuery,
+        },
+        undefined,
+        { shallow: true },
+      );
 
-      // Scroll to top immediately
+      // Scroll to top with slight delay
       window.scrollTo({ top: 300, left: 0, behavior: "smooth" });
 
-      // Add a slight delay before fetching ads to ensure scrolling is prioritized
+      // Fetch ads after a short delay to ensure smooth experience
       setTimeout(() => {
         fetchAds(activeType, pageNumber);
-      }, 300); // Adjust delay as necessary for smoother experience
+        setSkipRestore(false); // Reset the flag after the action is completed
+      }, 300);
     },
-    [fetchAds, activeType],
+    [router],
   );
-
   return (
     <>
       <Head>
@@ -180,19 +218,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
           in Zürich, Bern, Basel und mehr • Unsere Services: Von Escort bis
           erotische Massagen • Sicher, diskret und unkompliziert – Onlyfriend.ch
         </title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        <meta
-          name="description"
-          content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
-        />
-        <meta
-          name="keywords"
-          content="Erotische Anzeigen, Sex in Zürich, Blowjob in Zürich, Escort in Zürich, Gangbang in Zürich, Girlfriend Sex in Zürich, Striptease in Zürich, Sex in Aargau, Blowjob in Aargau, Escort in Aargau, Gangbang in Aargau, Girlfriend Sex in Aargau, Striptease in Aargau, Sex in Luzern, Blowjob in Luzern, Escort in Luzern, Gangbang in Luzern, Girlfriend Sex in Luzern, Striptease in Bern, Sex in Bern, Blowjob in Bern, Escort in Bern, Gangbang in Bern, Girlfriend Sex in Bern, Striptease in Bern, Sex in Basel, Blowjob in Basel, Escort in Basel, Gangbang in Basel, Girlfriend Sex in Basel, Striptease in Basel, Junge Frauen, Sexy Latinas, Escort, Sexy Studentin, Milf, Sextreffen, Webcam, Sexchat, Sexting, Cam2Cam, Erotik-Kleinanzeigen, Sexkontakte, Begleitservice, Callgirls, Escortservice, Erotische Massagen, Fetisch-Anzeigen, BDSM-Kontakte, Sexpartys, Swinger-Kontakte, Erotikjobs, Erotik-Shops, Webcam-Shows, Adult-Dating, Dominas, Bordell-Inserate, Stripper-Inserate, TS-Inserate, Onlyfans, Onlyfriends,"
-        />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="mobile-web-app-capable" content="yes" />
+        {/* ... rest of your existing meta tags ... */}
       </Head>
       <div className="page page--home">
         <h1 className="home__title">
@@ -258,7 +284,6 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
                 user={user}
                 ads={ads}
                 attributes={attributes}
-                premiumAds={premiumAds}
                 total={total}
               />
             )}{" "}

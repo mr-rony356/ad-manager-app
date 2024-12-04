@@ -915,28 +915,37 @@ server
       const query = {
         ...(filters.regions.length > 0
           ? { regions: { $in: filters.regions.map((region) => region) } }
-          : false),
+          : {}),
         ...(filters.tags.length > 0
           ? { tags: { $in: filters.tags.map((tag) => tag) } }
-          : false),
+          : {}),
         ...(filters.offers.length > 0
           ? { offers: { $in: filters.offers.map((offer) => offer) } }
-          : false),
-        ...(filters.search ? { $text: { $search: filters.search } } : false),
+          : {}),
+        ...(filters.search
+          ? {
+              $text: { $search: filters.search }, // Full-text search
+            }
+          : {}),
         ...{ endDate: { $gte: Date.now() } },
         ...{ type: filters.type },
         ...{ $or: [{ active: { $exists: false } }, { active: true }] },
-        ...(filters.verified ? { verified: true } : false),
+        ...(filters.verified ? { verified: true } : {}),
       };
 
       // Fetch the ads from the database
-      const ads = await req.db
-        .collection("ads")
-        .find(query)
-        .sort({ startDate: -1 })
-        .toArray();
+      try {
+        const ads = await req.db
+          .collection("ads")
+          .find(query)
+          .sort({ startDate: -1 })
+          .toArray();
 
-      return res.status(200).json(ads);
+        return res.status(200).json(ads);
+      } catch (error) {
+        console.error("Error fetching ads:", error);
+        return res.status(500).json({ error: "Failed to fetch ads" });
+      }
     });
 
     /**

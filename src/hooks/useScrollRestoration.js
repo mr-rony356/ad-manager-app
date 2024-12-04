@@ -13,12 +13,18 @@ function restoreScrollPos(url) {
   }
 }
 
-export default function useScrollRestoration(router) {
+export default function useScrollRestoration(
+  router,
+  shouldSkipRestore,
+) {
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      let shouldScrollRestore = false;
+    if ("scrollRestoration" in window.history && !shouldSkipRestore) {
+      let shouldScrollRestore = !shouldSkipRestore; // Control whether to restore scroll
       window.history.scrollRestoration = "manual";
-      restoreScrollPos(router.asPath);
+
+      if (!shouldSkipRestore) {
+        restoreScrollPos(router.asPath);
+      }
 
       const onBeforeUnload = (event) => {
         saveScrollPos(router.asPath);
@@ -51,5 +57,5 @@ export default function useScrollRestoration(router) {
         Router.beforePopState(() => true);
       };
     }
-  }, [router]);
+  }, [router, shouldSkipRestore]);
 }
