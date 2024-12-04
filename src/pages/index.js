@@ -8,6 +8,8 @@ import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
+import useScrollRestoration from "@hooks/useScrollRestoration";
+import { router } from "next/router";
 // Dynamic imports for non-critical components
 const CookiesPopup = dynamic(() => import("@components/alerts/CookiesPopup"), {
   loading: () => null,
@@ -86,6 +88,7 @@ export async function getServerSideProps({ req, locale }) {
 }
 
 function HomePage({ user, attributes, initialAds, premiumAds }) {
+  useScrollRestoration(router);
   const { t } = useTranslation("common");
   const { api } = useApi();
 
@@ -157,16 +160,16 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
     <>
       <Head>
         <title>
-          Erotische Anzeigen für Sexkontakte und Onlyfans Accounts in der
-          Schweiz - Die besten Sex & Erotik Anzeigen der Schweiz: Für jeden
-          Geschmack! onlyfriend.ch ▷ Das Schweizer Sex & Erotik Inserate Portal.
+          Erotische Anzeigen in der Schweiz • Sextreffen und diskrete Kontakte
+          in Zürich, Bern, Basel und mehr • Unsere Services: Von Escort bis
+          erotische Massagen • Sicher, diskret und unkompliziert – Onlyfriend.ch
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta
           name="description"
-          content="Entdecken Sie auf unserer Webseite erotische Anzeigen für Sexkontake und Onlyfans Accounts in der Schweiz. Treffen Sie heiße Girls in Ihrer Nähe und erleben Sie prickelnde Abenteuer. Ohne Anmeldung können Sie direkt mit den Girls in Kontakt kommen."
+          content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
         />
         <meta
           name="keywords"
@@ -280,10 +283,10 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
         <div>
           <br />
           <br />
-          <h3>
+          <h1>
             Sextreffen in der Schweiz: Die besten Sexinserate und Kontakte auf
             onlyfriend.ch
-          </h3>
+          </h1>
           <br />
           <p>
             Du möchtest aufregende Sextreffen in der Schweiz erleben? Auf
@@ -295,10 +298,10 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
           </p>
           <br />
           <br />
-          <h3>
+          <h2>
             onlyfriend.ch – Dein Erotikportal für diskrete Sextreffen und heisse
             Kontakte
-          </h3>
+          </h2>
           <br />
           <p>
             <strong> onlyfriend.ch</strong> ist dein Schweizer Erotikportal für
@@ -316,7 +319,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
           </p>
           <br />
           <br />
-          <h3>Vielfältige Sexinserate für jeden Geschmack</h3> <br />
+          <h2>Vielfältige Sexinserate für jeden Geschmack</h2> <br />
           <br />
           <p>
             Ob Escort-Service, erotische Massagen, Casual-Dates oder aufregende
@@ -352,7 +355,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
             erlebe unvergleichliche Stunden.
           </p>
           <br />
-          <h3>Für jeden das passende Abenteuer: unser Angebot </h3>
+          <h2>Für jeden das passende Abenteuer: unser Angebot </h2>
           <br />
           <strong>Für inh</strong>
           <p>
@@ -370,7 +373,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
             Wünsche wahr werden lässt.
           </p>
           <br />
-          <h3>Erotik und Abenteuer in deiner Nähe </h3>
+          <h2>Erotik und Abenteuer in deiner Nähe </h2>
           <br />
           <p>
             Von Zürich über Aargau bis hin zu Zug – bei uns findest du Inserate
@@ -395,7 +398,7 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
           </p>
           <br />
           <br />
-          <h3>Keywords für dein Erotikabenteuer in der Schweiz </h3>
+          <h2>Keywords für dein Erotikabenteuer in der Schweiz </h2>
           <br />
           <p>
             Auf <strong> onlyfriend.ch</strong> findest du eine grosse Auswahl
@@ -420,6 +423,49 @@ function HomePage({ user, attributes, initialAds, premiumAds }) {
             Fantasien auf <strong> onlyfriend.ch</strong> .{" "}
           </p>
           <br />
+          <br />
+          <h2>Warum Onlyfriend.ch für erotische Kontakte?</h2>
+          <br />
+          <p>
+            Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
+            Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
+            komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
+            hochwertiges Nutzererlebnis.“
+          </p>
+          <br />
+          <p>
+            <h4>Entdecken Sie:</h4>
+            <ul>
+              <li>Erotische Massagen in Zürich und Genf</li>
+              <li>Escort-Services für jeden Anlass</li>
+              <li>Swinger- und Fetisch-Kontakte in Ihrer Region</li>
+            </ul>
+            <h4>Sextreffen leicht gemacht – So funktioniert's</h4>
+            <ul>
+              <li>
+                <strong>Stöbern Sie durch unsere Kategorien:</strong> Wählen Sie
+                aus einer Vielzahl von Anzeigen, die nach Ihren Vorlieben und
+                Ihrem Standort sortiert sind.
+              </li>
+              <li>
+                <strong>Kontakt aufnehmen – direkt und diskret:</strong> Ohne
+                Anmeldung können Sie direkt über unsere Plattform mit den
+                Anbietern in Kontakt treten. Alle Anzeigen sind klar und
+                transparent gestaltet.
+              </li>
+              <li>
+                <strong>Treffen Sie Ihre Wahl:</strong> Entscheiden Sie sich für
+                ein Treffen oder eine Interaktion Ihrer Wahl. Unsere geprüften
+                Anzeigen sorgen dafür, dass Sie sich auf Qualität und Diskretion
+                verlassen können.
+              </li>
+              <li>
+                <strong>Erleben Sie prickelnde Abenteuer:</strong> Genießen Sie
+                Ihre Erfahrung mit einer Person, die Ihre Wünsche teilt – alles
+                in einem sicheren und anonymen Rahmen.
+              </li>
+            </ul>
+          </p>
         </div>
       </div>
     </>

@@ -410,6 +410,44 @@ function HomePage({
             Fantasien auf <strong> onlyfriend.ch</strong> .{" "}
           </p>
           <br />
+          <h3>Warum Onlyfriend.ch für erotische Kontakte?</h3>
+          <p>
+            „Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
+            Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
+            komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
+            hochwertiges Nutzererlebnis.“
+          </p>
+          <h4>Entdecken Sie:</h4>
+          <ul>
+            <li>Erotische Massagen in Zürich und Genf</li>
+            <li>Escort-Services für jeden Anlass</li>
+            <li>Swinger- und Fetisch-Kontakte in Ihrer Region</li>
+          </ul>
+          <h4>Sextreffen leicht gemacht – So funktioniert's</h4>
+          <ol>
+            <li>
+              <strong>Stöbern Sie durch unsere Kategorien:</strong> Wählen Sie
+              aus einer Vielzahl von Anzeigen, die nach Ihren Vorlieben und
+              Ihrem Standort sortiert sind.
+            </li>
+            <li>
+              <strong>Kontakt aufnehmen – direkt und diskret:</strong> Ohne
+              Anmeldung können Sie direkt über unsere Plattform mit den
+              Anbietern in Kontakt treten. Alle Anzeigen sind klar und
+              transparent gestaltet.
+            </li>
+            <li>
+              <strong>Treffen Sie Ihre Wahl:</strong> Entscheiden Sie sich für
+              ein Treffen oder eine Interaktion Ihrer Wahl. Unsere geprüften
+              Anzeigen sorgen dafür, dass Sie sich auf Qualität und Diskretion
+              verlassen können.
+            </li>
+            <li>
+              <strong>Erleben Sie prickelnde Abenteuer:</strong> Genießen Sie
+              Ihre Erfahrung mit einer Person, die Ihre Wünsche teilt – alles in
+              einem sicheren und anonymen Rahmen.
+            </li>
+          </ol>
         </div>
       </div>
     </>
