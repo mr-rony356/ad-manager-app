@@ -76,7 +76,7 @@ export async function getServerSideProps({ req, locale, query }) {
   const [user, attributes, initialAds] = await Promise.all([
     api.checkAuth(req.cookies.Auth?.token),
     api.fetchAttributes(locale === "de" ? "de" : "en"),
-    api.fetchAds(activeType, page), // Pass page and type to server-side fetch
+    api.fetchAds(activeType, page),
   ]);
 
   return {
@@ -99,11 +99,13 @@ function HomePage({
   initialActiveType = 0,
 }) {
   const router = useRouter();
-  const [skipRestore, setSkipRestore] = useState(false); // Flag to control scroll restoration
-  useScrollRestoration(router, skipRestore); // Pass skipRestore flag
+  const [skipRestore, setSkipRestore] = useState(false);
+  useScrollRestoration(router, skipRestore);
+
   const { t } = useTranslation("common");
   const { api } = useApi();
 
+  // State Management
   const [ads, setAds] = useState(initialAds.ads || []);
   const [totalPages, setTotalPages] = useState(initialAds.totalPages || 1);
   const [total, setTotal] = useState(initialAds.total || 1);
@@ -120,7 +122,7 @@ function HomePage({
   });
   const adsPerPage = 50;
 
-  // Enhanced route and page handling
+  // Route Change Handling
   useEffect(() => {
     const handleRouteChange = (url) => {
       const urlParams = new URL(url, window.location.origin);
@@ -137,29 +139,26 @@ function HomePage({
       }
     };
 
-    // Add route change listener
     router.events.on("routeChangeComplete", handleRouteChange);
-
-    // Cleanup listener
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange);
-    };
+    return () => router.events.off("routeChangeComplete", handleRouteChange);
   }, [router, currentPage, activeType]);
 
+  // Cookies Popup
   useEffect(() => {
     if (!Cookies.get("cookiesPopupShown")) {
       setIsCookiesPopupOpen(true);
-      Cookies.set("cookiesPopupShown", true);
+      Cookies.set("cookiesPopupShown", "true", { expires: 30 });
     }
   }, []);
 
-  // Efficient ad fetching (kept from original implementation)
+  // Initial Ad Fetching
   useEffect(() => {
     const pageFromQuery = parseInt(router.query.page, 10) || 1;
     setCurrentPage(pageFromQuery);
     fetchAds(activeType, pageFromQuery);
   }, [router.query.page, activeType]);
 
+  // Fetch Ads Callback
   const fetchAds = useCallback(
     async (tab, page = 1) => {
       setLoading(true);
@@ -180,11 +179,11 @@ function HomePage({
     [api],
   );
 
-  // Improved pagination handler
+  // Improved Pagination Handler
   const paginate = useCallback(
     (pageNumber) => {
-      setSkipRestore(true); // Disable scroll restoration for pagination
-      // Update URL with new page, preserving other query parameters
+      setSkipRestore(true);
+
       const newQuery = {
         ...router.query,
         page: pageNumber,
@@ -199,16 +198,20 @@ function HomePage({
         { shallow: true },
       );
 
-      // Scroll to top with slight delay
-      window.scrollTo({ top: 300, left: 0, behavior: "smooth" });
+      // Smooth scrolling with precise control
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
 
-      // Fetch ads after a short delay to ensure smooth experience
-      setTimeout(() => {
+      // Fetch ads with controlled timing
+      const fetchTimeout = setTimeout(() => {
         fetchAds(activeType, pageNumber);
-        setSkipRestore(false); // Reset the flag after the action is completed
+        setSkipRestore(false);
+        clearTimeout(fetchTimeout);
       }, 300);
     },
-    [router],
+    [router, activeType, fetchAds],
   );
   return (
     <>

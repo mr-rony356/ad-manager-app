@@ -3,58 +3,52 @@ import Router from "next/router";
 
 function saveScrollPos(url) {
   const scrollPos = { x: window.scrollX, y: window.scrollY };
-  sessionStorage.setItem(url, JSON.stringify(scrollPos));
+  sessionStorage.setItem(`scroll-${url}`, JSON.stringify(scrollPos));
 }
 
 function restoreScrollPos(url) {
-  const scrollPos = JSON.parse(sessionStorage.getItem(url));
+  const scrollPos = JSON.parse(
+    sessionStorage.getItem(`scroll-${url}`) || "null",
+  );
   if (scrollPos) {
     window.scrollTo(scrollPos.x, scrollPos.y);
   }
 }
 
-export default function useScrollRestoration(
-  router,
-  shouldSkipRestore,
-) {
+export default function useScrollRestoration(router, shouldSkipRestore) {
   useEffect(() => {
-    if ("scrollRestoration" in window.history && !shouldSkipRestore) {
-      let shouldScrollRestore = !shouldSkipRestore; // Control whether to restore scroll
+    if ("scrollRestoration" in window.history) {
       window.history.scrollRestoration = "manual";
 
-      if (!shouldSkipRestore) {
-        restoreScrollPos(router.asPath);
-      }
-
-      const onBeforeUnload = (event) => {
-        saveScrollPos(router.asPath);
-        delete event.returnValue;
-      };
-
-      const onRouteChangeStart = () => {
+      const handleBeforeUnload = () => {
         saveScrollPos(router.asPath);
       };
 
-      const onRouteChangeComplete = (url) => {
-        if (shouldScrollRestore) {
-          shouldScrollRestore = false;
+      const handleRouteChangeStart = () => {
+        saveScrollPos(router.asPath);
+      };
+
+      const handleRouteChangeComplete = (url) => {
+        if (!shouldSkipRestore) {
           restoreScrollPos(url);
         }
       };
 
-      window.addEventListener("beforeunload", onBeforeUnload);
-      Router.events.on("routeChangeStart", onRouteChangeStart);
-      Router.events.on("routeChangeComplete", onRouteChangeComplete);
-      Router.beforePopState(() => {
-        shouldScrollRestore = true;
-        return true;
-      });
+      // Add event listeners
+      window.addEventListener("beforeunload", handleBeforeUnload);
+      router.events.on("routeChangeStart", handleRouteChangeStart);
+      router.events.on("routeChangeComplete", handleRouteChangeComplete);
 
+      // Restore scroll position on initial load
+      if (!shouldSkipRestore) {
+        restoreScrollPos(router.asPath);
+      }
+
+      // Cleanup function
       return () => {
-        window.removeEventListener("beforeunload", onBeforeUnload);
-        Router.events.off("routeChangeStart", onRouteChangeStart);
-        Router.events.off("routeChangeComplete", onRouteChangeComplete);
-        Router.beforePopState(() => true);
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+        router.events.off("routeChangeStart", handleRouteChangeStart);
+        router.events.off("routeChangeComplete", handleRouteChangeComplete);
       };
     }
   }, [router, shouldSkipRestore]);
