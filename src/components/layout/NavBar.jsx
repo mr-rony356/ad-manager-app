@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
-
+import Cookies from "js-cookie"; // Import the js-cookie library
 const NavBar = ({ user }) => {
   const { t } = useTranslation("common");
   const { api } = useApi();
@@ -20,7 +20,22 @@ const NavBar = ({ user }) => {
   const doLogout = () => {
     api.doLogout();
   };
+  // Extract token and user data from the cookie
+  const cookieValue = Cookies.get("Auth");
+  let loggedIn = false;
+  let userName = "";
+  let token = "";
 
+  if (cookieValue) {
+    try {
+      const parsedCookie = JSON.parse(cookieValue); // Parse the JSON string
+      token = parsedCookie.token;
+      userName = parsedCookie.user?.name || ""; // Extract the name
+      loggedIn = !!token; // Check if the token exists
+    } catch (error) {
+      console.error("Failed to parse cookie:", error);
+    }
+  }
   return (
     <header>
       <nav className="nav" id="nav">
@@ -87,7 +102,7 @@ const NavBar = ({ user }) => {
 
           <li>
             <Link
-              href={user && !user.err ? "/admin" : "/login"}
+              href={loggedIn ? "/admin" : "/login"}
               passHref
               className="nav__login"
               onClick={() => setIsMenuOpen(false)}
@@ -105,7 +120,7 @@ const NavBar = ({ user }) => {
                 loading="lazy"
               />
               <p className="login__button">
-                {user && !user.err ? user.name : t("navBar__SignUpButton")}
+                {loggedIn ? userName : t("navBar__SignUpButton")}
               </p>
             </Link>
           </li>
@@ -147,7 +162,7 @@ const NavBar = ({ user }) => {
 
             <li>
               <Link
-                href={user && !user.err ? "/admin" : "/login"}
+                href={loggedIn ? "/admin" : "/login"}
                 passHref
                 className="nav__login"
                 onClick={() => setIsMenuOpen(false)}
@@ -165,11 +180,11 @@ const NavBar = ({ user }) => {
                   loading="lazy"
                 />
                 <p className="login__button">
-                  {user && !user.err ? user.name : t("navBar__SignUpButton")}
+                  {loggedIn ? userName : t("navBar__SignUpButton")}
                 </p>
               </Link>
             </li>
-            {user && !user.err && isMenuOpen && (
+            {loggedIn && isMenuOpen && (
               <>
                 <li>
                   <Link
