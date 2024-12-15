@@ -118,7 +118,7 @@ function HomePage({
     search: null,
     verified: false,
   });
-  const adsPerPage = 50;
+  const adsPerPage = 10;
 
   // Enhanced route and page handling
   useEffect(() => {
@@ -206,7 +206,6 @@ function HomePage({
       setTimeout(() => {
         fetchAds(activeType, pageNumber);
         setSkipRestore(false); // Reset the flag after the action is completed
-        console.log("Ads fetched after pagination and skipped restoration");
       }, 300);
     },
     [router],
