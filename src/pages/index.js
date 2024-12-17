@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import AdList from "@components/home/AdList";
 import { useApi } from "@contexts/APIContext";
 import ApiController from "@utils/API";
@@ -8,15 +8,15 @@ import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import useScrollRestoration from "@hooks/useScrollRestoration";
+import { useRouter } from "next/router";
+
 // Dynamic imports for non-critical components
 const CookiesPopup = dynamic(() => import("@components/alerts/CookiesPopup"), {
   loading: () => null,
   ssr: false,
 });
-
-// Skeleton Loader Component (kept from original implementation)
+// Skeleton Loader Component
 const AdSkeleton = () => (
   <div
     style={{
@@ -63,7 +63,6 @@ const AdSkeleton = () => (
     </div>
   </div>
 );
-
 const FilterForm = dynamic(() => import("@components/forms/FilterForm"), {
   loading: () => <div>Loading filters...</div>,
 });
@@ -73,10 +72,11 @@ export async function getServerSideProps({ req, locale, query }) {
   const page = parseInt(query.page, 10) || 1;
   const activeType = parseInt(query.type, 10) || 0;
 
+  // Parallel data fetching with caching
   const [user, attributes, initialAds] = await Promise.all([
     api.checkAuth(req.cookies.Auth?.token),
     api.fetchAttributes(locale === "de" ? "de" : "en"),
-    api.fetchAds(activeType, page),
+    api.fetchAds(activeType, page), // Pass page and type to server-side fetch
   ]);
 
   return {
@@ -99,16 +99,10 @@ function HomePage({
   initialActiveType = 0,
 }) {
   const router = useRouter();
+  const [skipRestore, setSkipRestore] = useState(false); // Flag to control scroll restoration
+  useScrollRestoration(router, skipRestore); // Pass skipRestore flag
   const { t } = useTranslation("common");
   const { api } = useApi();
-  useScrollRestoration(router);
-
-  // Caching mechanism
-  const [adCache, setAdCache] = useState({
-    [initialActiveType]: {
-      [initialPage]: initialAds.ads || [],
-    },
-  });
 
   const [ads, setAds] = useState(initialAds.ads || []);
   const [totalPages, setTotalPages] = useState(initialAds.totalPages || 1);
@@ -124,99 +118,9 @@ function HomePage({
     search: null,
     verified: false,
   });
+  const adsPerPage = 25;
 
-  const loadMoreTriggerRef = useRef(null);
-  const observerRef = useRef(null);
-
-  // Cached fetch ads method
-  const fetchAds = useCallback(
-    async (tab, page = 1) => {
-      // Check if ads are already in cache
-      const cachedAds = adCache[tab]?.[page];
-      if (cachedAds) {
-        setAds(cachedAds);
-        return cachedAds;
-      }
-
-      setLoading(true);
-      try {
-        const res = await api.fetchAds(tab, page);
-        if (res) {
-          // Update cache
-          setAdCache((prevCache) => ({
-            ...prevCache,
-            [tab]: {
-              ...(prevCache[tab] || {}),
-              [page]: res.ads,
-            },
-          }));
-
-          setAds(res.ads);
-          setTotalPages(res.totalPages);
-          setTotal(res.total);
-          return res.ads;
-        }
-      } catch (error) {
-        console.error("Failed to fetch ads", error);
-        setAds([]);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [api, adCache],
-  );
-
-  // Fetch more ads with caching
-  const fetchMoreAds = useCallback(async () => {
-    if (loading || currentPage >= totalPages) return;
-
-    const nextPage = currentPage + 1;
-
-    // Check cache first
-    const cachedNextPageAds = adCache[activeType]?.[nextPage];
-    if (cachedNextPageAds) {
-      setAds((prevAds) => [...prevAds, ...cachedNextPageAds]);
-      setCurrentPage(nextPage);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const res = await api.fetchAds(activeType, nextPage);
-
-      if (res && res.ads.length > 0) {
-        // Update cache
-        setAdCache((prevCache) => ({
-          ...prevCache,
-          [activeType]: {
-            ...(prevCache[activeType] || {}),
-            [nextPage]: res.ads,
-          },
-        }));
-
-        setAds((prevAds) => [...prevAds, ...res.ads]);
-        setCurrentPage(nextPage);
-        setTotalPages(res.totalPages);
-        setTotal(res.total);
-
-        // Update URL with new page
-        router.push(
-          {
-            pathname: router.pathname,
-            query: { ...router.query, page: nextPage },
-          },
-          undefined,
-          { shallow: true },
-        );
-      }
-    } catch (error) {
-      console.error("Failed to fetch more ads", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [api, activeType, currentPage, loading, totalPages, router, adCache]);
-
-  // Existing route change and other effects remain the same
+  // Enhanced route and page handling
   useEffect(() => {
     const handleRouteChange = (url) => {
       const urlParams = new URL(url, window.location.origin);
@@ -233,42 +137,102 @@ function HomePage({
       }
     };
 
+    // Add route change listener
     router.events.on("routeChangeComplete", handleRouteChange);
+
+    // Cleanup listener
     return () => {
       router.events.off("routeChangeComplete", handleRouteChange);
     };
-  }, [router, currentPage, activeType, fetchAds]);
+  }, [router, currentPage, activeType]);
 
-  // Intersection Observer for infinite scroll (mostly unchanged)
   useEffect(() => {
-    if (!loadMoreTriggerRef.current) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const first = entries[0];
-        if (first.isIntersecting && currentPage < totalPages) {
-          fetchMoreAds();
-        }
-      },
-      { threshold: 0.1 },
-    );
-
-    observerRef.current = observer;
-    if (loadMoreTriggerRef.current) {
-      observer.observe(loadMoreTriggerRef.current);
+    if (!Cookies.get("cookiesPopupShown")) {
+      setIsCookiesPopupOpen(true);
+      Cookies.set("cookiesPopupShown", true);
     }
+  }, []);
 
-    return () => {
-      if (observerRef.current && loadMoreTriggerRef.current) {
-        observerRef.current.unobserve(loadMoreTriggerRef.current);
+  // Efficient ad fetching (kept from original implementation)
+  useEffect(() => {
+    const pageFromQuery = parseInt(router.query.page, 10) || 1;
+    setCurrentPage(pageFromQuery);
+    fetchAds(activeType, pageFromQuery);
+  }, [router.query.page, activeType]);
+
+  const fetchAds = useCallback(
+    async (tab, page = 1) => {
+      setLoading(true);
+      try {
+        const res = await api.fetchAds(tab, page);
+        if (res) {
+          setAds(res.ads);
+          setTotalPages(res.totalPages);
+          setTotal(res.total);
+        }
+      } catch (error) {
+        console.error("Failed to fetch ads", error);
+        setAds([]);
+      } finally {
+        setLoading(false);
       }
-    };
-  }, [fetchMoreAds, currentPage, totalPages]);
+    },
+    [api],
+  );
 
-  // Rest of the component remains the same as in your original implementation
+  // Improved pagination handler
+  const paginate = useCallback(
+    (pageNumber) => {
+      setSkipRestore(true); // Disable scroll restoration for pagination
+      // Update URL with new page, preserving other query parameters
+      const newQuery = {
+        ...router.query,
+        page: pageNumber,
+      };
+
+      router.push(
+        {
+          pathname: router.pathname,
+          query: newQuery,
+        },
+        undefined,
+        { shallow: true },
+      );
+
+      // Scroll to top with slight delay
+      window.scrollTo({ top: 300, left: 0, behavior: "auto" });
+
+      // Fetch ads after a short delay to ensure smooth experience
+      setTimeout(() => {
+        fetchAds(activeType, pageNumber);
+        setSkipRestore(false); // Reset the flag after the action is completed
+      }, 300);
+    },
+
+    [router],
+  );
   return (
     <>
-      <Head>{/* Existing head content */}</Head>
+      <Head>
+        <title>
+          Erotische Anzeigen in der Schweiz • Sextreffen und diskrete Kontakte
+          in Zürich, Bern, Basel und mehr • Unsere Services: Von Escort bis
+          erotische Massagen • Sicher, diskret und unkompliziert – Onlyfriend.ch
+        </title>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="theme-color" content="#000000" />
+        <meta
+          name="description"
+          content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
+        />
+        <meta
+          name="keywords"
+          content="Erotische Anzeigen, Sex in Zürich, Blowjob in Zürich, Escort in Zürich, Gangbang in Zürich, Girlfriend Sex in Zürich, Striptease in Zürich, Sex in Aargau, Blowjob in Aargau, Escort in Aargau, Gangbang in Aargau, Girlfriend Sex in Aargau, Striptease in Aargau, Sex in Luzern, Blowjob in Luzern, Escort in Luzern, Gangbang in Luzern, Girlfriend Sex in Luzern, Striptease in Bern, Sex in Bern, Blowjob in Bern, Escort in Bern, Gangbang in Bern, Girlfriend Sex in Bern, Striptease in Bern, Sex in Basel, Blowjob in Basel, Escort in Basel, Gangbang in Basel, Girlfriend Sex in Basel, Striptease in Basel, Junge Frauen, Sexy Latinas, Escort, Sexy Studentin, Milf, Sextreffen, Webcam, Sexchat, Sexting, Cam2Cam, Erotik-Kleinanzeigen, Sexkontakte, Begleitservice, Callgirls, Escortservice, Erotische Massagen, Fetisch-Anzeigen, BDSM-Kontakte, Sexpartys, Swinger-Kontakte, Erotikjobs, Erotik-Shops, Webcam-Shows, Adult-Dating, Dominas, Bordell-Inserate, Stripper-Inserate, TS-Inserate, Onlyfans, Onlyfriends,"
+        />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+      </Head>
       <div className="page page--home">
         <h1 className="home__title">
           {t("home__title", { region: "Schweiz" })}
@@ -280,7 +244,7 @@ function HomePage({
               setFilters={setFilters}
               attributes={attributes}
             />
-          </div>
+          </div>{" "}
           <div className="home__right">
             <div className="button--inline">
               {attributes &&
@@ -310,7 +274,7 @@ function HomePage({
                 priority
               />
             </div>
-            {!loading && ads.length === 0 ? (
+            {loading ? (
               <div className="ads-skeleton-container">
                 <h1
                   style={{
@@ -322,38 +286,53 @@ function HomePage({
                 >
                   {t("skeleton_text")}
                 </h1>
+
                 {[...Array(5)].map((_, index) => (
                   <AdSkeleton key={index} />
                 ))}
               </div>
             ) : (
-              <>
-                <AdList
-                  user={user}
-                  ads={ads}
-                  attributes={attributes}
-                  total={total}
-                />
-                {loading && (
-                  <div className="loading-more">
-                    {[...Array(3)].map((_, index) => (
-                      <AdSkeleton key={index} />
-                    ))}
-                  </div>
-                )}
-                {currentPage < totalPages && (
-                  <div
-                    ref={loadMoreTriggerRef}
-                    style={{ height: "20px", visibility: "visible" }}
-                  />
-                )}
-              </>
-            )}
+              <AdList
+                user={user}
+                ads={ads}
+                attributes={attributes}
+                total={total}
+              />
+            )}{" "}
             {isCookiesPopupOpen && (
               <CookiesPopup setIsCookiesPopupOpen={setIsCookiesPopupOpen} />
-            )}
+            )}{" "}
           </div>
         </div>
+        <div className="pagination">
+          {[...Array(Math.ceil(total / adsPerPage)).keys()]
+            .filter((pageNumber) => {
+              const page = pageNumber + 1;
+              const isStart = page <= 3; // Always show the first 3 pages
+              const isEnd = page >= total / adsPerPage - 2; // Always show the last 3 pages
+              const isNearCurrent =
+                page >= currentPage - 1 && page <= currentPage + 1; // Show current page and its neighbors
+
+              return isStart || isEnd || isNearCurrent;
+            })
+            .map((pageNumber, index, filteredArray) => {
+              const page = pageNumber + 1;
+              const isEllipsis =
+                index > 0 && filteredArray[index - 1] + 1 !== pageNumber; // Check for gaps
+
+              return (
+                <React.Fragment key={page}>
+                  {isEllipsis && <span className="ellipsis">...</span>}
+                  <button
+                    className={currentPage === page ? "active" : ""}
+                    onClick={() => paginate(page)}
+                  >
+                    {page}
+                  </button>
+                </React.Fragment>
+              );
+            })}
+        </div>{" "}
         <div>
           <br />
           <br />

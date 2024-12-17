@@ -2,35 +2,59 @@ import { useEffect } from "react";
 import Router from "next/router";
 
 function saveScrollPos(url) {
-  const scrollPos = { x: window.scrollX, y: window.scrollY };
-  sessionStorage.setItem(url, JSON.stringify(scrollPos));
-}
-
-function restoreScrollPos(url) {
-  const scrollPos = JSON.parse(sessionStorage.getItem(url));
-  if (scrollPos) {
-    window.scrollTo(scrollPos.x, scrollPos.y);
+  const scrollPos = { x: window.scrollX || 0, y: window.scrollY || 0 };
+  try {
+    sessionStorage.setItem(url, JSON.stringify(scrollPos));
+  } catch (error) {
+    console.warn("SessionStorage is not supported in this browser", error);
   }
 }
 
-export default function useScrollRestoration(router) {
+function restoreScrollPos(url) {
+  let scrollPos = null;
+  try {
+    scrollPos = JSON.parse(sessionStorage.getItem(url));
+  } catch (error) {
+    console.warn("Failed to retrieve scroll position", error);
+  }
+
+  if (scrollPos) {
+    // Safari fallback using requestAnimationFrame
+    requestAnimationFrame(() => {
+      if ("scrollTo" in window) {
+        window.scrollTo({
+          top: scrollPos.y,
+          left: scrollPos.x,
+          behavior: "instant",
+        });
+      } else {
+        window.scroll(scrollPos.x, scrollPos.y);
+      }
+    });
+  }
+}
+
+export default function useScrollRestoration(router, shouldSkipRestore) {
   useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      let shouldScrollRestore = false;
-      window.history.scrollRestoration = "manual";
-      restoreScrollPos(router.asPath);
+    if (typeof window !== "undefined") {
+      let shouldScrollRestore = !shouldSkipRestore;
+
+      // Fallback for Safari where scrollRestoration may not work
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
 
       const onBeforeUnload = (event) => {
-        saveScrollPos(router.asPath);
+        if (!shouldSkipRestore) saveScrollPos(router.asPath);
         delete event.returnValue;
       };
 
       const onRouteChangeStart = () => {
-        saveScrollPos(router.asPath);
+        if (!shouldSkipRestore) saveScrollPos(router.asPath);
       };
 
       const onRouteChangeComplete = (url) => {
-        if (shouldScrollRestore) {
+        if (shouldScrollRestore && !shouldSkipRestore) {
           shouldScrollRestore = false;
           restoreScrollPos(url);
         }
@@ -44,6 +68,8 @@ export default function useScrollRestoration(router) {
         return true;
       });
 
+      if (!shouldSkipRestore) restoreScrollPos(router.asPath);
+
       return () => {
         window.removeEventListener("beforeunload", onBeforeUnload);
         Router.events.off("routeChangeStart", onRouteChangeStart);
@@ -51,5 +77,5 @@ export default function useScrollRestoration(router) {
         Router.beforePopState(() => true);
       };
     }
-  }, [router]);
+  }, [router, shouldSkipRestore]);
 }
