@@ -8,6 +8,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Pagination from "@components/home/Pagination";
 
 export async function getServerSideProps({ req, locale, params }) {
   const api = new ApiController();
@@ -85,7 +86,7 @@ function HomePage({
   const [activeType, setActiveType] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const adsPerPage = 50; // Set the number of ads per page
+  const adsPerPage = 25; // Set the number of ads per page
 
   const indexOfFirstAd = (currentPage - 1) * adsPerPage;
   const indexOfLastAd = Math.min(indexOfFirstAd + adsPerPage, ads.length);
@@ -238,35 +239,11 @@ function HomePage({
             />
           </div>
         </div>
-        <div className="pagination">
-          {[...Array(Math.ceil(ads.length / adsPerPage)).keys()]
-            .filter((pageNumber) => {
-              const page = pageNumber + 1;
-              const isStart = page <= 3; // Always show the first 3 pages
-              const isEnd = page >= ads.length / adsPerPage - 2; // Always show the last 3 pages
-              const isNearCurrent =
-                page >= currentPage - 1 && page <= currentPage + 1; // Show current page and its neighbors
-
-              return isStart || isEnd || isNearCurrent;
-            })
-            .map((pageNumber, index, filteredArray) => {
-              const page = pageNumber + 1;
-              const isEllipsis =
-                index > 0 && filteredArray[index - 1] + 1 !== pageNumber; // Check for gaps
-
-              return (
-                <React.Fragment key={page}>
-                  {isEllipsis && <span className="ellipsis">...</span>}
-                  <button
-                    className={currentPage === page ? "active" : ""}
-                    onClick={() => paginate(page)}
-                  >
-                    {page}
-                  </button>
-                </React.Fragment>
-              );
-            })}
-        </div>{" "}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(ads.length/ adsPerPage)}
+          onPageChange={paginate}
+        />{" "}
         <div>
           <br />
           <br />

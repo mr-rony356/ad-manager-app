@@ -2481,6 +2481,59 @@ a:-webkit-any-link {
   color: #333;
   font-size: 16px;
 }
-li{
+li {
   margin: 5px 0;
+}
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.pagination-arrow {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: white;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    transform 0.2s;
+}
+
+.pagination-arrow:hover:not(:disabled) {
+  background-color: #f5f5f5;
+  transform: scale(1.05);
+}
+
+.pagination-arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-counter {
+  min-width: 120px;
+  height: 80px;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.325rem;
+  font-weight: 500;
+  border: 1px solid #e0e0e0;
+}
+
+/* Optional: Add focus styles for better accessibility */
+.pagination-arrow:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
 }

@@ -10,6 +10,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import dynamic from "next/dynamic";
 import useScrollRestoration from "@hooks/useScrollRestoration";
 import { useRouter } from "next/router";
+import Pagination from "@components/home/Pagination";
 
 // Dynamic imports for non-critical components
 const CookiesPopup = dynamic(() => import("@components/alerts/CookiesPopup"), {
@@ -304,35 +305,11 @@ function HomePage({
             )}{" "}
           </div>
         </div>
-        <div className="pagination">
-          {[...Array(Math.ceil(total / adsPerPage)).keys()]
-            .filter((pageNumber) => {
-              const page = pageNumber + 1;
-              const isStart = page <= 3; // Always show the first 3 pages
-              const isEnd = page >= total / adsPerPage - 2; // Always show the last 3 pages
-              const isNearCurrent =
-                page >= currentPage - 1 && page <= currentPage + 1; // Show current page and its neighbors
-
-              return isStart || isEnd || isNearCurrent;
-            })
-            .map((pageNumber, index, filteredArray) => {
-              const page = pageNumber + 1;
-              const isEllipsis =
-                index > 0 && filteredArray[index - 1] + 1 !== pageNumber; // Check for gaps
-
-              return (
-                <React.Fragment key={page}>
-                  {isEllipsis && <span className="ellipsis">...</span>}
-                  <button
-                    className={currentPage === page ? "active" : ""}
-                    onClick={() => paginate(page)}
-                  >
-                    {page}
-                  </button>
-                </React.Fragment>
-              );
-            })}
-        </div>{" "}
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(total / adsPerPage)}
+          onPageChange={paginate}
+        />{" "}
         <div>
           <br />
           <br />
