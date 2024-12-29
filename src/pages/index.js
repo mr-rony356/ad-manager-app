@@ -75,7 +75,7 @@ export async function getServerSideProps({ req, locale, query }) {
 
   // Parallel data fetching with caching
   const [user, attributes, initialAds] = await Promise.all([
-    api.checkAuth(req.cookies.Auth?.token),
+    api.checkAuth(JSON.parse(req.cookies.Auth || "{}")?.token),
     api.fetchAttributes(locale === "de" ? "de" : "en"),
     api.fetchAds(activeType, page), // Pass page and type to server-side fetch
   ]);

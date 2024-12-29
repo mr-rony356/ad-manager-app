@@ -86,7 +86,7 @@ const FilterForm = (props) => {
     }
 
     if (filters.verified) {
-      params += "/feature/" + encodeFilterValue(filters.verified);
+      params += "/feature/" + filters.verified;
     }
 
     // Update the URL with the filter parameters

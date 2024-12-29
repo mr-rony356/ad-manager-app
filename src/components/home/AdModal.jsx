@@ -122,72 +122,70 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
           )}
           {ad.endDate > Date.now() && !owner ? null : (
             <>
-              <li>
-                {!owner && (
-                  <>
-                    <p>{t("adModal__reactive")}</p>
-                    <div className="link--group">
-                      <a
-                        href="#0"
-                        className="link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          reactivateAd(0);
-                        }}
-                      >
-                        1 {t("adForm1__day")}
-                      </a>
-                      <a
-                        href="#0"
-                        className="link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          reactivateAd(1);
-                        }}
-                      >
-                        3 {t("adForm1__days")}
-                      </a>
-                      <a
-                        href="#0"
-                        className="link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          reactivateAd(2);
-                        }}
-                      >
-                        7 {t("adForm1__days")}
-                      </a>
-                      <a
-                        href="#0"
-                        className="link"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          reactivateAd(3);
-                        }}
-                      >
-                        31 {t("adForm1__days")}
-                      </a>
-                    </div>
-                  </>
-                )}
-              </li>
+              {!owner && (
                 <li>
-                  <a
-                    href="#0"
-                    className="link"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      deleteAd();
-                    }}
-                  >
-                    {t("adModal__delete")}
-                  </a>
+                  <p>{t("adModal__reactive")}</p>
+                  <div className="link--group">
+                    <a
+                      href="#0"
+                      className="link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        reactivateAd(0);
+                      }}
+                    >
+                      1 {t("adForm1__day")}
+                    </a>
+                    <a
+                      href="#0"
+                      className="link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        reactivateAd(1);
+                      }}
+                    >
+                      3 {t("adForm1__days")}
+                    </a>
+                    <a
+                      href="#0"
+                      className="link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        reactivateAd(2);
+                      }}
+                    >
+                      7 {t("adForm1__days")}
+                    </a>
+                    <a
+                      href="#0"
+                      className="link"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        reactivateAd(3);
+                      }}
+                    >
+                      31 {t("adForm1__days")}
+                    </a>
+                  </div>
                 </li>
+              )}
+              <li>
+                <a
+                  href="#0"
+                  className="link"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    deleteAd();
+                  }}
+                >
+                  {t("adModal__delete")}
+                </a>
+              </li>
             </>
           )}
         </ul>
