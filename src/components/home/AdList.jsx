@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Ad from "@components/home/Ad";
 import PremiumAdCarousel from "@components/home/PremiumAdCarousel";
 import { useTranslation } from "next-i18next";
 
 const AdList = ({ ads, premiumAds, attributes, user, total }) => {
   const { t } = useTranslation();
+  const [activeAdId, setActiveAdId] = useState(null);
 
+  const toggleModal = (adId) => {
+    setActiveAdId((prev) => (prev === adId ? null : adId));
+  };
   return (
     <div className="ad__list">
       <div className="home__adsHeader">
@@ -17,9 +21,19 @@ const AdList = ({ ads, premiumAds, attributes, user, total }) => {
         <PremiumAdCarousel ads={premiumAds} attributes={attributes} />
       )}
       <div className="ads">
-        {ads.slice().reverse().map((ad) => (
-          <Ad key={ad._id} user={user} ad={ad} attributes={attributes} />
-        ))}
+        {ads
+          .slice()
+          .reverse()
+          .map((ad) => (
+            <Ad
+              key={ad._id}
+              user={user}
+              ad={ad}
+              attributes={attributes}
+              isModalOpen={activeAdId === ad._id}
+              toggleModal={toggleModal}
+            />
+          ))}
         {ads.length === 0 && (
           <p className="ads__placeholderText">{t("home__adPlaceholder")}</p>
         )}

@@ -5,7 +5,7 @@ import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
 import Link from "next/link";
 
-const Ad = ({ user, attributes, ad, isAdmin }) => {
+const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const [isUser, setIsUser] = useState(false);
   const [pastTime, setPastTime] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -81,7 +81,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
         }${adSlug}`,
       }}
     >
-      <div className="ad">
+      <div className="ad" >
         <div style={{ position: "relative", width: "100%" }}>
           {ad.images && ad.images.length > 0 && (
             <Image
@@ -121,7 +121,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
               <p className="ad__inactive">Inaktiv</p>
             ) : null}
 
-            {showModal && (
+            {isModalOpen  && (
               <AdModal
                 ad={ad}
                 setShowModal={setShowModal}
@@ -172,6 +172,7 @@ const Ad = ({ user, attributes, ad, isAdmin }) => {
                     e.preventDefault();
                     e.stopPropagation();
                     setShowModal(!showModal);
+                   toggleModal(ad._id)
                   }}
                 />
               )}
