@@ -46,6 +46,11 @@ const AdManager = ({ user, attributes, ads }) => {
     inactive: (ad) => ad.active === false && ad.endDate >= Date.now(),
     expired: (ad) => ad.endDate < Date.now(),
   };
+  const [activeAdId, setActiveAdId] = useState(null);
+
+  const toggleModal = (adId) => {
+    setActiveAdId((prev) => (prev === adId ? null : adId));
+  };
 
   const adCounts = Object.keys(tabFilters).reduce((counts, key) => {
     counts[key] = ads.filter(tabFilters[key]).length;
@@ -105,6 +110,9 @@ const AdManager = ({ user, attributes, ads }) => {
                       ad={ad}
                       attributes={attributes}
                       isAdmin={true}
+                      isModalOpen={activeAdId === ad._id}
+                      toggleModal={toggleModal}
+        
                     />
                   </>
                 ))

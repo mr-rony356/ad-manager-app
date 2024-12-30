@@ -72,7 +72,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
-  const isOwner = user.email === "cyrill.mueller@onlyfriend.ch";
+  const isOwner = user.email ==="cyrill.mueller@onlyfriend.ch";
   return (
     <Link
       href={{

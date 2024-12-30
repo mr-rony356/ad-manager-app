@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Ad from "@components/home/Ad";
 import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
@@ -8,6 +8,11 @@ import { useTranslation } from "next-i18next";
 const AdminLandingPage = ({ user, attributes, ad, message }) => {
   const { t } = useTranslation();
   const userIcon = "/assets/user-icon.png";
+  const [activeAdId, setActiveAdId] = useState(null);
+
+  const toggleModal = (adId) => {
+    setActiveAdId((prev) => (prev === adId ? null : adId));
+  };
 
   return (
     <div className="admin">
@@ -38,6 +43,8 @@ const AdminLandingPage = ({ user, attributes, ad, message }) => {
               attributes={attributes}
               ad={ad}
               isAdmin={true}
+              isModalOpen={activeAdId === ad._id}
+              toggleModal={toggleModal}
             />
           ) : (
             <p>{t("adminLandingPage__textOffer")}</p>
