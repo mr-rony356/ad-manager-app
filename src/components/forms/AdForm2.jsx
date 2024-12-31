@@ -127,9 +127,9 @@ const AdForm2 = (props) => {
               name="tf-2-1"
               value={ad.phone}
               onChange={(event) =>
-                updateProperty("phone", -1, event.target.value)
+                updateProperty("phone", -1, event.target.value.trim())
               }
-              pattern="(\+(41|49|43|423)\s?)?[0-9]{2}\s?[0-9]{3}\s?[0-9]{2}\s?[0-9]{2,3}"
+              pattern="(\+(41|49|43|423)\s*)?[0-9]{2}\s*[0-9]{3}\s*[0-9]{2}\s*[0-9]{2,3}"
               placeholder="XX XXX XX XX"
               label={t("adForm2__inputNumber")}
               required={false}

@@ -92,6 +92,8 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
     ];
 
     const files = Array.isArray(value) ? value : [value];
+
+    // Format validation
     for (const file of files) {
       if (property === "images" || property === "verificationImage") {
         if (!allowedImageFormats.includes(file?.type)) {
@@ -111,18 +113,45 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
     }
 
     setFormatError(null);
+
+    // Handle property updates
     if (number === -1) {
-      if (property === "images") oc[property] = [...ad.images, ...value];
-      else oc[property] = value;
+      if (property === "images") {
+        // Check if adding new files would exceed 8 images
+        if (oc[property].length + files.length > 8) {
+          setFormatError("Maximum of 8 images allowed.");
+          return;
+        }
+        oc[property] = [...ad.images, ...files];
+      } else {
+        oc[property] = value;
+      }
+    } else if (number >= 0) {
+      if (property === "images") {
+        // For images, handle replace/remove logic
+        const currentImages = [...oc[property]];
+        const i = currentImages.findIndex((img, idx) => idx === number);
+
+        if (i !== -1) {
+          if (value === null) {
+            // Remove image
+            currentImages.splice(i, 1);
+          } else {
+            // Replace image
+            currentImages[i] = files[0];
+          }
+        }
+        oc[property] = currentImages;
+      } else {
+        // Original toggle logic for other properties
+        const i = oc[property].indexOf(value);
+        if (i === -1) oc[property].push(value);
+        else oc[property].splice(i, 1);
+      }
     }
-    if (number >= 0) {
-      const i = oc[property].indexOf(value);
-      if (i === -1) oc[property].push(value);
-      else oc[property].splice(i, 1);
-    }
+
     setAd({ ...ad, [property]: oc[property] });
   };
-
   const deleteProperty = (property, index) => {
     const oc = { ...ad };
     if (property === "video") oc[property] = null;
@@ -158,34 +187,41 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
 
   const updateAd = () => {
     const data = new FormData();
+
+    // Handle image uploads
     if (tempAd.images !== ad.images) {
-      ad.images.forEach((image) => {
+      ad.images.forEach((image, index) => {
         if (image instanceof File) {
-          data.append("image", image);
-          ad.images.splice(ad.images.indexOf(image), 1);
+          data.append("image", image); // Keep original format of 'image' as key
         }
       });
     }
+
+    // Handle other file uploads
     if (tempAd.video !== ad.video) data.append("video", ad.video);
     if (tempAd.verificationImage !== ad.verificationImage)
       data.append("verificationImage", ad.verificationImage);
+
+    // Prepare ad data
     data.append("ad", JSON.stringify(ad));
-    api.updateAd(ad._id, data).then((res) => {
-      if (res.err) setErr(res.err);
-      else {
-        if (tempAd.title !== res.ad.title) {
-          const slug = res.ad.title
-            .toLowerCase()
-            .replace(/[^\w\s-]/g, "")
-            .replace(/[\s_-]+/g, "-")
-            .replace(/^-+|-+$/g, "");
-          router.reload("/ad/" + res.ad._id + "/" + slug);
-        }
-        window.location.reload(true);
+
+    return api.updateAd(ad._id, data).then((res) => {
+      if (res.err) {
+        setErr(res.err);
+        return;
       }
+
+      if (tempAd.title !== res.ad.title) {
+        const slug = res.ad.title
+          .toLowerCase()
+          .replace(/[^\w\s-]/g, "")
+          .replace(/[\s_-]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        router.reload("/ad/" + res.ad._id + "/" + slug);
+      }
+      window.location.reload(true);
     });
   };
-
   return (
     <>
       <Head>
