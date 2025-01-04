@@ -148,7 +148,7 @@ const NavBar = ({ user }) => {
                 Blogs
               </Link>
             </li>
-            <li className="free-mobile-menu">
+            <li className="free-mobile-menu !py-12">
               <Link
                 href="/ad?type=free"
                 passHref

@@ -233,8 +233,8 @@ export function Slider(props) {
   const { id, name, onChange, required, tag, value } = props;
 
   return (
-    <div className="verificationCheck">
-      <label className="container">
+    <div className="verificationCheck flex !justify-start !items-center">
+      <label className="container max-w-7">
         <input
           type="checkbox"
           id={id}

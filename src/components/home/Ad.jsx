@@ -72,7 +72,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
-  const isOwner = user.email ==="cyrill.mueller@onlyfriend.ch";
+  const isOwner = user.email === "cyrill.mueller@onlyfriend.ch";
   return (
     <Link
       href={{
@@ -81,7 +81,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
         }${adSlug}`,
       }}
     >
-      <div className="ad" >
+      <div className="ad ">
         <div style={{ position: "relative", width: "100%" }}>
           {ad.images && ad.images.length > 0 && (
             <Image
@@ -121,7 +121,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
               <p className="ad__inactive">Inaktiv</p>
             ) : null}
 
-            {isModalOpen  && (
+            {isModalOpen && (
               <AdModal
                 ad={ad}
                 setShowModal={setShowModal}
@@ -149,7 +149,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
           </div>
           <div className="ad__timeEdit">
             <div className="titleContainer">
-              <h1 className="ad__title" id="adTitle">
+              <h1 className="ad__title font-bold" id="adTitle">
                 {ad.title}
               </h1>
               {/* {ad.verified && (
@@ -172,7 +172,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                     e.preventDefault();
                     e.stopPropagation();
                     setShowModal(!showModal);
-                   toggleModal(ad._id)
+                    toggleModal(ad._id);
                   }}
                 />
               )}

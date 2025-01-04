@@ -233,9 +233,15 @@ function HomePage({
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <link
+          rel="icon"
+          href=" https://onlyfriend.ch/favicon.png"
+          type="image/x-icon"
+        />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
       <div className="page page--home">
-        <h1 className="home__title">
+        <h1 className="home__title font-bold text-[32px]">
           {t("home__title", { region: "Schweiz" })}
         </h1>
         <div className="home__content">
@@ -266,14 +272,14 @@ function HomePage({
                       {value.name} {t("home__ad")}
                     </button>
                   ))}
-              <Image
+              {/* <Image
                 src="/assets/filter.png"
                 width={500}
                 height={500}
                 alt="filter"
                 className="filter"
                 priority
-              />
+              /> */}
             </div>
             {loading ? (
               <div className="ads-skeleton-container">
