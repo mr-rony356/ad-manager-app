@@ -82,7 +82,7 @@ function HomePage({
   const { t } = useTranslation("common");
   const [filters, setFilters] = useState(initialFilters);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [activeType, setActiveType] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -195,13 +195,11 @@ function HomePage({
         </h1>{" "}
         <div className="home__content">
           <div className="home__left">
-            {isFilterVisible && (
               <FilterForm
                 filters={filters}
                 setFilters={setFilters}
                 attributes={attributes}
               />
-            )}
           </div>
           <div className="home__right">
             <div className="button--inline">
@@ -220,14 +218,14 @@ function HomePage({
                       {value.name} {t("home__ad")}
                     </button>
                   ))}
-              <Image
+              {/* <Image
                 src={"/assets/filter.png"}
                 width={500}
                 height={500}
                 alt="filter"
                 className="filter"
                 onClick={toggleFilter}
-              />
+              /> */}
             </div>
             <AdList
               user={user}

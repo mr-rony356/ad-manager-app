@@ -156,9 +156,7 @@ const FilterForm = (props) => {
             <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-[99999] flex items-center justify-center w-full h-full">
               <div className="bg-white rounded-lg p-4 w-full h-screen overflow-y-auto flex !flex-col gap-7 items-center justify-center">
                 <div className="bg-gray-800 fixed top-0 w-full flex justify-center p-4  py-6 items-center ">
-                  <button
-                    className="text-white hover:text-gray-700 text-lg"
-                  >
+                  <button className="text-white hover:text-gray-700 text-lg">
                     Filter
                   </button>
                 </div>
@@ -259,11 +257,11 @@ const FilterForm = (props) => {
                     {t("filterForm__filterButton")}
                   </button>
                 </form>
-                <div className="bg-black fixed bottom-0 w-full flex justify-center p-4  py-6 items-center ">
-                  <button
-                    onClick={() => setShowForm(false)}
-                    className="text-white hover:text-gray-700 text-lg"
-                  >
+                <div
+                  className="bg-black fixed bottom-0 w-full flex justify-center p-4  py-6 items-center "
+                  onClick={() => setShowForm(false)}
+                >
+                  <button className="text-white hover:text-gray-700 text-lg">
                     Close
                   </button>
                 </div>
