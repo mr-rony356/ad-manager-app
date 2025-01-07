@@ -10,6 +10,7 @@
   "filterForm__verifiedCheck": "Nur verifizierte Inserate",
 
   "login__error": "Note, if you have forgotten your username, go to your mailbox, we have addressed you directly with the username.",
+  "signup__error": "The email is already taken",
 
   "searchInput": "Search",
   "offerInput": "Offer",

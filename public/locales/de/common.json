@@ -10,6 +10,7 @@
   "filterForm__verifiedCheck": "Nur verifizierte Inserate",
 
   "login__error": "Hinweis, falls Sie ihr Benutzername vergessen haben, gehen Sie in Ihre Mailbox, wir haben Sie direkt mit dem Benutzername angesprochen",
+  "signup__error": "Die email wird bereits verwendet",
 
   "searchInput": "Suchen",
   "offerInput": "Angebot",

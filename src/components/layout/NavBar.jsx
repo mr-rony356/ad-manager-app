@@ -42,11 +42,11 @@ const NavBar = ({ user }) => {
         <div className="nav__logoSupport">
           <Link href="/" passHref>
             <Image
-              src={"/assets/logo.svg"}
-              width={500}
-              height={500}
+              src={"/assets/logo.png"}
+              width={100}
+              height={100}
               alt="logo"
-              className="logo"
+              className="logo h-24"
               loading="lazy"
             />
           </Link>

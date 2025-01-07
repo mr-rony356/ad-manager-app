@@ -170,6 +170,32 @@ const AdDetail = ({
       behavior: "smooth",
     });
   };
+  const getAttributeValue = (name, key) => {
+    const attribute = attributes.find((attr) => attr.name === name);
+    return attribute?.values[key] || "";
+  };
+
+  const fields = [
+    {
+      icon: tagIcon,
+      items: ad.tags,
+      attributeName: "tags",
+      alt: "tag",
+    },
+    {
+      icon: placeIcon,
+      items: ad.regions,
+      attributeName: "regions",
+      alt: "region",
+    },
+    {
+      icon: <User size={20} />,
+      items: ad.ethnicity ? [ad.ethnicity] : [],
+      attributeName: "ethnicities",
+      alt: "ethnicity",
+    },
+  ];
+
   return (
     <>
       <Head>
@@ -428,90 +454,60 @@ const AdDetail = ({
                 </div>
               )}
             </div>
-
             <div className="adDetail__right">
               <div className="adDetail__filters">
-                <div className="adDetail__tags">
-                  <Image
-                    src={tagIcon}
-                    width={500}
-                    height={500}
-                    alt="tag"
-                    className="tag"
-                    loading="lazy"
-                  />
-                  {ad.tags &&
-                    ad.tags.length > 0 &&
-                    attributes.length > 0 &&
-                    ad.tags.map((tag, i) => (
-                      <p key={i} className="adDetail__tag">
-                        {
-                          attributes.find(
-                            (attribute) => attribute.name === "tags",
-                          ).values[tag]
-                        }
-                        ,
-                      </p>
-                    ))}
-                </div>
-
-                <div className="adDetail__regions">
-                  <Image
-                    src={placeIcon}
-                    width={500}
-                    height={500}
-                    alt="region"
-                    className="region"
-                    loading="lazy"
-                  />
-                  {ad.regions &&
-                    ad.regions.length > 0 &&
-                    attributes.length > 0 &&
-                    ad.regions.map((region, i) => (
-                      <p key={i} className="adDetail__region">
-                        {
-                          attributes.find(
-                            (attribute) => attribute.name === "regions",
-                          ).values[region]
-                        }
-                        ,
-                      </p>
-                    ))}
-                </div>
-                <div className="adDetail__regions">
-                  <User size={20} />
-                  {ad.ethnicity && attributes.length > 0 && (
-                    <p className="adDetail__region">
-                      {
-                        attributes.find(
-                          (attribute) => attribute.name === "ethnicities",
-                        ).values[ad.ethnicity]
-                      }
-                    </p>
-                  )}
-                </div>
+                {fields.map((field, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    {field.icon && (
+                      <span className="flex-shrink-0">
+                        {typeof field.icon === "string" ? (
+                          <Image
+                            src={field.icon}
+                            width={24}
+                            height={24}
+                            alt={field.alt}
+                            className="w-6 h-6"
+                            loading="lazy"
+                          />
+                        ) : (
+                          field.icon
+                        )}
+                      </span>
+                    )}
+                    {field.items && field.items.length > 0 && (
+                      <span className="flex flex-wrap items-center gap-x-1 text-base text-gray-700">
+                        {field.items.map((item, i) => (
+                          <span key={i} className="inline-block">
+                            {getAttributeValue(field.attributeName, item)}
+                            {i < field.items.length - 1 ? ',' : ''}
+                          </span>
+                        ))}
+                      </span>
+                    )}
+                  </div>
+                ))}
               </div>
 
               <div className="adDetail__description">
-                <pre style={{ whiteSpace: "break-spaces" }}>
+                <pre className="whitespace-pre-wrap text-gray-800">
                   {ad.description}
                 </pre>
               </div>
+
               {ad.phone && number && (
                 <div
-                  className={`sticky-buttons ${
-                    isMobileButtonVisible ? "mobile" : "desktop"
+                  className={`sticky-buttons fixed bottom-4 flex items-center space-x-4 ${
+                    isMobileButtonVisible ? "hidden" : "block"
                   }`}
-                  style={{ display: isMobileButtonVisible ? "none" : "auto" }}
                 >
                   {ad.phone && (
                     <a href={`tel:${areaCode}${ad.phone}`}>
                       <Image
                         src={smartphone}
-                        width={500}
-                        height={500}
+                        width={40}
+                        height={40}
                         alt="smartphone"
-                        className="stickyButtons__button"
+                        className="w-10 h-10"
                         loading="lazy"
                       />
                     </a>
@@ -525,16 +521,16 @@ const AdDetail = ({
                     >
                       <Image
                         src={whatsapp}
-                        width={500}
-                        height={500}
+                        width={40}
+                        height={40}
                         alt="whatsapp"
-                        className="stickyButtons__button"
+                        className="w-10 h-10"
                       />
                     </a>
                   )}
                 </div>
               )}
-            </div>
+            </div>{" "}
           </div>
         </div>
       )}

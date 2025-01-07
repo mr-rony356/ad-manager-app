@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Footer = () => {
-  const logo = "/assets/logo.svg";
+  const logo = "/assets/logo.png";
   const whatsapp = "/assets/whatsapp.png";
 
   return (

@@ -31,6 +31,17 @@ const Carousel = ({ ad }) => {
     [isDragging, toggler],
   );
 
+  const preloadImages = useCallback(() => {
+    ad.images.forEach((image) => {
+      const img = document.createElement('img');
+      img.src = API_ADDRESS + image;
+    });
+  }, [ad.images]);
+
+  React.useEffect(() => {
+    preloadImages();
+  }, [preloadImages]);
+
   const settings = {
     infinite: false,
     slidesToShow: 1,
@@ -115,8 +126,10 @@ const Carousel = ({ ad }) => {
               height={500}
               alt={`Bild ${i + 1}`}
               className="carousel__image"
-              loading={i === 0 ? "eager" : "lazy"}
+              loading="eager"
               priority={i === 0}
+              placeholder="blur"
+              blurDataURL="/assets/blur.jpeg"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => handleImageClick(i + (ad.video ? 1 : 0))}
             />
@@ -133,5 +146,4 @@ const Carousel = ({ ad }) => {
     </>
   );
 };
-
 export default Carousel;
