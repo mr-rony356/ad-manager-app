@@ -43,8 +43,8 @@ const NavBar = ({ user }) => {
           <Link href="/" passHref>
             <Image
               src={"/assets/logo.png"}
-              width={100}
-              height={100}
+              width={500}
+              height={500}
               alt="logo"
               className="logo h-24"
               loading="lazy"

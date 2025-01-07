@@ -178,9 +178,9 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
               )}
             </div>
           </div>
-          <pre className="ad__text" id="adText">
+          <p className="ad__text " id="adText">
             {ad.description}
-          </pre>
+          </p>
           <div
             style={{
               display: "flex",

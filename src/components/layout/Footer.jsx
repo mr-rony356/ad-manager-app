@@ -11,25 +11,47 @@ const Footer = () => {
       <Link href="/">
         <Image
           src={logo}
-          width={100}
-          height={100}
+          width={500}
+          height={500}
           alt="logo"
           className="logo__support"
           loading="lazy"
         />
       </Link>
-      <div className="footer__links">
-        <Link href={"/imprint"} className="footer__link">
-          Impressum
-        </Link>
-        <Link href={"/privacy"} className="footer__link">
-          Datenschutzerklärung
-        </Link>
-        <Link href={"/pageAgb"} className="footer__link">
-          AGB
-        </Link>
+      <div className=" text-white text-[16px]">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="footer__links flex flex-wrap gap-4">
+            <Link
+              href="/inserataufgeben"
+              className="footer__link  hover:underline"
+            >
+              Inserataufgeben
+            </Link>
+            <Link
+              href="/preise-inserate"
+              className="footer__link  hover:underline"
+            >
+              Preise Inserate
+            </Link>
+            <Link href="/faq" className="footer__link  hover:underline">
+              Fragen & Antworten (FAQ)
+            </Link>
+            <Link href="/support" className="footer__link  hover:underline">
+              Support
+            </Link>
+            <Link href="/blogs" className="footer__link  hover:underline">
+              Blogs
+            </Link>
+            <Link href="/imprint" className="footer__link  hover:underline">
+              Impressum
+            </Link>
+          </div>
+        </div>
       </div>
-      <div style={{ width: "fit-content" }} className="card support__content">
+      <div
+        style={{ width: "fit-content" }}
+        className="support__content bg-gray-800 rounded-md"
+      >
         <div className="support__oppening">
           <h3 style={{ color: "white" }}>Support-Hotline</h3>
           <p style={{ color: "white" }} className="support__oppeningHours">
@@ -55,6 +77,17 @@ const Footer = () => {
             />{" "}
             Whatsapp
           </button>
+        </Link>
+      </div>
+      <div className="footer__links">
+        <Link href={"/imprint"} className="footer__link">
+          Impressum
+        </Link>
+        <Link href={"/privacy"} className="footer__link">
+          Datenschutzerklärung
+        </Link>
+        <Link href={"/pageAgb"} className="footer__link">
+          AGB
         </Link>
       </div>
     </footer>
