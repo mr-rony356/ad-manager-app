@@ -145,7 +145,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
             ) : (
               <div className="spacer" style={{ flexGrow: 1 }}></div>
             )}
-            <p className="ad__time">{pastTime}</p>
+            <p className="ad__time text-sm">{pastTime}</p>
           </div>
           <div className="ad__timeEdit">
             <div className="titleContainer">
@@ -178,7 +178,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
               )}
             </div>
           </div>
-          <p className="ad__text " id="adText">
+          <p className="ad__text text-base " id="adText">
             {ad.description}
           </p>
           <div
@@ -207,7 +207,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                 attributes &&
                 ad.tags.length > 0 &&
                 attributes.length > 0 && (
-                  <p className="ad__tag">
+                  <p className="ad__tag text-sm">
                     {
                       attributes.find((attribute) => attribute.name === "tags")
                         .values[ad.tags[0]]
@@ -235,7 +235,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                 attributes &&
                 ad.regions.length > 0 &&
                 attributes.length > 0 && (
-                  <p className="ad__region">
+                  <p className="ad__region text-sm">
                     {ad.regions.slice(0, 2).map((region, index) => (
                       <span key={index}>
                         {
@@ -243,7 +243,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                             (attribute) => attribute.name === "regions",
                           ).values[region]
                         }
-                        {index < 1 && ", "}
+                        {index > 1 && ", "}
                       </span>
                     ))}
                     {ad.regions.length > 2 && " ..."}

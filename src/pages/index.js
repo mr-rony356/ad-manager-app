@@ -457,7 +457,7 @@ function HomePage({
           <br />
           <h3>Warum Onlyfriend.ch für erotische Kontakte?</h3>
           <p>
-            „Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
+            Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
             Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
             komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
             hochwertiges Nutzererlebnis.“

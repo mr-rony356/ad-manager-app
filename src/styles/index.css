@@ -1,12 +1,101 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* Regular */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Bold Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Light */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Light Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Light-Italic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Semi-Bold */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Semi-Bold Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-SemiBold-Italic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family:
+    "Aptos",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-weight: normal; /* Default to Regular */
+  font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Aptos";
+  font-weight: bold; /* Use Bold */
+}
+
+em {
+  font-family: "Aptos";
+  font-style: italic; /* Use Italic */
 }
 
 body > div {
@@ -18,8 +107,18 @@ body > div {
 }
 
 pre {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family:
+    "Aptos",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -518,9 +617,8 @@ a:-webkit-any-link {
 .ad__text {
   color: black;
   font-weight: light;
-  font-size: medium;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Keep this line as 2 for two lines */
+  -webkit-line-clamp: 5; /* Keep this line as 2 for two lines */
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   white-space: normal; /* Set this back to 'normal' */
@@ -703,7 +801,6 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   margin: 2% 5%;
-  margin-bottom: 15em;
 }
 
 .adDetail__address {
@@ -1972,7 +2069,7 @@ a:-webkit-any-link {
 
   .page {
     padding: 0;
-    margin:1em;
+    margin: 1em;
     gap: 0;
   }
 
@@ -2016,7 +2113,9 @@ a:-webkit-any-link {
   .adminPage__contentTitle {
     display: none;
   }
-
+  .ad__text {
+    -webkit-line-clamp: 3;
+  }
   .adminPage__contentLinks,
   .adminPage__contentComponents {
     box-shadow: none;
@@ -2143,7 +2242,6 @@ a:-webkit-any-link {
   .ad__tags {
     display: flex;
     flex-direction: row;
-    display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;

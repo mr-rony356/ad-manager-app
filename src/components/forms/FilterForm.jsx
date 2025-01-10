@@ -272,7 +272,7 @@ const FilterForm = (props) => {
       ) : (
         // Desktop View - Keeping the original layout
         <form
-          className="flex !flex-col lg:items-center w-full justify-between gap-6 shadow-md"
+          className="flex !flex-col lg:items-center w-full justify-between gap-6"
           onSubmit={doFilter}
         >
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">

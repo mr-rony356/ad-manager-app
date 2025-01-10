@@ -57,7 +57,7 @@ const RecentlyViewedAds = ({ attributes }) => {
   }
   console.log(recentAds);
   return (
-    <div className="m-4">
+    <div className="m-4 px-4 md:px-6">
       <h1 className="text-base font-bold my-4">{t("recently_viewed")}</h1>
       <div className="flex items-center gap-4">
         {recentAds.map((ad) => (
