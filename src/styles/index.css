@@ -54,7 +54,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 5em;
-  margin: 3rem 10% 0;
+  margin: 1rem 10% 0;
   min-height: 100vh;
   margin-bottom: 3em;
 }
@@ -315,7 +315,7 @@ a:-webkit-any-link {
   color: white;
   border-radius: 5px;
   border: solid 1px var(--blue);
-  padding: 15px;
+  padding: 10px;
   font-size: medium;
   font-weight: bold;
   cursor: pointer;
@@ -1251,10 +1251,22 @@ a:-webkit-any-link {
 .form--ad {
   gap: 3em;
 }
-
+.button-apply {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  border-radius: 5px;
+  border: solid 1px var(--blue);
+  padding: 10px;
+  font-size: medium;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  max-width: max-content;
+}
 .form__input {
   border: 1px solid var(--gray);
-  padding: 10px;
+  padding: 6px;
   border-radius: 5px;
   width: -webkit-fill-available;
 }
@@ -1833,10 +1845,10 @@ a:-webkit-any-link {
   }
 
   .home__title {
-    padding-top: 1em;
     text-align: center;
     font-size: x-large;
     color: white;
+    margin-bottom: 1em;
   }
 
   .home__content {
@@ -1960,7 +1972,7 @@ a:-webkit-any-link {
 
   .page {
     padding: 0;
-    margin: 3em 1em;
+    margin:1em;
     gap: 0;
   }
 
@@ -2507,8 +2519,8 @@ li {
 }
 
 .pagination-arrow {
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: white;
   border: none;
@@ -2533,8 +2545,8 @@ li {
 }
 
 .pagination-counter {
-  min-width: 120px;
-  height: 80px;
+  min-width: 100px;
+  height: 60px;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);

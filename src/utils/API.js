@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
  * The address of the api
  */
 export const API_ADDRESS =
-  process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
+  process.env.NEXT_PUBLIC_ENVIRONMENT != "production"
     ? "https://onlyfriend.ch/"
     : "http://localhost:3000/";
 
@@ -67,7 +67,7 @@ export default class ApiController {
   async fetchAds(type, page = 1) {
     try {
       const promise = await fetch(
-        this.buildRequest(`api/ads?type=${type}&page=${page}`, "GET")
+        this.buildRequest(`api/ads?type=${type}&page=${page}`, "GET"),
       ).then((res) => res.json());
       return promise;
     } catch (err) {
@@ -569,6 +569,29 @@ export default class ApiController {
       return promise;
     } catch (err) {
       console.error("API: Could not send message", err);
+    }
+  }
+  /**
+   * Fetches one specific ad from the database by its id
+   * @param {*} id The id of the ad to be fetched
+   *  @param {*} review The review as a string
+
+   */
+
+  async sendRating({ id, rating, review, name }) {
+    try {
+      const promise = await fetch(
+        this.buildRequest(
+          "api/ratings",
+          "POST",
+          { id, rating, review, name },
+          this.fetchToken(),
+        ),
+      ).then((res) => res.json());
+
+      return promise;
+    } catch (err) {
+      console.error("API: Could not submit rating", err);
     }
   }
 

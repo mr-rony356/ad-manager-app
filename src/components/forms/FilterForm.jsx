@@ -271,126 +271,139 @@ const FilterForm = (props) => {
         </div>
       ) : (
         // Desktop View - Keeping the original layout
-        <form className="form form--filters" onSubmit={doFilter}>
-          <Select
-            id="dd-1-1"
-            className="dd-1-1"
-            value={
-              filters.regions &&
-              filters.regions.length > 0 &&
-              filters.regions.map((filter) => {
-                return {
-                  value: filter,
-                  label:
-                    attributes &&
-                    attributes.length > 0 &&
-                    attributes.find((attribute) => attribute.name === "regions")
-                      .values[filter],
-                };
-              })
-            }
-            onChange={(value) =>
-              updateFilters(
-                "regions",
-                value.map((v) => v.value),
-              )
-            }
-            placeholder="Region"
-            options={
-              attributes &&
-              attributes.length > 0 &&
-              attributes
-                .find((attribute) => attribute.name === "regions")
-                ?.values.map((value, i) => ({ value: i, label: value }))
-            }
-            isMulti
-          />
-          <Select
-            id="dd-1-2"
-            className="dd-1-2"
-            value={
-              filters.tags &&
-              filters.tags.length > 0 &&
-              filters.tags.map((filter) => {
-                return {
-                  value: filter,
-                  label:
-                    attributes &&
-                    attributes.length > 0 &&
-                    attributes.find((attribute) => attribute.name === "tags")
-                      .values[filter],
-                };
-              })
-            }
-            onChange={(value) =>
-              updateFilters(
-                "tags",
-                value.map((v) => v.value),
-              )
-            }
-            placeholder={t("rubricInput")}
-            options={
-              attributes &&
-              attributes.length > 0 &&
-              attributes
-                .find((attribute) => attribute.name === "tags")
-                ?.values.map((value, i) => ({ value: i, label: value }))
-            }
-            isMulti
-          />
-          <Select
-            id="dd-1-3"
-            className="dd-1-3"
-            value={
-              filters.offers &&
-              filters.offers.length > 0 &&
-              filters.offers.map((filter) => {
-                return {
-                  value: filter,
-                  label:
-                    attributes &&
-                    attributes.length > 0 &&
-                    attributes.find((attribute) => attribute.name === "offers")
-                      .values[filter],
-                };
-              })
-            }
-            onChange={(value) =>
-              updateFilters(
-                "offers",
-                value.map((v) => v.value),
-              )
-            }
-            placeholder={t("offerInput")}
-            options={
-              attributes &&
-              attributes.length > 0 &&
-              attributes
-                .find((attribute) => attribute.name === "offers")
-                ?.values.map((value, i) => ({ value: i, label: value }))
-            }
-            isMulti
-          />
-          <Textfield
-            id="tf-1-1"
-            name="tf-1-1"
-            value={filters.search}
-            onChange={(event) => updateFilters("search", event.target.value)}
-            placeholder={t("searchInput")}
-          />
-          <Slider
-            id="sl-1-1"
-            name="sl-1-1"
-            value={filters.verified !== false}
-            tag="Nur verifizierte Angebote"
-            onChange={(event) => {
-              updateFilters("verified", !!event.target.checked);
-            }}
-          />
-
-          <button type="submit" className="button filter--button">
-            {t("filterForm__filterButton")}
-          </button>
+        <form
+          className="flex !flex-col lg:items-center w-full justify-between gap-6 shadow-md"
+          onSubmit={doFilter}
+        >
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+            <Select
+              id="dd-1-1"
+              className="dd-1-1 lg:min-w-[200px]"
+              value={
+                filters.regions &&
+                filters.regions.length > 0 &&
+                filters.regions.map((filter) => {
+                  return {
+                    value: filter,
+                    label:
+                      attributes &&
+                      attributes.length > 0 &&
+                      attributes.find(
+                        (attribute) => attribute.name === "regions",
+                      ).values[filter],
+                  };
+                })
+              }
+              onChange={(value) =>
+                updateFilters(
+                  "regions",
+                  value.map((v) => v.value),
+                )
+              }
+              placeholder="Region"
+              options={
+                attributes &&
+                attributes.length > 0 &&
+                attributes
+                  .find((attribute) => attribute.name === "regions")
+                  ?.values.map((value, i) => ({ value: i, label: value }))
+              }
+              isMulti
+            />
+            <Select
+              id="dd-1-2"
+              className="dd-1-2 lg:min-w-[200px]"
+              value={
+                filters.tags &&
+                filters.tags.length > 0 &&
+                filters.tags.map((filter) => {
+                  return {
+                    value: filter,
+                    label:
+                      attributes &&
+                      attributes.length > 0 &&
+                      attributes.find((attribute) => attribute.name === "tags")
+                        .values[filter],
+                  };
+                })
+              }
+              onChange={(value) =>
+                updateFilters(
+                  "tags",
+                  value.map((v) => v.value),
+                )
+              }
+              placeholder={t("rubricInput")}
+              options={
+                attributes &&
+                attributes.length > 0 &&
+                attributes
+                  .find((attribute) => attribute.name === "tags")
+                  ?.values.map((value, i) => ({ value: i, label: value }))
+              }
+              isMulti
+            />
+            <Select
+              id="dd-1-3"
+              className="dd-1-3 lg:min-w-[200px]"
+              value={
+                filters.offers &&
+                filters.offers.length > 0 &&
+                filters.offers.map((filter) => {
+                  return {
+                    value: filter,
+                    label:
+                      attributes &&
+                      attributes.length > 0 &&
+                      attributes.find(
+                        (attribute) => attribute.name === "offers",
+                      ).values[filter],
+                  };
+                })
+              }
+              onChange={(value) =>
+                updateFilters(
+                  "offers",
+                  value.map((v) => v.value),
+                )
+              }
+              placeholder={t("offerInput")}
+              options={
+                attributes &&
+                attributes.length > 0 &&
+                attributes
+                  .find((attribute) => attribute.name === "offers")
+                  ?.values.map((value, i) => ({ value: i, label: value }))
+              }
+              isMulti
+            />
+            <Textfield
+              id="tf-1-1"
+              name="tf-1-1"
+              value={filters.search}
+              onChange={(event) => updateFilters("search", event.target.value)}
+              placeholder={t("searchInput")}
+              className="w-full lg:w-auto lg:min-w-[300px] border rounded-md px-3"
+            />
+          </div>
+          <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+            <Slider
+              id="sl-1-1"
+              name="sl-1-1"
+              value={filters.verified !== false}
+              tag="Nur verifizierte Angebote"
+              onChange={(event) => {
+                updateFilters("verified", !!event.target.checked);
+              }}
+              className="lg:ml-4"
+            />
+            <button
+              type="submit"
+              className="button-apply filter--butto text-white px-6 py-2 rounded-md shadow-md transition-all"
+            >
+              {t("filterForm__filterButton")}
+            </button>
+          </div>
         </form>
       )}
     </>

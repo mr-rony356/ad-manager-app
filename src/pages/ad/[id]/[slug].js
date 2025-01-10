@@ -72,6 +72,22 @@ const AdDetail = ({
   const [toggler, setToggler] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [message, setMessage] = useState();
+  const [rating, setRating] = useState(0);
+  const [reviewText, setReviewText] = useState("");
+  const [name, setName] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = () => {
+    if (!name.trim()) {
+      setError(t("Name is required"));
+      return;
+    }
+
+    setError("");
+    const review = { rating, reviewText, name };
+    console.log("Review Submitted:", review);
+    // Post the review to your API
+  };
 
   const tagIcon = "/assets/tag.png";
   const placeIcon = "/assets/place.png";
@@ -366,7 +382,7 @@ const AdDetail = ({
                         <div className="flex !flex-col  items-center gap-3 w-full">
                           <a
                             href={`tel:${areaCode}${ad.phone}`}
-                            className="flex  min-w-44 md:min-w-64  justify-center border border-sky-500 rounded-md"
+                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
                           >
                             <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
                               <Image
@@ -383,7 +399,7 @@ const AdDetail = ({
                               /\s/g,
                               "",
                             )}?text=%C2%ABHallo%20ich%20habe%20dein%20Inserat%20auf%20Onlyfriend.ch%20gesehen.%C2%BB`}
-                            className="flex  min-w-44 md:min-w-64  justify-center border border-sky-500 rounded-md"
+                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
                           >
                             <button className="ml-4 flex items-center gap-4 px-4 py-2  text-blue-600  ">
                               <Image
@@ -399,7 +415,7 @@ const AdDetail = ({
                           {ad.website && (
                             <a
                               href={ad.website}
-                              className="flex  min-w-44 md:min-w-64  justify-center border border-sky-500 rounded-md"
+                              className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
                             >
                               <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
                                 <Image
@@ -537,6 +553,62 @@ const AdDetail = ({
                 </div>
               )}
             </div>{" "}
+          </div>
+          <div className="mt-4 px-2 md:px-0">
+            <h3 className="text-lg font-semibold text-gray-800">
+              {t("review_text")}
+            </h3>
+
+            {/* Star Rating */}
+            <div className="flex items-center mt-2 space-x-1 ">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  onClick={() => setRating(star)}
+                  className={`w-6 h-6 flex justify-center items-center rounded-full border ${
+                    rating >= star
+                      ? "bg-yellow-400 text-white"
+                      : "bg-gray-200 text-gray-600"
+                  }`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-3 w-3"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+            {/* Review Text Input */}
+            <textarea
+              value={reviewText}
+              onChange={(e) => setReviewText(e.target.value)}
+              placeholder={t("review_text")}
+              maxLength={600}
+              className="w-full mt-4 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-sky-300"
+              rows="4"
+            />
+
+            {/* Name Input */}
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder={t("Name*")}
+              className="w-full mt-4 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-sky-300"
+            />
+            {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
+
+            {/* Submit Button */}
+            <button
+              onClick={handleSubmit}
+              className="mt-4 px-5 py-3 bg-sky-400 text-white font-semibold rounded-lg hover:bg-sky-500 focus:ring focus:ring-sky-300 focus:outline-none"
+            >
+              {t("submit_review")}
+            </button>
           </div>
           <RecentlyViewedAds attributes={attributes} />
         </div>

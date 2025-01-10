@@ -176,5 +176,11 @@
 
   "popUp__twint1": " Bitte überweisen Sie",
   "popUp__twint2": "via obigem QR Code und wenn es geklappt hat, werden Sie weitergeleitet.",
-  "popUp__twint3": "WICHTIG: Bitte geben Sie Ihren Benutzername oder E-Mail Adresse in dem Kontaktformular an."
+  "popUp__twint3": "WICHTIG: Bitte geben Sie Ihren Benutzername oder E-Mail Adresse in dem Kontaktformular an.",
+
+
+
+  "review_text": "Teilen Sie uns Ihre Erfahrung",
+  "submit_review": "Bewertung abgeben"
+
 }

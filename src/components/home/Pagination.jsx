@@ -2,21 +2,21 @@ import React from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const handlePrevClick = () => {
-      onPageChange(currentPage - 1);
-      window.scrollTo({
-        top: 300,
-        left: 0,
-        behavior: "smooth",
-      });
+    onPageChange(currentPage - 1);
+    window.scrollTo({
+      top: 300,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   const handleNextClick = () => {
-      onPageChange(currentPage + 1);
-      window.scrollTo({
-        top: 300,
-        left: 0,
-        behavior: "smooth",
-      });
+    onPageChange(currentPage + 1);
+    window.scrollTo({
+      top: 300,
+      left: 0,
+      behavior: "smooth",
+    });
   };
 
   // Don't render pagination if there's only 1 page
@@ -30,8 +30,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         aria-label="Previous page"
       >
         <svg
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -54,8 +54,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         aria-label="Next page"
       >
         <svg
-          width="24"
-          height="24"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"

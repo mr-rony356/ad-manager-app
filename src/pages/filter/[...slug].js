@@ -193,15 +193,12 @@ function HomePage({
             ? ` ${tags[0]} / ${offers[0]} in ${locations.join(" , ")}`
             : null}
         </h1>{" "}
-        <div className="home__content">
-          <div className="home__left">
-              <FilterForm
-                filters={filters}
-                setFilters={setFilters}
-                attributes={attributes}
-              />
-          </div>
-          <div className="home__right">
+          <FilterForm
+            filters={filters}
+            setFilters={setFilters}
+            attributes={attributes}
+          />
+          <div>
             <div className="button--inline">
               {attributes &&
                 attributes.length > 0 &&
@@ -236,10 +233,9 @@ function HomePage({
               attributes={attributes}
             />
           </div>
-        </div>
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(ads.length/ adsPerPage)}
+          totalPages={Math.ceil(ads.length / adsPerPage)}
           onPageChange={paginate}
         />{" "}
         <div>

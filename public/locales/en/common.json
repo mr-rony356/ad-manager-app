@@ -174,5 +174,15 @@
 
   "popUp__twint1": "Please transfer",
   "popUp__twint2": "using the QR code above. Once the transfer is successful, you will be redirected.",
-  "popUp__twint3": "IMPORTANT: Please enter your username or email address in the contact form."
+  "popUp__twint3": "IMPORTANT: Please enter your username or email address in the contact form.",
+  "faq_one_question": "How do I place an ad on Onlyfriend.ch?",
+  "faq_one_answer": "Placing an ad is simple: Click on the “Place Ad Now” button and follow the steps to create your listing. Within minutes, your ad will be on- line and visible to everyone.",
+  "faq_two_question": "How do I place an ad on Onlyfriend.ch?",
+  "faq_two_answer": "Placing an ad is simple: Click on the “Place Ad Now” button and follow the steps to create your listing. Within minutes, your ad will be on- line and visible to everyone.",
+  "faq_three_question":"tes",
+
+
+  "review_text": "Share Your Experience",
+  "submit_review": "Submit Review"
+
 }
