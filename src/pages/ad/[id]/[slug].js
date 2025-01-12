@@ -360,7 +360,7 @@ const AdDetail = ({
                         onChange={(event) => setMessage(event.target.value)}
                         label="Nachricht"
                         required={true}
-                        className="w-full"
+                        className="w-full border border-sky-500 "
                       />
                       <button
                         type="submit"
@@ -554,7 +554,7 @@ const AdDetail = ({
               )}
             </div>{" "}
           </div>
-          <div className="mt-4 px-2 md:px-6">
+          <div className="mt-4 px-4 md:px-6">
             <h3 className="text-lg font-semibold text-gray-800">
               {t("review_text")}
             </h3>

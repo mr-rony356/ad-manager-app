@@ -85,11 +85,8 @@ body {
 
 h1,
 h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Aptos";
+h3
+{
   font-weight: bold; /* Use Bold */
 }
 
@@ -2228,17 +2225,25 @@ a:-webkit-any-link {
 
   .ad__tag,
   .ad__region {
-    font-size: 0.8em;
+    font-size: 14px;
   }
 
   .ad__time {
     font-size: 0.8em;
   }
-
+  .ad__title, .blog__title {
+    line-height: 20px;
+}
   .ad__text {
     font-size: 0.8em;
+    line-height: 20px;
   }
-
+  .button {
+    font-size: 15px;
+}
+.home__adsHeader {
+  margin: 10px 0;
+}
   .ad__tags {
     display: flex;
     flex-direction: row;
@@ -2545,7 +2550,7 @@ a:-webkit-any-link {
 }
 @media (max-width: 768px) {
   .adDetail__title {
-    font-size: 1.1em;
+    font-size: 1.5em;
   }
   .ad_tab_content {
     flex-direction: column;
@@ -2554,9 +2559,6 @@ a:-webkit-any-link {
     align-items: flex-end;
     margin-bottom: 25px;
     justify-content: center;
-  }
-  .inputBox {
-    width: 100%;
   }
   .slick-list {
     padding: 0 !important;
