@@ -85,8 +85,7 @@ body {
 
 h1,
 h2,
-h3
-{
+h3 {
   font-weight: bold; /* Use Bold */
 }
 
@@ -586,7 +585,7 @@ a:-webkit-any-link {
 
 .ad__title,
 .blog__title {
-  font-size: medium;
+  font-size: 18px;
   font-weight: medium;
   color: #1a1f21;
   display: -webkit-box;
@@ -2000,6 +1999,10 @@ a:-webkit-any-link {
     transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
     border-radius: 2px;
   }
+  .ad__title,
+  .blog__title {
+    font-size: 14px;
+  }
 
   .menu-button::before {
     content: "";
@@ -2231,19 +2234,20 @@ a:-webkit-any-link {
   .ad__time {
     font-size: 0.8em;
   }
-  .ad__title, .blog__title {
+  .ad__title,
+  .blog__title {
     line-height: 20px;
-}
+  }
   .ad__text {
     font-size: 0.8em;
     line-height: 20px;
   }
   .button {
     font-size: 15px;
-}
-.home__adsHeader {
-  margin: 10px 0;
-}
+  }
+  .home__adsHeader {
+    margin: 10px 0;
+  }
   .ad__tags {
     display: flex;
     flex-direction: row;
