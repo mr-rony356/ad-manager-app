@@ -33,7 +33,7 @@ const Carousel = ({ ad }) => {
 
   const preloadImages = useCallback(() => {
     ad.images.forEach((image) => {
-      const img = document.createElement('img');
+      const img = document.createElement("img");
       img.src = API_ADDRESS + image;
     });
   }, [ad.images]);
@@ -129,7 +129,7 @@ const Carousel = ({ ad }) => {
               loading="eager"
               priority={i === 0}
               placeholder="blur"
-              blurDataURL="/assets/blur.jpeg"
+              blurDataURL="https://onlyfriend.ch/assets/blur.jpeg"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => handleImageClick(i + (ad.video ? 1 : 0))}
             />
