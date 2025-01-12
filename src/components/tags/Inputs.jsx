@@ -25,7 +25,7 @@ export function Textfield(props) {
       <input
         type={tempType}
         id={id}
-        className="form__input form__input--textfield"
+        className="p-[6px] rounded-md form__input--textfield"
         name={name}
         value={value ?? ""}
         onChange={onChange}

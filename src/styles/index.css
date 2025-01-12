@@ -414,8 +414,8 @@ a:-webkit-any-link {
   color: white;
   border-radius: 5px;
   border: solid 1px var(--blue);
-  padding: 10px;
-  font-size: medium;
+  padding: 12px;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   text-decoration: none;
@@ -1363,7 +1363,7 @@ a:-webkit-any-link {
 }
 .form__input {
   border: 1px solid var(--gray);
-  padding: 6px;
+  padding: 10px;
   border-radius: 5px;
   width: -webkit-fill-available;
 }
