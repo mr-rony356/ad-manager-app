@@ -11,16 +11,16 @@ const AdList = ({ ads, premiumAds, attributes, user, total }) => {
     setActiveAdId((prev) => (prev === adId ? null : adId));
   };
   return (
-    <div className="ad__list">
+    <div className="ad__list w-full">
       <div className="home__adsHeader">
-        <h3>
+        <h4>
           {total} {t("ads_count")}
-        </h3>
+        </h4>
       </div>
       {premiumAds && premiumAds.length > 0 && (
         <PremiumAdCarousel ads={premiumAds} attributes={attributes} />
       )}
-      <div className="ads">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-content-center">
         {ads
           .slice()
           .reverse()

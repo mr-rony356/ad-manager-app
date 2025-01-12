@@ -87,7 +87,11 @@ const SignupForm = ({ setBody }) => {
           />
         </div>
 
-        {err && <p>{err}</p>}
+        {err && (
+          <p className="text-red-600">
+            {err === "The email is already taken" ? t("signup__error") : err}
+          </p>
+        )}
         <div className="form__agbCheckbox">
           <input
             className="agbCheckbox"

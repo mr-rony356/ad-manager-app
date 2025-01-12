@@ -25,7 +25,7 @@ export function Textfield(props) {
       <input
         type={tempType}
         id={id}
-        className="form__input form__input--textfield"
+        className="p-[6px] rounded-md form__input--textfield border border-sky-500 "
         name={name}
         value={value ?? ""}
         onChange={onChange}
@@ -233,8 +233,8 @@ export function Slider(props) {
   const { id, name, onChange, required, tag, value } = props;
 
   return (
-    <div className="verificationCheck">
-      <label className="container">
+    <div className="verificationCheck flex !justify-start !items-center">
+      <label className=" max-w-7">
         <input
           type="checkbox"
           id={id}
@@ -242,10 +242,11 @@ export function Slider(props) {
           name={name}
           onChange={onChange}
           required={required}
+          className="p-2 w-5 h-5 mx-4"
         />
-        <span className="checkmark"></span>
+        <span className="checkmark hidden"></span>
       </label>
-      <p style={{ marginTop: "0.2em", padding: 0 }}>{tag}</p>
+      <p className="ml-4 pb-1">{tag}</p>
     </div>
   );
 }
