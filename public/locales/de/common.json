@@ -5,11 +5,13 @@
   "ads_count_of": "von",
   "home__adPlaceholder": "Aktuell keine Inserate vorhanden",
   "skeleton_text": "Bitte warten, Inserate werden geladen...",
+  "recently_viewed": "Zuletzt angesehen",
 
   "filterForm__filterButton": "Filter Anwenden",
   "filterForm__verifiedCheck": "Nur verifizierte Inserate",
 
   "login__error": "Hinweis, falls Sie ihr Benutzername vergessen haben, gehen Sie in Ihre Mailbox, wir haben Sie direkt mit dem Benutzername angesprochen",
+  "signup__error": "Die email wird bereits verwendet",
 
   "searchInput": "Suchen",
   "offerInput": "Angebot",
@@ -174,5 +176,11 @@
 
   "popUp__twint1": " Bitte überweisen Sie",
   "popUp__twint2": "via obigem QR Code und wenn es geklappt hat, werden Sie weitergeleitet.",
-  "popUp__twint3": "WICHTIG: Bitte geben Sie Ihren Benutzername oder E-Mail Adresse in dem Kontaktformular an."
+  "popUp__twint3": "WICHTIG: Bitte geben Sie Ihren Benutzername oder E-Mail Adresse in dem Kontaktformular an.",
+
+
+
+  "review_text": "Teilen Sie uns Ihre Erfahrung",
+  "submit_review": "Bewertung abgeben"
+
 }

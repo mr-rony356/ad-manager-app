@@ -82,7 +82,7 @@ function HomePage({
   const { t } = useTranslation("common");
   const [filters, setFilters] = useState(initialFilters);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
-  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [activeType, setActiveType] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -193,17 +193,12 @@ function HomePage({
             ? ` ${tags[0]} / ${offers[0]} in ${locations.join(" , ")}`
             : null}
         </h1>{" "}
-        <div className="home__content">
-          <div className="home__left">
-            {isFilterVisible && (
-              <FilterForm
-                filters={filters}
-                setFilters={setFilters}
-                attributes={attributes}
-              />
-            )}
-          </div>
-          <div className="home__right">
+          <FilterForm
+            filters={filters}
+            setFilters={setFilters}
+            attributes={attributes}
+          />
+          <div>
             <div className="button--inline">
               {attributes &&
                 attributes.length > 0 &&
@@ -220,14 +215,14 @@ function HomePage({
                       {value.name} {t("home__ad")}
                     </button>
                   ))}
-              <Image
+              {/* <Image
                 src={"/assets/filter.png"}
                 width={500}
                 height={500}
                 alt="filter"
                 className="filter"
                 onClick={toggleFilter}
-              />
+              /> */}
             </div>
             <AdList
               user={user}
@@ -238,10 +233,9 @@ function HomePage({
               attributes={attributes}
             />
           </div>
-        </div>
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(ads.length/ adsPerPage)}
+          totalPages={Math.ceil(ads.length / adsPerPage)}
           onPageChange={paginate}
         />{" "}
         <div>

@@ -51,7 +51,6 @@ const Blog = ({ blog, user, deleteHandler }) => {
             alt="Blog"
             className="ad__image"
             loading="lazy"
-            unoptimized={true}
           />
         )}
       </div>

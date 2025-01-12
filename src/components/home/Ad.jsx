@@ -72,7 +72,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
     .replace(/[^\w\s-]/g, "")
     .replace(/[\s_-]+/g, "-")
     .replace(/^-+|-+$/g, "");
-  const isOwner = user.email ==="cyrill.mueller@onlyfriend.ch";
+  const isOwner = user.email === "cyrill.mueller@onlyfriend.ch";
   return (
     <Link
       href={{
@@ -81,7 +81,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
         }${adSlug}`,
       }}
     >
-      <div className="ad" >
+      <div className="ad ">
         <div style={{ position: "relative", width: "100%" }}>
           {ad.images && ad.images.length > 0 && (
             <Image
@@ -121,7 +121,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
               <p className="ad__inactive">Inaktiv</p>
             ) : null}
 
-            {isModalOpen  && (
+            {isModalOpen && (
               <AdModal
                 ad={ad}
                 setShowModal={setShowModal}
@@ -145,11 +145,11 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
             ) : (
               <div className="spacer" style={{ flexGrow: 1 }}></div>
             )}
-            <p className="ad__time">{pastTime}</p>
+            <p className="ad__time text-sm">{pastTime}</p>
           </div>
           <div className="ad__timeEdit">
             <div className="titleContainer">
-              <h1 className="ad__title" id="adTitle">
+              <h1 className="ad__title font-bold" id="adTitle">
                 {ad.title}
               </h1>
               {/* {ad.verified && (
@@ -172,15 +172,15 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                     e.preventDefault();
                     e.stopPropagation();
                     setShowModal(!showModal);
-                   toggleModal(ad._id)
+                    toggleModal(ad._id);
                   }}
                 />
               )}
             </div>
           </div>
-          <pre className="ad__text" id="adText">
+          <p className="ad__text text-base " id="adText">
             {ad.description}
-          </pre>
+          </p>
           <div
             style={{
               display: "flex",
@@ -207,7 +207,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                 attributes &&
                 ad.tags.length > 0 &&
                 attributes.length > 0 && (
-                  <p className="ad__tag">
+                  <p className="ad__tag text-sm">
                     {
                       attributes.find((attribute) => attribute.name === "tags")
                         .values[ad.tags[0]]
@@ -235,7 +235,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                 attributes &&
                 ad.regions.length > 0 &&
                 attributes.length > 0 && (
-                  <p className="ad__region">
+                  <p className="ad__region text-sm">
                     {ad.regions.slice(0, 2).map((region, index) => (
                       <span key={index}>
                         {
@@ -243,7 +243,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                             (attribute) => attribute.name === "regions",
                           ).values[region]
                         }
-                        {index < 1 && ", "}
+                        {index > 1 && ", "}
                       </span>
                     ))}
                     {ad.regions.length > 2 && " ..."}

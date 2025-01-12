@@ -1,9 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Regular */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Bold */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* Bold Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Bold-Italic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* Light */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* Light Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-Light-Italic.ttf") format("truetype");
+  font-weight: 300;
+  font-style: italic;
+}
+
+/* Semi-Bold */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Semi-Bold Italic */
+@font-face {
+  font-family: "Aptos";
+  src: url("/aptos-fonts/Aptos-SemiBold-Italic.ttf") format("truetype");
+  font-weight: 600;
+  font-style: italic;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family:
+    "Aptos",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-weight: normal; /* Default to Regular */
+  font-style: normal;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: bold; /* Use Bold */
+}
+
+em {
+  font-family: "Aptos";
+  font-style: italic; /* Use Italic */
 }
 
 body > div {
@@ -15,8 +103,18 @@ body > div {
 }
 
 pre {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  font-family:
+    "Aptos",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "Roboto",
+    "Oxygen",
+    "Ubuntu",
+    "Cantarell",
+    "Fira Sans",
+    "Droid Sans",
+    "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -51,7 +149,7 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 5em;
-  margin: 3rem 10% 0;
+  margin: 1rem 10% 0;
   min-height: 100vh;
   margin-bottom: 3em;
 }
@@ -166,7 +264,6 @@ a:-webkit-any-link {
 .flex {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
 }
 
 .column {
@@ -196,7 +293,6 @@ a:-webkit-any-link {
   display: block;
   position: relative;
   padding-left: 35px;
-  margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
   -webkit-user-select: none;
@@ -314,8 +410,8 @@ a:-webkit-any-link {
   color: white;
   border-radius: 5px;
   border: solid 1px var(--blue);
-  padding: 15px;
-  font-size: medium;
+  padding: 12px;
+  font-size: 18px;
   font-weight: bold;
   cursor: pointer;
   text-decoration: none;
@@ -489,7 +585,7 @@ a:-webkit-any-link {
 
 .ad__title,
 .blog__title {
-  font-size: medium;
+  font-size: 18px;
   font-weight: medium;
   color: #1a1f21;
   display: -webkit-box;
@@ -517,9 +613,8 @@ a:-webkit-any-link {
 .ad__text {
   color: black;
   font-weight: light;
-  font-size: medium;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* Keep this line as 2 for two lines */
+  -webkit-line-clamp: 5; /* Keep this line as 2 for two lines */
   -webkit-box-orient: vertical;
   word-wrap: break-word;
   white-space: normal; /* Set this back to 'normal' */
@@ -702,7 +797,6 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   margin: 2% 5%;
-  margin-bottom: 15em;
 }
 
 .adDetail__address {
@@ -730,11 +824,10 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: row;
   gap: 0.5em;
-  margin-bottom: 0.5em;
   align-items: center;
   color: white;
+  margin-bottom: 25px;
 }
-
 .adDetail__titleSection {
   display: flex;
   align-items: center;
@@ -788,7 +881,7 @@ a:-webkit-any-link {
 
 .adDetail__split {
   display: flex;
-  gap: 3em;
+  gap: 2em;
   justify-content: center;
 }
 
@@ -867,7 +960,7 @@ a:-webkit-any-link {
   width: 70%;
   display: flex;
   flex-direction: column;
-  gap: 3em;
+  gap: 1em;
 }
 
 .adDetail__filters {
@@ -875,6 +968,7 @@ a:-webkit-any-link {
   flex-direction: row;
   gap: 2em;
   color: var(--blue);
+  flex-wrap: wrap;
 }
 
 .adDetail__tags,
@@ -882,7 +976,6 @@ a:-webkit-any-link {
   display: flex;
   gap: 0.5em;
   flex-direction: row;
-  flex-wrap: wrap;
 }
 
 .adDetail__description {
@@ -987,7 +1080,7 @@ a:-webkit-any-link {
   gap: 1.5em;
   width: fit-content;
   justify-content: center;
-  padding: 2em;
+  padding: 1.5em;
   width: 30em;
 }
 
@@ -1251,10 +1344,22 @@ a:-webkit-any-link {
 .form--ad {
   gap: 3em;
 }
-
+.button-apply {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  border-radius: 5px;
+  border: solid 1px var(--blue);
+  padding: 10px;
+  font-size: medium;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  max-width: max-content;
+}
 .form__input {
   border: 1px solid var(--gray);
-  padding: 15px;
+  padding: 10px;
   border-radius: 5px;
   width: -webkit-fill-available;
 }
@@ -1809,9 +1914,6 @@ a:-webkit-any-link {
     height: 24px;
   }
 
-  .logo {
-    width: 55%;
-  }
   .modal-content {
     width: 70%;
   }
@@ -1836,10 +1938,10 @@ a:-webkit-any-link {
   }
 
   .home__title {
-    padding-top: 1em;
     text-align: center;
     font-size: x-large;
     color: white;
+    margin-bottom: 1em;
   }
 
   .home__content {
@@ -1865,6 +1967,9 @@ a:-webkit-any-link {
     justify-content: center;
     align-items: center;
     position: relative; /* Ensure positioning context */
+  }
+  .slick-slider {
+    margin-left: -75px;
   }
 
   .menu {
@@ -1893,6 +1998,10 @@ a:-webkit-any-link {
     width: 30px;
     transition: transform 400ms cubic-bezier(0.23, 1, 0.32, 1);
     border-radius: 2px;
+  }
+  .ad__title,
+  .blog__title {
+    font-size: 14px;
   }
 
   .menu-button::before {
@@ -1936,6 +2045,9 @@ a:-webkit-any-link {
     background-color: var(--dark);
     width: -webkit-fill-available;
   }
+  .adDetail__verifiedPart {
+    margin-bottom: 0px;
+  }
   .mobile_menu > li:not(:last-child) {
     border-bottom: 1px solid #444;
   }
@@ -1943,7 +2055,7 @@ a:-webkit-any-link {
   .nav {
     display: flex;
     flex-direction: row;
-    padding: 1.5em 2em;
+    padding: 1.5em 1em;
     align-items: center;
   }
 
@@ -1957,7 +2069,7 @@ a:-webkit-any-link {
 
   .page {
     padding: 0;
-    margin: 3em 1em;
+    margin: 1em;
     gap: 0;
   }
 
@@ -2001,7 +2113,9 @@ a:-webkit-any-link {
   .adminPage__contentTitle {
     display: none;
   }
-
+  .ad__text {
+    -webkit-line-clamp: 3;
+  }
   .adminPage__contentLinks,
   .adminPage__contentComponents {
     box-shadow: none;
@@ -2043,8 +2157,8 @@ a:-webkit-any-link {
   }
 
   .adDetail {
-    gap: 1.5em;
-    margin: 2% 0;
+    gap: 1em;
+    margin: 0;
   }
 
   .adDetail__split {
@@ -2058,7 +2172,6 @@ a:-webkit-any-link {
   }
 
   .adDetail__filters {
-    flex-direction: column;
     gap: 1em;
   }
 
@@ -2102,8 +2215,6 @@ a:-webkit-any-link {
 
   .adDetail__title {
     word-break: break-word;
-
-    margin-top: 1em;
   }
 
   .adDetail__filter {
@@ -2117,21 +2228,29 @@ a:-webkit-any-link {
 
   .ad__tag,
   .ad__region {
-    font-size: 0.8em;
+    font-size: 14px;
   }
 
   .ad__time {
     font-size: 0.8em;
   }
-
+  .ad__title,
+  .blog__title {
+    line-height: 20px;
+  }
   .ad__text {
     font-size: 0.8em;
+    line-height: 20px;
   }
-
+  .button {
+    font-size: 15px;
+  }
+  .home__adsHeader {
+    margin: 10px 0;
+  }
   .ad__tags {
     display: flex;
     flex-direction: row;
-    display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -2288,6 +2407,12 @@ a:-webkit-any-link {
   .sticky-buttons {
     position: fixed;
   }
+  .adDetail__container__images p {
+    font-size: 0.9em;
+  }
+  .adDetail__verifiedPart p {
+    font-size: 0.9em;
+  }
 
   .carousel {
     margin-bottom: 0;
@@ -2297,9 +2422,9 @@ a:-webkit-any-link {
 
   .carousel img,
   .carousel video {
-    height: 450px;
+    height: 333px;
+    width: 250px;
   }
-
   .carousel__image {
     min-width: 250px; /* Example minimum width */
     max-width: 100%; /* Ensure images don't overflow the slider */
@@ -2314,6 +2439,11 @@ a:-webkit-any-link {
   .slick .flickity-prev-next-button {
     display: none;
   }
+  .logo,
+  .logo__support {
+    width: 13em;
+    height: auto;
+  }
 
   .footer {
     flex-direction: column;
@@ -2323,7 +2453,7 @@ a:-webkit-any-link {
   }
 
   .footer__links {
-    font-size: large;
+    font-size: 16px;
   }
 }
 
@@ -2445,7 +2575,7 @@ a:-webkit-any-link {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 5px;
   padding: 0 15px;
   color: white;
 }
@@ -2493,8 +2623,8 @@ li {
 }
 
 .pagination-arrow {
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
   background-color: white;
   border: none;
@@ -2519,8 +2649,8 @@ li {
 }
 
 .pagination-counter {
-  min-width: 120px;
-  height: 80px;
+  min-width: 100px;
+  height: 60px;
   border-radius: 8px;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -2536,4 +2666,92 @@ li {
 .pagination-arrow:focus {
   outline: 2px solid #007bff;
   outline-offset: 2px;
+}
+
+/* Make the filter icon sticky and centered */
+.filter-icon-container {
+  position: sticky;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%, 50%);
+  z-index: 100;
+  cursor: pointer;
+  width: 100%;
+}
+
+.filter-icon {
+  width: 50px;
+  height: 50px;
+  background-color: #007bff;
+}
+.filter-icon-slider {
+  color: white;
+  width: 30px;
+  height: 30px;
+  fill: white;
+  filter: invert(1);
+}
+/* Adjust form visibility */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

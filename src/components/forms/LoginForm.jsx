@@ -50,7 +50,7 @@ const LoginForm = () => {
         />
       </div>
 
-      {err && <p style={{ textAlign: "center" }}>{t("login__error")}</p>}
+      {err && <p className="text-red-600" style={{ textAlign: "center" }}>{t("login__error")}</p>}
 
       <button className="button form--button" type="submit">
         {t("login__button")}

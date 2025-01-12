@@ -20,6 +20,7 @@ import PageAGB from "@pages/pageAgb";
 import Support from "@pages/pageSupport";
 import Privacy from "@pages/privacy";
 import { Route, Routes } from "react-router-dom";
+import { Toaster } from "@components/ui/toaster";
 
 const Body = (props) => {
   const { user, setUser } = props;
@@ -124,6 +125,7 @@ const Body = (props) => {
         <Route path="/imprint" element={<Imprint />} />
         <Route path="/privacy" element={<Privacy />} />
       </Routes>
+      <Toaster />
     </>
   );
 };

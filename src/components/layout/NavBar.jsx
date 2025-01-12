@@ -42,11 +42,11 @@ const NavBar = ({ user }) => {
         <div className="nav__logoSupport">
           <Link href="/" passHref>
             <Image
-              src={"/assets/logo.svg"}
+              src={"/assets/logo.png"}
               width={500}
               height={500}
               alt="logo"
-              className="logo"
+              className="logo h-24"
               loading="lazy"
             />
           </Link>
@@ -148,7 +148,7 @@ const NavBar = ({ user }) => {
                 Blogs
               </Link>
             </li>
-            <li className="free-mobile-menu">
+            <li className="free-mobile-menu !py-12">
               <Link
                 href="/ad?type=free"
                 passHref

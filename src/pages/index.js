@@ -119,7 +119,7 @@ function HomePage({
     search: null,
     verified: false,
   });
-  const adsPerPage = 25;
+  const adsPerPage = 26;
 
   // Enhanced route and page handling
   useEffect(() => {
@@ -233,77 +233,79 @@ function HomePage({
         />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
+        <link
+          rel="icon"
+          href=" https://onlyfriend.ch/favicon.png"
+          type="image/x-icon"
+        />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
       <div className="page page--home">
-        <h1 className="home__title">
+        <h1 className="home__title font-bold text-[32px]">
           {t("home__title", { region: "Schweiz" })}
         </h1>
-        <div className="home__content">
-          <div className="home__left">
             <FilterForm
               filters={filters}
               setFilters={setFilters}
               attributes={attributes}
             />
-          </div>{" "}
-          <div className="home__right">
-            <div className="button--inline">
-              {attributes &&
-                attributes.length > 0 &&
-                attributes
-                  .find((attribute) => attribute.name === "types")
-                  .values.map((value) => (
-                    <button
-                      key={value.id}
-                      className={
-                        activeType === value.id ? "button" : "button inactive"
-                      }
-                      onClick={() => {
-                        fetchAds(value.id);
-                        setActiveType(value.id);
-                      }}
-                    >
-                      {value.name} {t("home__ad")}
-                    </button>
-                  ))}
-              <Image
+        <div className="">
+          <div className="button--inline">
+            {attributes &&
+              attributes.length > 0 &&
+              attributes
+                .find((attribute) => attribute.name === "types")
+                .values.map((value) => (
+                  <button
+                    key={value.id}
+                    className={
+                      activeType === value.id ? "button" : "button inactive"
+                    }
+                    onClick={() => {
+                      fetchAds(value.id);
+                      setActiveType(value.id);
+                    }}
+                  >
+                    {value.name} {t("home__ad")}
+                  </button>
+                ))}
+            {/* <Image
                 src="/assets/filter.png"
                 width={500}
                 height={500}
                 alt="filter"
                 className="filter"
                 priority
-              />
-            </div>
-            {loading ? (
-              <div className="ads-skeleton-container">
-                <h1
-                  style={{
-                    fontSize: "1.5rem",
-                    fontWeight: "bold",
-                    color: "#374151",
-                    marginBottom: "1rem",
-                  }}
-                >
-                  {t("skeleton_text")}
-                </h1>
-
-                {[...Array(5)].map((_, index) => (
-                  <AdSkeleton key={index} />
-                ))}
-              </div>
-            ) : (
-              <AdList
-                user={user}
-                ads={ads}
-                attributes={attributes}
-                total={total}
-              />
-            )}{" "}
-            {isCookiesPopupOpen && (
-              <CookiesPopup setIsCookiesPopupOpen={setIsCookiesPopupOpen} />
-            )}{" "}
+              /> */}
           </div>
+          {loading ? (
+            <div className="ads-skeleton-container">
+              <h1
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "bold",
+                  color: "#374151",
+                  marginBottom: "1rem",
+                }}
+              >
+                {t("skeleton_text")}
+              </h1>
+
+              {[...Array(5)].map((_, index) => (
+                <AdSkeleton key={index} />
+              ))}
+            </div>
+          ) : (
+            <AdList
+              user={user}
+              ads={ads}
+              attributes={attributes}
+              total={total}
+            />
+          )}{" "}
+          {isCookiesPopupOpen && (
+            <CookiesPopup setIsCookiesPopupOpen={setIsCookiesPopupOpen} />
+          )}{" "}
         </div>
         <Pagination
           currentPage={currentPage}
@@ -455,7 +457,7 @@ function HomePage({
           <br />
           <h3>Warum Onlyfriend.ch für erotische Kontakte?</h3>
           <p>
-            „Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
+            Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
             Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
             komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
             hochwertiges Nutzererlebnis.“
