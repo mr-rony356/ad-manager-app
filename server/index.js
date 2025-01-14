@@ -278,6 +278,67 @@ server
       }
     });
 
+    app.post("/api/ratings", async (req, res) => {
+      try {
+        const { advertisementId, rating, review, name } = req.body;
+
+        // Validate required fields
+        if (!advertisementId || !rating || !name) {
+          return res.status(400).json({ error: "Missing required fields" });
+        }
+
+        if (rating < 1 || rating > 5) {
+          return res
+            .status(400)
+            .json({ error: "Rating must be between 1 and 5" });
+        }
+
+        if (review && review.length > 600) {
+          return res
+            .status(400)
+            .json({ error: "Review must be 600 characters or less" });
+        }
+
+        // Find the advertisement by ID
+        const ad = await req.db
+          .collection("ads")
+          .findOne({ _id: new ObjectId(advertisementId) });
+
+        if (!ad) {
+          return res.status(404).json({ error: "Advertisement not found" });
+        }
+
+        // Create the rating data
+        const ratingData = {
+          rating,
+          review: review || null,
+          name,
+          timestamp: new Date(),
+        };
+
+        // Update the advertisement document by adding the rating to the `ratings` array
+        const result = await req.db
+          .collection("ads")
+          .updateOne(
+            { _id: new ObjectId(advertisementId) },
+            { $push: { ratings: ratingData } },
+          );
+
+        if (result.modifiedCount === 0) {
+          return res.status(500).json({ error: "Failed to save rating" });
+        }
+
+        return res
+          .status(201)
+          .json({ message: "Rating submitted successfully" });
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ error: "An error occurred while submitting the rating" });
+      }
+    });
+
     /** Fetches all the premium ads from the database */
     app.get("/api/ads/premium", async (req, res) => {
       try {

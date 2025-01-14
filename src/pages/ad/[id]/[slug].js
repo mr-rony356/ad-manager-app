@@ -76,7 +76,6 @@ const AdDetail = ({
   const [reviewText, setReviewText] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-
   const handleSubmit = () => {
     if (!name.trim()) {
       setError(t("Name is required"));
@@ -86,7 +85,7 @@ const AdDetail = ({
     setError("");
     const review = { rating, reviewText, name };
     console.log("Review Submitted:", review);
-    // Post the review to your API
+    api.sendRating(ad._id, rating, reviewText, name);
   };
 
   const tagIcon = "/assets/tag.png";

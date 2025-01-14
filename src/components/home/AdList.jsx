@@ -22,6 +22,8 @@ const AdList = ({ ads, premiumAds, attributes, user, total }) => {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-content-center">
         {ads
+          // .slice()
+          // .reverse()
           .map((ad) => (
             <Ad
               key={ad._id}
