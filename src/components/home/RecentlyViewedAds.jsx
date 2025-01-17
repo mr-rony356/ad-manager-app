@@ -55,7 +55,6 @@ const RecentlyViewedAds = ({ attributes }) => {
   if (recentAds.length === 0) {
     return null;
   }
-  console.log(recentAds);
   return (
     <div className="my-4 px-4 md:px-6">
       <h1 className="text-xl font-bold my-4">{t("recently_viewed")}</h1>

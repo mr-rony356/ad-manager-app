@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 export const API_ADDRESS =
   process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
     ? "https://onlyfriend.ch/"
-    : "http://localhost:3000/";
+    : "https://onlyfriend.ch/";
 
 /**
  * FETCH REQUESTS CONTROLLER
@@ -331,6 +331,22 @@ export default class ApiController {
       console.error("API: Could not fetch blog posts", err);
     }
   }
+  /**
+   * Fetches all reviews for a specific user ID from the database
+   * @param {string} userId - The ID of the user to fetch reviews for
+   * @returns {Promise<Array>} - A list of reviews for the user
+   */
+  async fetchRatings(userId) {
+    try {
+      const promise = await fetch(
+        this.buildRequest(`api/ratings?userId=${userId}`, "GET", null),
+      ).then((res) => res.json());
+
+      return promise;
+    } catch (err) {
+      console.error("API: Could not fetch user ratings", err);
+    }
+  }
 
   /**
    * Fetches all the blog posts created by me from the database
@@ -578,13 +594,14 @@ export default class ApiController {
 
    */
 
-  async sendRating({ id, rating, review, name }) {
+  async sendRating({ advertisementId, rating, review, name }) {
+    console.log(advertisementId, rating, review, name);
     try {
       const promise = await fetch(
         this.buildRequest(
           "api/ratings",
           "POST",
-          { id, rating, review, name },
+          { advertisementId, rating, review, name },
           this.fetchToken(),
         ),
       ).then((res) => res.json());
@@ -594,7 +611,48 @@ export default class ApiController {
       console.error("API: Could not submit rating", err);
     }
   }
-
+  async addReview({ userId, rating, review, name }) {
+    console.log(userId, rating, review, name);
+    try {
+      const promise = await fetch(
+        this.buildRequest(
+          "api/reviews",
+          "POST",
+          { userId, rating, review, name },
+          this.fetchToken(),
+        )
+      ).then((res) => res.json());
+  
+      return promise;
+    } catch (err) {
+      console.error("API: Could not add review", err);
+    }
+  }
+  async getUserReviews(userId) {
+    console.log(`Fetching reviews for user: ${userId}`);
+    try {
+      const promise = await fetch(
+        this.buildRequest(`api/reviews/${userId}`, "GET", null, this.fetchToken())
+      ).then((res) => res.json());
+  
+      return promise;
+    } catch (err) {
+      console.error("API: Could not fetch user reviews", err);
+    }
+  }
+  async getUserAverageRating(userId) {
+    console.log(`Calculating average rating for user: ${userId}`);
+    try {
+      const promise = await fetch(
+        this.buildRequest(`api/reviews/${userId}/average`, "GET", null, this.fetchToken())
+      ).then((res) => res.json());
+  
+      return promise;
+    } catch (err) {
+      console.error("API: Could not calculate average rating", err);
+    }
+  }
+  
   /**
    * Creates a new blog post
    * @param {*} blog Object including all attributes of the new blog post

@@ -76,18 +76,58 @@ const AdDetail = ({
   const [reviewText, setReviewText] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const handleSubmit = () => {
+  const [userReviews, setUserReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(null);
+  const handleSubmit = async () => {
     if (!name.trim()) {
-      setError(t("Name is required"));
+      setError("Name is required");
+      return;
+    }
+    if (!rating || !reviewText.trim()) {
+      setError("Rating and review text are required");
       return;
     }
 
     setError("");
-    const review = { rating, reviewText, name };
-    console.log("Review Submitted:", review);
-    api.sendRating(ad._id, rating, reviewText, name);
+
+    try {
+      const response = await api.addReview({
+        userId: ad.user, // Assuming `user` contains `_id`
+        rating,
+        review: reviewText,
+        name,
+      });
+
+      console.log("Review submitted successfully", response);
+    } catch (err) {
+      console.error("Error submitting review:", err);
+    }
   };
 
+  const fetchUserReviews = async () => {
+    try {
+      const reviews = await api.getUserReviews(ad.user); // Assuming `user` contains `_id`
+      setUserReviews(reviews);
+    } catch (err) {
+      console.error("Error fetching user reviews:", err);
+    }
+  };
+
+  const fetchAverageRating = async () => {
+    try {
+      const average = await api.getUserAverageRating(ad.user); // Assuming `user` contains `_id`
+      setAverageRating(average.averageRating); // Adjust field based on API response
+    } catch (err) {
+      console.error("Error fetching average rating:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserReviews();
+    fetchAverageRating();
+  }, [user._id]);
+  console.log(user);
+  console.log(ad);
   const tagIcon = "/assets/tag.png";
   const placeIcon = "/assets/place.png";
   const fav = "/assets/heart.png";
@@ -552,8 +592,8 @@ const AdDetail = ({
                 </div>
               )}
             </div>{" "}
-          </div>
-          <div className="mt-4 px-4 md:px-6 hidden">
+          </div> 
+          <div className="mt-4 px-4 md:px-6  hidden">
             <h3 className="text-lg font-semibold text-gray-800">
               {t("review_text")}
             </h3>
@@ -608,6 +648,26 @@ const AdDetail = ({
             >
               {t("submit_review")}
             </button>
+            <div>
+              <h2>User Reviews</h2>
+              {userReviews?.length > 0 ? (
+                userReviews.map((review) => (
+                  <div key={review._id}>
+                    <p>
+                      <strong>{review.name}</strong>: {review.review}
+                    </p>
+                    <p>Rating: {review.rating}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No reviews yet.</p>
+              )}
+            </div>
+
+            <div>
+              <h2>Average Rating</h2>
+              <p>{averageRating !== null ? averageRating : "Loading..."}</p>
+            </div>
           </div>
           <RecentlyViewedAds attributes={attributes} />
         </div>

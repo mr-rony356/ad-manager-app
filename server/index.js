@@ -278,12 +278,12 @@ server
       }
     });
 
-    app.post("/api/ratings", async (req, res) => {
+    app.post("/api/reviews", async (req, res) => {
       try {
-        const { advertisementId, rating, review, name } = req.body;
+        const { userId, rating, review, name } = req.body;
 
         // Validate required fields
-        if (!advertisementId || !rating || !name) {
+        if (!userId || !rating) {
           return res.status(400).json({ error: "Missing required fields" });
         }
 
@@ -299,43 +299,103 @@ server
             .json({ error: "Review must be 600 characters or less" });
         }
 
-        // Find the advertisement by ID
-        const ad = await req.db
-          .collection("ads")
-          .findOne({ _id: new ObjectId(advertisementId) });
-
-        if (!ad) {
-          return res.status(404).json({ error: "Advertisement not found" });
-        }
-
-        // Create the rating data
-        const ratingData = {
+        // Create the review object
+        const reviewData = {
           rating,
           review: review || null,
-          name,
+          name: name || null,
           timestamp: new Date(),
         };
 
-        // Update the advertisement document by adding the rating to the `ratings` array
+        // Update the user's reviews array
         const result = await req.db
-          .collection("ads")
+          .collection("users")
           .updateOne(
-            { _id: new ObjectId(advertisementId) },
-            { $push: { ratings: ratingData } },
+            { _id: new ObjectId(userId) },
+            { $push: { reviews: reviewData } },
           );
 
         if (result.modifiedCount === 0) {
-          return res.status(500).json({ error: "Failed to save rating" });
+          return res.status(500).json({ error: "Failed to add review" });
         }
 
-        return res
-          .status(201)
-          .json({ message: "Rating submitted successfully" });
+        return res.status(201).json({ message: "Review added successfully" });
       } catch (err) {
         console.error(err);
         return res
           .status(500)
-          .json({ error: "An error occurred while submitting the rating" });
+          .json({ error: "An error occurred while adding the review" });
+      }
+    });
+    app.get("/api/reviews/:userId", async (req, res) => {
+      try {
+        const { userId } = req.params;
+
+        // Validate userId
+        if (!ObjectId.isValid(userId)) {
+          return res.status(400).json({ error: "Invalid userId format" });
+        }
+
+        // Fetch user and their reviews
+        const user = await req.db
+          .collection("users")
+          .findOne(
+            { _id: new ObjectId(userId) },
+            { projection: { reviews: 1, _id: 0 } },
+          );
+
+        if (!user || !user.reviews) {
+          return res
+            .status(404)
+            .json({ error: "No reviews found for this user" });
+        }
+
+        return res.status(200).json(user.reviews);
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ error: "An error occurred while fetching reviews" });
+      }
+    });
+    app.get("/api/reviews/:userId/average", async (req, res) => {
+      try {
+        const { userId } = req.params;
+
+        // Validate userId
+        if (!ObjectId.isValid(userId)) {
+          return res.status(400).json({ error: "Invalid userId format" });
+        }
+
+        // Fetch user reviews and calculate the average rating
+        const result = await req.db
+          .collection("users")
+          .aggregate([
+            { $match: { _id: new ObjectId(userId) } },
+            { $unwind: "$reviews" },
+            {
+              $group: {
+                _id: "$_id",
+                averageRating: { $avg: "$reviews.rating" },
+              },
+            },
+          ])
+          .toArray();
+
+        if (!result.length) {
+          return res
+            .status(404)
+            .json({ error: "No reviews found for this user" });
+        }
+
+        return res.status(200).json({ averageRating: result[0].averageRating });
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({
+            error: "An error occurred while calculating the average rating",
+          });
       }
     });
 
@@ -686,6 +746,37 @@ server
         return res.status(200).json(blogs);
       } catch (err) {
         return res.status(500).json({ err });
+      }
+    });
+    /** Fetch all reviews for a specific user from the database by user id */
+    app.get("/api/reviews/:userId", async (req, res) => {
+      try {
+        const userId = req.params.userId;
+
+        // Check if userId is a valid ObjectId before querying
+        if (!ObjectId.isValid(userId)) {
+          return res.status(400).json({ error: "Invalid userId format" });
+        }
+
+        // Convert the userId to an ObjectId
+        const objectId = new ObjectId(userId);
+
+        // Fetch all reviews for the user from the database
+        const reviews = await req.db
+          .collection("reviews")
+          .find({ userId: objectId })
+          .toArray();
+
+        if (!reviews || reviews.length === 0) {
+          return res
+            .status(404)
+            .json({ error: "No reviews found for this user" });
+        }
+
+        return res.status(200).json(reviews);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+        return res.status(500).json({ error: "Server error" });
       }
     });
 
