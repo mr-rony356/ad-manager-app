@@ -593,7 +593,7 @@ const AdDetail = ({
               )}
             </div>{" "}
           </div>
-          <div className="mt-4 px-4 md:px-6 hidden  ">
+          <div className="mt-4 px-4 md:px-6">
             <h3 className="text-lg font-semibold text-gray-800">
               {t("review_text")}
             </h3>

@@ -356,17 +356,14 @@ server
     });
     app.get("/api/reviews/pending", async (req, res) => {
       try {
-
-        // Fetch pending reviews for the user
+        // Fetch pending ads for the user (change `ads` collection name accordingly)
         const reviews = await req.db
           .collection("reviews")
           .find({ status: "pending" })
           .toArray();
 
         if (!reviews.length) {
-          return res
-            .status(404)
-            .json({ error: "No reviews found for this user" });
+          return res.status(404).json({ error: "No pending ads found" });
         }
 
         return res.status(200).json(reviews);
@@ -374,7 +371,7 @@ server
         console.error(err);
         return res
           .status(500)
-          .json({ error: "An error occurred while fetching reviews" });
+          .json({ error: "An error occurred while fetching ads" });
       }
     });
     app.patch("/api/reviews/:reviewId", async (req, res) => {

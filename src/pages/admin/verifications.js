@@ -45,7 +45,7 @@ const Verifications = ({
 }) => {
   const { t } = useTranslation("common");
   const { api } = useApi();
-  const [ads, setAds] = useState(initialAds);
+  const [ads, setAds] = useState([]);
   const [reviews, setReviews] = useState(initialReviews);
 console.log(reviews);
   const handleVerify = async (id) => {

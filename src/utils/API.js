@@ -638,12 +638,6 @@ export default class ApiController {
           this.fetchToken(),
         ),
       );
-      if (!response.ok) {
-        console.error(
-          `API: Failed to fetch pending reviews. Status: ${response.status}`,
-        );
-        return [];
-      }
       const reviews = await response.json();
       return reviews;
     } catch (err) {
