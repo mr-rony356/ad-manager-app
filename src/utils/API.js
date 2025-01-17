@@ -594,25 +594,7 @@ export default class ApiController {
 
    */
 
-  async sendRating({ advertisementId, rating, review, name }) {
-    console.log(advertisementId, rating, review, name);
-    try {
-      const promise = await fetch(
-        this.buildRequest(
-          "api/ratings",
-          "POST",
-          { advertisementId, rating, review, name },
-          this.fetchToken(),
-        ),
-      ).then((res) => res.json());
-
-      return promise;
-    } catch (err) {
-      console.error("API: Could not submit rating", err);
-    }
-  }
   async addReview({ userId, rating, review, name }) {
-    console.log(userId, rating, review, name);
     try {
       const promise = await fetch(
         this.buildRequest(
@@ -620,9 +602,9 @@ export default class ApiController {
           "POST",
           { userId, rating, review, name },
           this.fetchToken(),
-        )
+        ),
       ).then((res) => res.json());
-  
+
       return promise;
     } catch (err) {
       console.error("API: Could not add review", err);
@@ -632,27 +614,89 @@ export default class ApiController {
     console.log(`Fetching reviews for user: ${userId}`);
     try {
       const promise = await fetch(
-        this.buildRequest(`api/reviews/${userId}`, "GET", null, this.fetchToken())
+        this.buildRequest(
+          `api/reviews/${userId}`,
+          "GET",
+          null,
+          this.fetchToken(),
+        ),
       ).then((res) => res.json());
-  
+
       return promise;
     } catch (err) {
       console.error("API: Could not fetch user reviews", err);
+    }
+  }
+  async getUserPendingReviews(userId) {
+    if (!userId) {
+      console.error("API: Missing userId for fetching pending reviews");
+      return [];
+    }
+
+    console.log(`Fetching pending reviews for user: ${userId}`);
+    try {
+      const response = await fetch(
+        this.buildRequest(
+          `api/reviews/${userId}/pending`,
+          "GET",
+          null,
+          this.fetchToken(),
+        ),
+      );
+      if (!response.ok) {
+        console.error(
+          `API: Failed to fetch pending reviews. Status: ${response.status}`,
+        );
+        return [];
+      }
+      const reviews = await response.json();
+      return reviews;
+    } catch (err) {
+      console.error("API: Could not fetch pending reviews", err);
+      return [];
     }
   }
   async getUserAverageRating(userId) {
     console.log(`Calculating average rating for user: ${userId}`);
     try {
       const promise = await fetch(
-        this.buildRequest(`api/reviews/${userId}/average`, "GET", null, this.fetchToken())
+        this.buildRequest(
+          `api/reviews/${userId}/average`,
+          "GET",
+          null,
+          this.fetchToken(),
+        ),
       ).then((res) => res.json());
-  
+
       return promise;
     } catch (err) {
       console.error("API: Could not calculate average rating", err);
     }
   }
-  
+  async updateReviewStatus(reviewId, status) {
+    console.log(`Updating status of review ${reviewId} to ${status}`);
+    try {
+      const response = await fetch(
+        this.buildRequest(
+          `api/reviews/${reviewId}`,
+          "PATCH",
+          { status },
+          this.fetchToken(),
+        ),
+      );
+
+      if (!response.ok) {
+        console.error("Failed to update review status:", await response.text());
+        return null;
+      }
+
+      return await response.json();
+    } catch (err) {
+      console.error("API: Could not update review status", err);
+      return null;
+    }
+  }
+
   /**
    * Creates a new blog post
    * @param {*} blog Object including all attributes of the new blog post

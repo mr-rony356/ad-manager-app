@@ -299,27 +299,26 @@ server
             .json({ error: "Review must be 600 characters or less" });
         }
 
-        // Create the review object
+        // Create review object
         const reviewData = {
+          userId: new ObjectId(userId),
           rating,
           review: review || null,
-          name: name || null,
+          name: name || "Anonymous",
           timestamp: new Date(),
+          status: "pending", // Default status for admin approval
         };
 
-        // Update the user's reviews array
-        const result = await req.db
-          .collection("users")
-          .updateOne(
-            { _id: new ObjectId(userId) },
-            { $push: { reviews: reviewData } },
-          );
+        // Insert into the reviews collection
+        const result = await req.db.collection("reviews").insertOne(reviewData);
 
-        if (result.modifiedCount === 0) {
+        if (!result.acknowledged) {
           return res.status(500).json({ error: "Failed to add review" });
         }
 
-        return res.status(201).json({ message: "Review added successfully" });
+        return res
+          .status(201)
+          .json({ message: "Review submitted for approval" });
       } catch (err) {
         console.error(err);
         return res
@@ -331,26 +330,23 @@ server
       try {
         const { userId } = req.params;
 
-        // Validate userId
         if (!ObjectId.isValid(userId)) {
           return res.status(400).json({ error: "Invalid userId format" });
         }
 
-        // Fetch user and their reviews
-        const user = await req.db
-          .collection("users")
-          .findOne(
-            { _id: new ObjectId(userId) },
-            { projection: { reviews: 1, _id: 0 } },
-          );
+        // Fetch approved reviews for the user
+        const reviews = await req.db
+          .collection("reviews")
+          .find({ userId: new ObjectId(userId), status: "approved" })
+          .toArray();
 
-        if (!user || !user.reviews) {
+        if (!reviews.length) {
           return res
             .status(404)
             .json({ error: "No reviews found for this user" });
         }
 
-        return res.status(200).json(user.reviews);
+        return res.status(200).json(reviews);
       } catch (err) {
         console.error(err);
         return res
@@ -358,25 +354,82 @@ server
           .json({ error: "An error occurred while fetching reviews" });
       }
     });
-    app.get("/api/reviews/:userId/average", async (req, res) => {
+    app.get("/api/reviews/:userId/pending", async (req, res) => {
       try {
         const { userId } = req.params;
 
-        // Validate userId
         if (!ObjectId.isValid(userId)) {
           return res.status(400).json({ error: "Invalid userId format" });
         }
 
-        // Fetch user reviews and calculate the average rating
+        // Fetch pending reviews for the user
+        const reviews = await req.db
+          .collection("reviews")
+          .find({ userId: new ObjectId(userId), status: "pending" })
+          .toArray();
+
+        if (!reviews.length) {
+          return res
+            .status(404)
+            .json({ error: "No reviews found for this user" });
+        }
+
+        return res.status(200).json(reviews);
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ error: "An error occurred while fetching reviews" });
+      }
+    });
+    app.patch("/api/reviews/:reviewId", async (req, res) => {
+      try {
+        const { reviewId } = req.params;
+        const { status } = req.body; // Status can be "approved" or "rejected"
+
+        if (!ObjectId.isValid(reviewId)) {
+          return res.status(400).json({ error: "Invalid reviewId format" });
+        }
+
+        if (!["approved", "rejected"].includes(status)) {
+          return res.status(400).json({ error: "Invalid status" });
+        }
+
         const result = await req.db
-          .collection("users")
+          .collection("reviews")
+          .updateOne({ _id: new ObjectId(reviewId) }, { $set: { status } });
+
+        if (result.matchedCount === 0) {
+          return res.status(404).json({ error: "Review not found" });
+        }
+
+        return res
+          .status(200)
+          .json({ message: `Review ${status} successfully` });
+      } catch (err) {
+        console.error(err);
+        return res
+          .status(500)
+          .json({ error: "An error occurred while updating the review" });
+      }
+    });
+    app.get("/api/reviews/:userId/average", async (req, res) => {
+      try {
+        const { userId } = req.params;
+
+        if (!ObjectId.isValid(userId)) {
+          return res.status(400).json({ error: "Invalid userId format" });
+        }
+
+        // Calculate average rating for approved reviews
+        const result = await req.db
+          .collection("reviews")
           .aggregate([
-            { $match: { _id: new ObjectId(userId) } },
-            { $unwind: "$reviews" },
+            { $match: { userId: new ObjectId(userId), status: "approved" } },
             {
               $group: {
-                _id: "$_id",
-                averageRating: { $avg: "$reviews.rating" },
+                _id: "$userId",
+                averageRating: { $avg: "$rating" },
               },
             },
           ])
@@ -391,11 +444,9 @@ server
         return res.status(200).json({ averageRating: result[0].averageRating });
       } catch (err) {
         console.error(err);
-        return res
-          .status(500)
-          .json({
-            error: "An error occurred while calculating the average rating",
-          });
+        return res.status(500).json({
+          error: "An error occurred while calculating the average rating",
+        });
       }
     });
 

@@ -592,12 +592,11 @@ const AdDetail = ({
                 </div>
               )}
             </div>{" "}
-          </div> 
-          <div className="mt-4 px-4 md:px-6  hidden">
+          </div>
+          <div className="mt-4 px-4 md:px-6 hidden ">
             <h3 className="text-lg font-semibold text-gray-800">
               {t("review_text")}
             </h3>
-
             {/* Star Rating */}
             <div className="flex items-center mt-2 space-x-1 ">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -630,7 +629,6 @@ const AdDetail = ({
               className="w-full mt-4 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-sky-300"
               rows="4"
             />
-
             {/* Name Input */}
             <input
               type="text"
@@ -640,7 +638,6 @@ const AdDetail = ({
               className="w-full mt-4 p-3 border rounded-lg focus:outline-none focus:ring focus:ring-sky-300"
             />
             {error && <p className="mt-2 text-sm text-red-500">{error}</p>}
-
             {/* Submit Button */}
             <button
               onClick={handleSubmit}
@@ -648,25 +645,67 @@ const AdDetail = ({
             >
               {t("submit_review")}
             </button>
-            <div>
-              <h2>User Reviews</h2>
+            <div className="mt-8">
+              <h2 className="text-xl font-bold text-gray-900">
+                {t("user_reviews")}
+              </h2>
               {userReviews?.length > 0 ? (
                 userReviews.map((review) => (
-                  <div key={review._id}>
-                    <p>
-                      <strong>{review.name}</strong>: {review.review}
+                  <div key={review._id} className="mt-4 border-b pb-4">
+                    <p className="text-sm text-gray-800">
+                      <strong>{review.name}</strong> - {review.review}
                     </p>
-                    <p>Rating: {review.rating}</p>
+                    <div className="flex items-center mt-2 space-x-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          xmlns="http://www.w3.org/2000/svg"
+                          className={`h-4 w-4 ${
+                            review.rating >= star
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          }`}
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                      ))}
+                    </div>
                   </div>
                 ))
               ) : (
-                <p>No reviews yet.</p>
+                <p className="mt-2 text-gray-600">{t("no_reviews_yet")}</p>
               )}
-            </div>
-
-            <div>
-              <h2>Average Rating</h2>
-              <p>{averageRating !== null ? averageRating : "Loading..."}</p>
+            </div>{" "}
+            {/* Average Rating Section */}
+            <div className="mt-4">
+              <h2 className="text-xl font-bold text-gray-900">
+                {t("average_rating")}
+              </h2>
+              <div className="flex items-center space-x-2">
+                {/* Display Average Rating as Stars */}
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <svg
+                    key={star}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 ${
+                      averageRating >= star
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                    }`}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                  </svg>
+                ))}
+                {/* Display Numeric Average and Review Count */}
+                <span className="text-gray-700 text-sm font-medium">
+                  {averageRating !== null ? averageRating.toFixed(1) : "0.0"} /
+                  5 ({userReviews?.length || 0} {t("reviews")})
+                </span>
+              </div>
             </div>
           </div>
           <RecentlyViewedAds attributes={attributes} />
