@@ -354,18 +354,13 @@ server
           .json({ error: "An error occurred while fetching reviews" });
       }
     });
-    app.get("/api/reviews/:userId/pending", async (req, res) => {
+    app.get("/api/reviews/pending", async (req, res) => {
       try {
-        const { userId } = req.params;
-
-        if (!ObjectId.isValid(userId)) {
-          return res.status(400).json({ error: "Invalid userId format" });
-        }
 
         // Fetch pending reviews for the user
         const reviews = await req.db
           .collection("reviews")
-          .find({ userId: new ObjectId(userId), status: "pending" })
+          .find({ status: "pending" })
           .toArray();
 
         if (!reviews.length) {

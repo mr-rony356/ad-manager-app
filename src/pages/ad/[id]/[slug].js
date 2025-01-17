@@ -593,7 +593,7 @@ const AdDetail = ({
               )}
             </div>{" "}
           </div>
-          <div className="mt-4 px-4 md:px-6 hidden ">
+          <div className="mt-4 px-4 md:px-6 hidden  ">
             <h3 className="text-lg font-semibold text-gray-800">
               {t("review_text")}
             </h3>
@@ -702,8 +702,10 @@ const AdDetail = ({
                 ))}
                 {/* Display Numeric Average and Review Count */}
                 <span className="text-gray-700 text-sm font-medium">
-                  {averageRating !== null ? averageRating.toFixed(1) : "0.0"} /
-                  5 ({userReviews?.length || 0} {t("reviews")})
+                  {averageRating !== null && !isNaN(averageRating)
+                    ? averageRating.toFixed(1)
+                    : "0.0"}{" "}
+                  / 5 ({userReviews?.length || 0} {t("reviews")})
                 </span>
               </div>
             </div>

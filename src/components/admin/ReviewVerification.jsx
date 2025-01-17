@@ -14,18 +14,18 @@ const ReviewVerification = ({ reviews, handleApprove, handleReject }) => (
             <div
               style={{ display: "flex", flexDirection: "row", gap: "0.5em" }}
             >
-              <Checkbox
-                id={`approve-${review._id}`}
-                name={`approve-${review._id}`}
-                label="Approve"
-                onChange={() => handleApprove(review._id)}
-              />
-              <Checkbox
-                id={`reject-${review._id}`}
-                name={`reject-${review._id}`}
-                label="Reject"
-                onChange={() => handleReject(review._id)}
-              />
+              <button
+                onClick={() => handleApprove(review._id)}
+                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+              >
+                Approve
+              </button>
+              <button
+                onClick={() => handleReject(review._id)}
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+              >
+                Reject
+              </button>
             </div>
           </div>
         ))}

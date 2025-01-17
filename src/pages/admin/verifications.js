@@ -25,7 +25,7 @@ export async function getServerSideProps({ req, locale }) {
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
   const ads = await api.fetchPendingAds(auth.token);
-  const reviews = await api.getUserPendingReviews(user._id);
+  const reviews = await api.getUserPendingReviews();
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer"])),
@@ -47,7 +47,7 @@ const Verifications = ({
   const { api } = useApi();
   const [ads, setAds] = useState(initialAds);
   const [reviews, setReviews] = useState(initialReviews);
-
+console.log(reviews);
   const handleVerify = async (id) => {
     await api.verifyAd(id);
     setAds((prevAds) => prevAds.filter((ad) => ad._id !== id));
@@ -115,7 +115,7 @@ const Verifications = ({
           </Tab.List>
           <Tab.Panels className="mt-4">
             <Tab.Panel>
-              {ads.length > 0 ? (
+              {ads.length > 520540 ? (
                 ads
                   .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
                   .map((ad) => (

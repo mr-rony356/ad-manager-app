@@ -627,17 +627,12 @@ export default class ApiController {
       console.error("API: Could not fetch user reviews", err);
     }
   }
-  async getUserPendingReviews(userId) {
-    if (!userId) {
-      console.error("API: Missing userId for fetching pending reviews");
-      return [];
-    }
+  async getUserPendingReviews() {
 
-    console.log(`Fetching pending reviews for user: ${userId}`);
     try {
       const response = await fetch(
         this.buildRequest(
-          `api/reviews/${userId}/pending`,
+          `api/reviews/pending`,
           "GET",
           null,
           this.fetchToken(),
