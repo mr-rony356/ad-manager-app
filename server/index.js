@@ -354,7 +354,7 @@ server
           .json({ error: "An error occurred while fetching reviews" });
       }
     });
-    app.get("/api/reviews/pending", verifyJWT, async (req, res) => {
+    app.get("/api/reviews/pending/all", verifyJWT, async (req, res) => {
       try {
         // Fetch reviews with status "pending"
         const reviews = await req.db
@@ -792,36 +792,36 @@ server
       }
     });
     /** Fetch all reviews for a specific user from the database by user id */
-    app.get("/api/reviews/:userId", async (req, res) => {
-      try {
-        const userId = req.params.userId;
+    // app.get("/api/reviews/:userId", async (req, res) => {
+    //   try {
+    //     const userId = req.params.userId;
 
-        // Check if userId is a valid ObjectId before querying
-        if (!ObjectId.isValid(userId)) {
-          return res.status(400).json({ error: "Invalid userId format" });
-        }
+    //     // Check if userId is a valid ObjectId before querying
+    //     if (!ObjectId.isValid(userId)) {
+    //       return res.status(400).json({ error: "Invalid userId format" });
+    //     }
 
-        // Convert the userId to an ObjectId
-        const objectId = new ObjectId(userId);
+    //     // Convert the userId to an ObjectId
+    //     const objectId = new ObjectId(userId);
 
-        // Fetch all reviews for the user from the database
-        const reviews = await req.db
-          .collection("reviews")
-          .find({ userId: objectId })
-          .toArray();
+    //     // Fetch all reviews for the user from the database
+    //     const reviews = await req.db
+    //       .collection("reviews")
+    //       .find({ userId: objectId })
+    //       .toArray();
 
-        if (!reviews || reviews.length === 0) {
-          return res
-            .status(404)
-            .json({ error: "No reviews found for this user" });
-        }
+    //     if (!reviews || reviews.length === 0) {
+    //       return res
+    //         .status(404)
+    //         .json({ error: "No reviews found for this user" });
+    //     }
 
-        return res.status(200).json(reviews);
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
-        return res.status(500).json({ error: "Server error" });
-      }
-    });
+    //     return res.status(200).json(reviews);
+    //   } catch (err) {
+    //     console.error("Error fetching reviews:", err);
+    //     return res.status(500).json({ error: "Server error" });
+    //   }
+    // });
 
     /** Fetch a specific blog post from the database by its id */
     app.get("/api/blog/:id", async (req, res) => {

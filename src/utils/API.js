@@ -631,19 +631,13 @@ export default class ApiController {
     try {
       const response = await fetch(
         this.buildRequest(
-          "api/reviews/pending",
+          "api/reviews/pending/all",
           "GET",
           null,
           this.fetchToken(),
         ),
       );
 
-      if (!response.ok) {
-        console.error(
-          `Failed to fetch pending reviews: ${response.statusText}`,
-        );
-        return [];
-      }
 
       const reviews = await response.json();
       return reviews;
