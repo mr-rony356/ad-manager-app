@@ -354,7 +354,7 @@ server
           .json({ error: "An error occurred while fetching reviews" });
       }
     });
-    app.get("/api/reviews/pending", async (req, res) => {
+    app.get("/api/reviews/pending", verifyJWT, async (req, res) => {
       try {
         // Fetch reviews with status "pending"
         const reviews = await req.db
