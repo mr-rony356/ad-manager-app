@@ -24,8 +24,9 @@ export async function getServerSideProps({ req, locale }) {
 
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
-  const ads = await api.fetchPendingAds(auth.token);
-  const reviews = await api.getUserPendingReviews();
+  const ads = await api.fetchPendingAds(auth.token); // Fetch pending ads
+  const reviews = await api.getUserPendingReviews(); // Fetch all pending reviews
+
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "footer"])),
@@ -45,9 +46,12 @@ const Verifications = ({
 }) => {
   const { t } = useTranslation("common");
   const { api } = useApi();
-  const [ads, setAds] = useState([]);
-  const [reviews, setReviews] = useState(initialReviews);
-console.log(reviews);
+  const [ads, setAds] = useState(initialAds || []);
+  const [reviews, setReviews] = useState(initialReviews || []);
+
+  console.log("Initial Reviews:", initialReviews);
+  console.log("State Reviews:", reviews);
+
   const handleVerify = async (id) => {
     await api.verifyAd(id);
     setAds((prevAds) => prevAds.filter((ad) => ad._id !== id));
@@ -99,7 +103,7 @@ console.log(reviews);
                 }`
               }
             >
-             Ads 
+              Ads
             </Tab>
             <Tab
               className={({ selected }) =>
@@ -110,7 +114,7 @@ console.log(reviews);
                 }`
               }
             >
-             Reviews
+              Reviews
             </Tab>
           </Tab.List>
           <Tab.Panels className="mt-4">
