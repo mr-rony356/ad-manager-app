@@ -6,8 +6,7 @@ import Cookies from "js-cookie";
 export const API_ADDRESS =
   process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
     ? "https://onlyfriend.ch/"
-    : "https://onlyfriend.ch/";
-
+    : "http://localhost:3000/";
 /**
  * FETCH REQUESTS CONTROLLER
  */
@@ -637,7 +636,6 @@ export default class ApiController {
           this.fetchToken(),
         ),
       );
-
 
       const reviews = await response.json();
       return reviews;
