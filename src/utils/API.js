@@ -10,7 +10,7 @@ export const API_ADDRESS =
 /**
  * FETCH REQUESTS CONTROLLER
  */
-export default class ApiController {
+ export default class ApiController {
   // HELPERS
 
   /* eslint-disable no-console */

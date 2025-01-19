@@ -1,0 +1,188 @@
+{
+    "home__title": "Sexo y anuncios eróticos en {{region}}",
+    "home__ad": "anuncios",
+    "ads_count": "anuncios",
+    "ads_count_of": "de",
+    "home__adPlaceholder": "Actualmente no hay anuncios disponibles",
+    "skeleton_text": "Por favor, espere mientras se cargan los anuncios...",
+    "recently_viewed": "Vistos recientemente",
+  
+    "filterForm__filterButton": "Aplicar filtro",
+    "filterForm__verifiedCheck": "Solo anuncios verificados",
+  
+    "login__error": "Nota: si olvidaste tu nombre de usuario, ve a tu correo electrónico, te hemos enviado directamente el nombre de usuario.",
+    "signup__error": "El correo electrónico ya está en uso",
+  
+    "searchInput": "Buscar",
+    "offerInput": "Oferta",
+    "rubricInput": "Rubro",
+  
+    "credits": "Créditos actuales: ",
+  
+    "login": "Iniciar sesión",
+    "login__userName": "Nombre de usuario / Correo electrónico",
+    "login__password": "Contraseña",
+    "login__button": "Iniciar sesión",
+    "login__passwordButton": "¿Olvidaste tu contraseña?",
+    "login__registerButton": "¿Registrarse en Onlyfriends?",
+    "login__logOnButton": "¿Iniciar sesión en Onlyfriends?",
+  
+    "signup__title": "Registrarse",
+    "signup__userName": "Nombre de usuario",
+    "signUp__confirmPassword": "Confirmar contraseña",
+    "signUp__button": "Registrarse",
+  
+    "forgotPassword__title": "Restablecer contraseña",
+    "forgotPassword__button": "Restablecer",
+    "forgotPassword__success": "Gracias. Te hemos enviado un correo electrónico con instrucciones sobre cómo restablecer tu contraseña. Por favor, revisa tu bandeja de entrada, incluyendo la carpeta de spam, y sigue las instrucciones del correo electrónico.",
+    "resetPassword__success": "Gracias. Tu contraseña se ha restablecido correctamente. Ahora puedes iniciar sesión.",
+  
+    "navBar__adButton": "Publicar anuncio",
+    "FreeButton": "¡Gratis!",
+    "navBar__SignUpButton": "Iniciar sesión",
+  
+    "adManager__title": "Administrador de anuncios",
+    "adManager__filterActive": "Activos",
+    "adManager__filterPending": "Pendientes",
+    "adManager__filterInactive": "Inactivos",
+    "adManager__filterExpired": "Caducados",
+    "adManager__filterDrafts": "Borradores",
+    "adManager__filterDeleted": "Eliminados",
+    "adManager__noAds": "Aquí están los resultados",
+  
+    "admin__linkTitle": "Mi cuenta",
+    "admin__linkOfferManager": "Administrador de ofertas",
+    "admin__linkCredits": "Recargar crédito",
+    "admin__linkMessages": "Mensajes",
+    "admin__linkSubscription": "Suscripciones",
+    "admin__linkFavorites": "Favoritos",
+    "admin__linkSettings": "Configuración de la cuenta",
+    "admin__linkVerifications": "Verificaciones",
+    "admin__linkLogout": "Cerrar sesión",
+  
+    "adminLandingPage__titleCredits": "Crédito",
+    "adminLandingPage__textCredit1": "Tu saldo actual es de ",
+    "adminLandingPage__credits": " Créditos",
+    "adminLandingPage__textCredit2": ". Por favor, recarga para crear o publicar anuncios.",
+    "adminLandingPage__creditsButton": "Recargar crédito",
+  
+    "adminLandingPage__titleOffer": "Mi último anuncio",
+    "adminLandingPage__textOffer": "Aún no hay anuncios",
+    "adminLandingPage__offersButton": "Todos los anuncios",
+  
+    "adminLandingPage__titleMessages": "Mensajes",
+    "adminLandingPage__textMessages": "Últimos mensajes",
+    "adminLandingPage__messagesButton": "Todos los mensajes",
+  
+    "creditForm__titleCredit": "Seleccionar crédito",
+    "creditForm__subtitleCredit": "Elegir cantidad",
+    "creditForm__creditButton": "Recargar ahora",
+  
+    "creditForm__titleCoupon": "Canjear cupón",
+    "creditForm__textCoupon": "Ingresa tu código de cupón aquí",
+    "creditForm__couponButton": "Enviar ahora",
+  
+    "admin__messagesTitle": "Mensajes",
+    "admin__messagesText": "Aún no hay mensajes",
+  
+    "admin__subscriptionsTitle": "Suscripciones",
+    "admin__subscriptionsText1": "Mantente informado cuando se actualicen los anuncios que sigues. También se muestran aquí los nuevos anuncios de los usuarios.",
+    "admin__subscriptionsText2": "Aún no sigues ningún anuncio",
+  
+    "admin__favoritesTitle": "Favoritos",
+    "admin__favoritesText": "Aún no tienes favoritos",
+  
+    "admin__settingsTitle": "Cuenta de usuario",
+    "admin__settingsSubTitle1": "Foto de perfil",
+    "admin__settingsSubTitle2": "Datos personales",
+    "admin__settingsChangePasswordButton": "Cambiar contraseña",
+    "admin__settingsCurrentPassword": "Contraseña actual",
+    "admin__settingsNewPassword": "Nueva contraseña",
+    "admin__settingsConfirmNewPassword": "Confirmar nueva contraseña",
+    "admin__settingsSaveButton": "Guardar",
+    "no_verifications:": "Aún no hay verificaciones",
+  
+    "adModal__edit": "Editar oferta",
+    "adModal__premium": "Establecer anuncio como Premium por el día - 30 Créditos",
+    "admModal__first": "Mover anuncio al principio de la lista - 5 Créditos",
+    "adModal__inactive": "Establecer anuncio como inactivo",
+    "adModal__active": "Establecer anuncio como activo",
+    "adModal__reactive": "Reactivar",
+    "adModal__delete": "Eliminar",
+  
+    "adForm1__title-left": "Duración del anuncio*",
+    "adForm1__title-right": "Tipo de anuncio*",
+    "adForm1__textType": "Aquí puedes decidir si es un anuncio erótico de cualquier tipo o un anuncio de Onlyfans. El requisito previo para el anuncio de Onlyfans es que ya tengas una cuenta de Onlyfans. Luego puedes agregar tu enlace de Onlyfans al anuncio y los clientes pueden ir directamente a tu perfil de Onlyfans.",
+    "adForm1__day": "Día",
+    "adForm1__days": "Días",
+    "adForm1__credits": "Créditos",
+  
+    "adForm1__titleRubric": "Rúbricas",
+    "adForm1__textRubric": "Primera rúbrica gratis, rúbricas adicionales + 10 créditos",
+  
+    "adForm1__titleRegion": "Región",
+    "adForm1__textRegion": "Primera región gratis, regiones adicionales + 10 créditos",
+  
+    "adForm1__titleOffer": "Oferta",
+  
+    "adForm1__titleType": "Tipo*",
+    "adForm1__chooseType": "Elegir tipo",
+  
+    "continueButton": "Continuar",
+    "backButton": "Atrás",
+    "switchOn": "Crear anuncio: ",
+    "saveAd": "Guardar anuncio: ",
+  
+    "adDetail__verifiedImages": "Imágenes verificadas",
+    "adDetail__videotext": "Video en el anuncio",
+  
+    "adForm2__title": "Texto de la oferta",
+  
+    "adForm2__offerTitle": "Título",
+  
+    "adForm2__contactDataTitle": "Datos de contacto",
+    "adForm2__contactDataText": "Primera rúbrica gratis, rúbricas adicionales + 10 créditos",
+    "adForm2__dropdownTextAreaCode": "Seleccionar código de área",
+    "adForm2__inputNumber": "Número",
+    "adForm2__checkBoxSMS": "Aceptar SMS",
+    "adForm2__checkBoxWhatsapp": "Aceptar Whatsapp",
+  
+    "adForm2__locationTitle": "Ubicación",
+    "adForm2__inputStreet": "Calle",
+    "adForm2__inputAddressSuffix": "Complemento de dirección",
+    "adForm2__inputZIPCode": "Código postal",
+    "adForm2__inputPlace": "Lugar",
+    "adForm2__inputCountry": "Elegir país",
+  
+    "adForm2__websiteTitle": "Sitio web",
+    "adForm2__inputWebsite": "Sitio web",
+  
+    "adForm3__picturesTitle": "Imágenes*",
+    "adForm3__picturesText": "Puedes subir hasta 8 imágenes de anuncios.",
+  
+    "adForm3__videosTitle": "Videos",
+    "adForm3__videosText": "Los videos dan a los clientes una mejor visión de tus servicios. ¡Muéstrate en tu mejor luz!",
+  
+    "adForm3__verificationTitle": "Verificación",
+    "adForm3__coverPictureTitle": "Imagen de portada",
+    "adForm3__verificationText1": "Si deseas verificar tu anuncio, puedes subir una imagen aquí con las siguientes instrucciones. Verificaremos tus imágenes para autenticidad y si coincide con la imagen de verificación, tu anuncio será verificado. La verificación aumenta tu exposición y tu anuncio será marcado con verificación.",
+    "adForm3__verificationText2": "Aumenta las posibilidades de contacto verificando la autenticidad de tus imágenes.",
+    "adForm3__verificationText3": "1. Escribe \"onlyfriends y el código abajo\" en un papel",
+    "adForm3__verificationText4": "2. Tómate una foto con la hoja de papel",
+    "adForm3__verificationText5": "3. Sube la foto después",
+    "adForm3__verificationText6": "Esta imagen no será publicada",
+  
+    "popUp__twint1": "Por favor, transfiere",
+    "popUp__twint2": "usando el código QR de arriba. Una vez que la transferencia sea exitosa, serás redirigido.",
+    "popUp__twint3": "IMPORTANTE: Por favor, ingresa tu nombre de usuario o correo electrónico en el formulario de contacto.",
+    
+    "faq_one_question": "¿Cómo publico un anuncio en Onlyfriend.ch?",
+    "faq_one_answer": "Publicar un anuncio es simple: Haz clic en el botón \"Publicar anuncio ahora\" y sigue los pasos para crear tu anuncio. En minutos, tu anuncio estará en línea y visible para todos.",
+    "faq_two_question": "¿Cómo publico un anuncio en Onlyfriend.ch?",
+    "faq_two_answer": "Publicar un anuncio es simple: Haz clic en el botón \"Publicar anuncio ahora\" y sigue los pasos para crear tu anuncio. En minutos, tu anuncio estará en línea y visible para todos.",
+    "faq_three_question": "prueba",
+  
+    "review_text": "Comparte tu experiencia",
+    "submit_review": "Enviar reseña",
+    "user_reviews": "Reseñas de usuarios"
+}

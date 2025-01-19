@@ -88,6 +88,7 @@ const NavBar = ({ user }) => {
               Blogs
             </Link>
           </li>
+
           <li>
             <Link
               href="/ad?type=free"
@@ -100,7 +101,7 @@ const NavBar = ({ user }) => {
             <span className="freeBtn">{t("FreeButton")}</span>
           </li>
 
-          <li>
+          <li className="flex gap-3">
             <Link
               href={loggedIn ? "/admin" : "/login"}
               passHref
@@ -123,9 +124,27 @@ const NavBar = ({ user }) => {
                 {loggedIn ? userName : t("navBar__SignUpButton")}
               </p>
             </Link>
+            <div className="relative inline-block !text-white rounded-md cursor-pointer text-sm">
+              <select
+                className="bg-transparent border border-gray-300 rounded-md px-1  py-1  cursor-pointer text-white"
+                id="lang"
+                name="lang"
+                value={router.locale}
+                onChange={(event) => toggleLanguage(event.target.value)}
+              >
+                <option value="de" className="text-white">
+                  DE
+                </option>
+                <option value="en" className="text-white">
+                  EN
+                </option>
+                <option value="es" className="text-white">
+                  ES
+                </option>
+              </select>
+            </div>
           </li>
         </ul>
-
         {isMenuOpen && (
           <ul className="mobile_menu">
             <li>
@@ -148,6 +167,7 @@ const NavBar = ({ user }) => {
                 Blogs
               </Link>
             </li>
+
             <li className="free-mobile-menu !py-12">
               <Link
                 href="/ad?type=free"
@@ -275,6 +295,9 @@ const NavBar = ({ user }) => {
                   <option key={1} value="en" style={{ color: "black" }}>
                     EN
                   </option>,
+                  <option key={2} value="es" style={{ color: "black" }}>
+                    ES
+                    </option>,
                 ]}
               />
             </li>
