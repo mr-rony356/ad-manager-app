@@ -4,13 +4,42 @@ import AdModal from "@components/home/AdModal";
 import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
+import { useApi } from "@contexts/APIContext";
 
 const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
+  const { t } = useTranslation("common");
+  const { api } = useApi();
+  const [averageRating, setAverageRating] = useState(null);
+  const [userReviews, setUserReviews] = useState([]);
   const [isUser, setIsUser] = useState(false);
   const [pastTime, setPastTime] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [err, setErr] = useState("");
   const [displayModal, setDisplayModal] = useState("");
+  const fetchUserReviews = async () => {
+    try {
+      const reviews = await api.getUserReviews(ad.user); // Assuming `user` contains `_id`
+      setUserReviews(reviews);
+      console.log(reviews);
+    } catch (err) {
+      console.error("Error fetching user reviews:", err);
+    }
+  };
+
+  const fetchAverageRating = async () => {
+    try {
+      const average = await api.getUserAverageRating(ad.user); // Assuming `user` contains `_id`
+      setAverageRating(average.averageRating); // Adjust field based on API response
+    } catch (err) {
+      console.error("Error fetching average rating:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserReviews();
+    fetchAverageRating();
+  }, [user._id]);
 
   useEffect(() => {
     if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
@@ -250,6 +279,62 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
                   </p>
                 )}
             </div>
+          </div>
+
+          <div className="flex items-center space-x-2 pb-2">
+            <span className="text-gray-700 text-sm font-medium">
+              {averageRating !== null && !isNaN(averageRating)
+                ? averageRating.toFixed(1)
+                : ""}{" "}
+            </span>
+
+            {/* Display Average Rating as Stars */}
+            {[1, 2, 3, 4, 5].map((star) => (
+              <svg
+                key={star}
+                xmlns="http://www.w3.org/2000/svg"
+                className={`h-5 w-5 ${
+                  star <= Math.floor(averageRating)
+                    ? "text-yellow-400"
+                    : star - averageRating <= 0
+                      ? "text-gray-300"
+                      : star - averageRating < 1
+                        ? "text-yellow-400"
+                        : "text-gray-300"
+                }`}
+                fill={
+                  star <= Math.floor(averageRating)
+                    ? "currentColor"
+                    : star - averageRating < 1
+                      ? `url(#partial-fill-${Math.round((star - averageRating) * 100)})`
+                      : "none"
+                }
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <defs>
+                  <linearGradient
+                    id={`partial-fill-${Math.round((star - averageRating) * 100)}`}
+                  >
+                    <stop
+                      offset={`${(1 - (star - averageRating)) * 100}%`}
+                      stopColor="currentColor"
+                    />
+                    <stop
+                      offset={`${(1 - (star - averageRating)) * 100}%`}
+                      stopColor="transparent"
+                    />
+                  </linearGradient>
+                </defs>
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+              </svg>
+            ))}
+            {/* Display Numeric Average and Review Count */}
+            <span className="text-gray-700 text-sm font-medium">
+              {averageRating !== null && !isNaN(averageRating)
+                ? userReviews.length
+                : ""}{" "}
+            </span>
           </div>
         </div>
       </div>
