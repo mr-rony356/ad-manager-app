@@ -54,7 +54,7 @@ const FAQPage = () => {
 export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["faq"])),
+      ...(await serverSideTranslations(locale, ["common","faq"])),
     },
   };
 }

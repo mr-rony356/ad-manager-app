@@ -22,13 +22,13 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="footer__links flex flex-wrap gap-4">
             <Link
-              href="/inserataufgeben"
+              href="/ad?type=free"
               className="footer__link  hover:underline"
             >
               Inserataufgeben
             </Link>
             <Link
-              href="/preise-inserate"
+              href="/ad-price"
               className="footer__link  hover:underline"
             >
               Preise Inserate

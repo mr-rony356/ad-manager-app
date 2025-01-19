@@ -1,0 +1,27 @@
+{
+    "title": "Precios y Opciones de Anuncios",
+    "intro": "Tu Presencia en Onlyfriend.ch – Siempre Gratis, Siempre Flexible.",
+    "details": "En Onlyfriend.ch, creemos en darte la máxima libertad para presentar tus ofertas o servicios de la mejor manera posible. Por eso, todos los anuncios en nuestra plataforma son 100% gratuitos, sin costos ocultos ni suscripciones.",
+    "options_title": "Tus Opciones de Anuncio",
+    "option_description": "Elige la duración de tu anuncio según tus necesidades. Ya sea que quieras llamar la atención por un corto período o permanecer visible a largo plazo, tenemos la opción adecuada para ti.",
+    "options": [
+      { "duration": "1 Día", "price": "Gratis" },
+      { "duration": "3 Días", "price": "Gratis" },
+      { "duration": "7 Días", "price": "Gratis" },
+      { "duration": "30 Días", "price": "Gratis" }
+    ],
+    "why_free_title": "¿Por qué Gratis?",
+    "why_free": "Queremos que todos tengan la oportunidad de presentarse y mostrar sus servicios sin barreras financieras. Nuestra misión es crear una plataforma abierta y accesible disponible para todos los proveedores de servicios eróticos y usuarios interesados.",
+    "benefits_title": "Beneficios de Anunciarse en Onlyfriend.ch",
+    "benefits": [
+      "Publicación Inmediata: Tu anuncio se publica en minutos.",
+      "Renovación Fácil: Puedes renovar o volver a publicar tu anuncio en cualquier momento de forma gratuita.",
+      "Máxima Visibilidad: Alcanza usuarios en toda Suiza y benefíciate de nuestra comunidad en crecimiento.",
+      "Optimizado para Móviles: Tus anuncios se ven geniales en cualquier dispositivo."
+    ],
+    "cta_title": "Publicar Ahora",
+    "cta_text": "Aprovecha y crea tu primer anuncio hoy – gratis, rápido y fácil.",
+    "cta_link": "🔗 Publicar Ahora",
+    "support": "Si tienes alguna pregunta o necesitas ayuda para crear tu anuncio, nuestro equipo de soporte está siempre disponible.",
+    "footer": "Onlyfriend.ch – Tu Plataforma de Servicios Eróticos en Suiza."
+}

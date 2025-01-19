@@ -1,0 +1,27 @@
+{
+  "title": "Preise und Anzeigenoptionen",
+  "intro": "Ihre Präsenz auf Onlyfriend.ch – Immer kostenlos, immer flexibel.",
+  "details": "Bei Onlyfriend.ch glauben wir daran, Ihnen maximale Freiheit zu geben, um Ihre Angebote oder Dienstleistungen bestmöglich zu präsentieren. Deshalb sind alle Anzeigen auf unserer Plattform zu 100% kostenlos – ohne versteckte Gebühren oder Abonnements.",
+  "options_title": "Ihre Anzeigeoptionen",
+  "option_description": "Wählen Sie die Dauer Ihrer Anzeige nach Ihren Bedürfnissen. Ob Sie für einen kurzen Zeitraum Aufmerksamkeit gewinnen oder langfristig sichtbar bleiben möchten – wir haben die richtige Option für Sie.",
+  "options": [
+    { "duration": "1 Tag", "price": "Kostenlos" },
+    { "duration": "3 Tage", "price": "Kostenlos" },
+    { "duration": "7 Tage", "price": "Kostenlos" },
+    { "duration": "30 Tage", "price": "Kostenlos" }
+  ],
+  "why_free_title": "Warum kostenlos?",
+  "why_free": "Wir möchten, dass jeder die Möglichkeit hat, sich und seine Dienstleistungen ohne finanzielle Barrieren zu präsentieren. Unsere Mission ist es, eine offene und zugängliche Plattform zu schaffen, die allen erotischen Dienstleistern und interessierten Nutzern gleichermaßen zur Verfügung steht.",
+  "benefits_title": "Vorteile einer Anzeige auf Onlyfriend.ch",
+  "benefits": [
+    "Sofortige Veröffentlichung: Ihre Anzeige geht innerhalb von Minuten online.",
+    "Einfache Verlängerung: Sie können Ihre Anzeige jederzeit kostenlos erneuern oder neu einstellen.",
+    "Maximale Sichtbarkeit: Erreichen Sie Nutzer in der ganzen Schweiz und profitieren Sie von unserer wachsenden Community.",
+    "Mobiloptimiert: Ihre Anzeigen sehen auf jedem Gerät großartig aus."
+  ],
+  "cta_title": "Jetzt inserieren",
+  "cta_text": "Nutzen Sie die Gelegenheit und erstellen Sie noch heute Ihre erste Anzeige – kostenlos, schnell und einfach.",
+  "cta_link": "🔗 Jetzt inserieren",
+  "support": "Wenn Sie Fragen haben oder Hilfe beim Erstellen Ihrer Anzeige benötigen, steht Ihnen unser Support-Team jederzeit zur Verfügung.",
+  "footer": "Onlyfriend.ch – Ihre Plattform für erotische Dienstleistungen in der Schweiz."
+}

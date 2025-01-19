@@ -21,6 +21,7 @@ import Support from "@pages/pageSupport";
 import Privacy from "@pages/privacy";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "@components/ui/toaster";
+import AdPricePage from "@pages/ad-price";
 
 const Body = (props) => {
   const { user, setUser } = props;
@@ -124,6 +125,7 @@ const Body = (props) => {
         <Route path="/pageAgb" element={<PageAGB />} />
         <Route path="/imprint" element={<Imprint />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/ad-price" element={<AdPricePage />} />
       </Routes>
       <Toaster />
     </>
