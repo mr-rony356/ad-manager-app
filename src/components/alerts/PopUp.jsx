@@ -37,7 +37,16 @@ function PopUp(props) {
       style={isOpen ? { display: "flex" } : { display: "none" }}
     >
       <div className="modal-content">
-        <span id="close" className="close" onClick={onClose}>
+        <span
+          id="close"
+          className="close"
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            e.stopPropagation(); // Stop event from bubbling to the Link
+            onClose();
+            // Add your button logic here
+          }}
+        >
           &times;
         </span>
         {type !== "twint" && (
