@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminLinks from "@components/admin/AdminLinks";
 import Ad from "@components/home/Ad";
 import ApiController from "@utils/API";
@@ -22,7 +22,7 @@ export async function getServerSideProps({ req, locale }) {
 
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
-  const ads = await api.fetchAdsByMe(auth.token, 0);
+  const { ads, totalCounts } = await api.fetchAdsByMe(auth.token, 50, 1);
 
   return {
     props: {
@@ -32,31 +32,48 @@ export async function getServerSideProps({ req, locale }) {
       ])),
       user,
       ads,
+      totalCounts,
       attributes,
     },
   };
 }
 
-const AdManager = ({ user, attributes, ads }) => {
+const AdManager = ({ user, attributes, ads: initialAds, totalCounts }) => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("active");
+  const [ads, setAds] = useState(initialAds);
+  const [counts, setCounts] = useState(totalCounts);
+  const [page, setPage] = useState(1);
+  const [activeAdId, setActiveAdId] = useState(null);
+
+  const api = new ApiController();
+
+  const fetchAds = async (newPage) => {
+    const { ads: newAds, totalCounts: updatedCounts } = await api.fetchAdsByMe(
+      null,
+      50,
+      newPage,
+    );
+    setAds(newAds);
+    setCounts(updatedCounts);
+    setPage(newPage);
+  };
+
+  const toggleModal = (adId) => {
+    setActiveAdId((prev) => (prev === adId ? null : adId));
+  };
+
   const tabFilters = {
     active: (ad) => ad.endDate >= Date.now() && ad.active,
     pending: (ad) => !ad.endDate,
     inactive: (ad) => ad.active === false && ad.endDate >= Date.now(),
     expired: (ad) => ad.endDate < Date.now(),
   };
-  const [activeAdId, setActiveAdId] = useState(null);
 
-  const toggleModal = (adId) => {
-    setActiveAdId((prev) => (prev === adId ? null : adId));
-  };
+  useEffect(() => {
+    if (ads.length === 0) fetchAds(1); // Ensure initial fetch
+  }, []);
 
-  const adCounts = Object.keys(tabFilters).reduce((counts, key) => {
-    counts[key] = ads.filter(tabFilters[key]).length;
-    return counts;
-  }, {});
-  ads.map((ad) => console.log(ad.active));
   return (
     <>
       <Head>
@@ -84,13 +101,13 @@ const AdManager = ({ user, attributes, ads }) => {
                     className={`tab ${activeTab === tab ? "active" : ""}`}
                   >
                     <div className="ad_tab_content">
-                      <p className="ad_count">
-                        {adCounts[tab] > 0 && adCounts[tab]}
-                      </p>
+                      <p className="ad_count">{counts[tab] || 0}</p>
                       <p className="ad_tab__title">
                         {t(
-                          `adManager__filter${tab.charAt(0).toUpperCase() + tab.slice(1)}`,
-                        )}{" "}
+                          `adManager__filter${
+                            tab.charAt(0).toUpperCase() + tab.slice(1)
+                          }`,
+                        )}
                       </p>
                     </div>
                   </label>
@@ -102,8 +119,9 @@ const AdManager = ({ user, attributes, ads }) => {
               {ads.length === 0 ? (
                 <p>{t("adManager__noAds")}</p>
               ) : (
-                ads.filter(tabFilters[activeTab]).map((ad, index) => (
-                  <>
+                ads
+                  .filter(tabFilters[activeTab])
+                  .map((ad) => (
                     <Ad
                       user={user}
                       key={ad._id}
@@ -112,11 +130,17 @@ const AdManager = ({ user, attributes, ads }) => {
                       isAdmin={true}
                       isModalOpen={activeAdId === ad._id}
                       toggleModal={toggleModal}
-        
                     />
-                  </>
-                ))
+                  ))
               )}
+            </div>
+
+            <div className="pagination">
+              <button onClick={() => fetchAds(page - 1)} disabled={page === 1}>
+                {t("previous")}
+              </button>
+              <span>{page}</span>
+              <button onClick={() => fetchAds(page + 1)}>{t("next")}</button>
             </div>
           </div>
         </div>

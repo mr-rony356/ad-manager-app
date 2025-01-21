@@ -10,7 +10,7 @@ export const API_ADDRESS =
 /**
  * FETCH REQUESTS CONTROLLER
  */
- export default class ApiController {
+export default class ApiController {
   // HELPERS
 
   /* eslint-disable no-console */
@@ -79,20 +79,17 @@ export const API_ADDRESS =
    * @param {*} limit The limit of ads to be fetched
    * @returns All the ads created by me
    */
-  async fetchAdsByMe(token, limit) {
+  async fetchAdsByMe(token, limit = 50, page = 1) {
     try {
+      const url = `api/ads/me?limit=${limit}&page=${page}`;
       const promise = await fetch(
-        this.buildRequest(
-          limit ? "api/ads/me?limit=" + limit : "api/ads/me",
-          "GET",
-          null,
-          token ?? this.fetchToken(),
-        ),
+        this.buildRequest(url, "GET", null, token ?? this.fetchToken()),
       ).then((res) => res.json());
-      return promise;
+
+      return promise; // Will include ads and totalCounts
     } catch (err) {
       console.error("API: Could not fetch ads by me", err);
-      return [];
+      return { ads: [], totalCounts: {} };
     }
   }
 

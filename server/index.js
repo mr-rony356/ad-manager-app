@@ -176,32 +176,41 @@ server
         const user = await req.db
           .collection("users")
           .findOne({ name: res.locals.user });
-        // Retrieve the limit parameter submitted in the url
-        const limit = req.query.limit ? parseInt(req.query.limit) : -1;
 
-        let ads;
-        if (limit >= 0) {
-          ads = await req.db
-            .collection("ads")
-            .find({ user: user._id })
-            .sort({ startDate: -1 })
-            .limit(limit)
-            .toArray();
-        } else {
-          ads = await req.db
-            .collection("ads")
-            .find({ user: user._id })
-            .sort({ startDate: -1 })
-            .toArray();
-        }
-        // Ensure each ad has an `active` field, defaulting to `true` if missing
-        ads = ads.map((ad) => ({
+        const { limit = 50, page = 1 } = req.query; // Defaults
+        const skip = (page - 1) * limit;
+
+        const adsCursor = req.db
+          .collection("ads")
+          .find({ user: user._id })
+          .sort({ startDate: -1 });
+
+        // Count total ads for each status
+        const allAds = await adsCursor.toArray();
+        const totalCounts = {
+          active: allAds.filter((ad) => ad.endDate >= Date.now() && ad.active)
+            .length,
+          pending: allAds.filter((ad) => !ad.endDate).length,
+          inactive: allAds.filter(
+            (ad) => ad.active === false && ad.endDate >= Date.now(),
+          ).length,
+          expired: allAds.filter((ad) => ad.endDate < Date.now()).length,
+        };
+
+        // Fetch paginated results
+        const paginatedAds = await adsCursor
+          .skip(skip)
+          .limit(parseInt(limit, 10))
+          .toArray();
+
+        const ads = paginatedAds.map((ad) => ({
           ...ad,
-          active: ad.active !== undefined ? ad.active : true, // Default to true if undefined
+          active: ad.active !== undefined ? ad.active : true, // Default to true
         }));
-        return res.status(200).json(ads);
+
+        return res.status(200).json({ ads, totalCounts });
       } catch (err) {
-        return res.status(500).json({ err });
+        return res.status(500).json({ err: "Error fetching ads." });
       }
     });
 
@@ -345,6 +354,7 @@ server
             .status(404)
             .json({ error: "No reviews found for this user" });
         }
+        ƒ;
 
         return res.status(200).json(reviews);
       } catch (err) {
