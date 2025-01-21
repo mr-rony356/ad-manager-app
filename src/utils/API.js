@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
  * The address of the api
  */
 export const API_ADDRESS =
-  process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
+  process.env.NEXT_PUBLIC_ENVIRONMENT != "production"
     ? "https://onlyfriend.ch/"
     : "http://localhost:3000/";
 /**
@@ -79,11 +79,11 @@ export default class ApiController {
    * @param {*} limit The limit of ads to be fetched
    * @returns All the ads created by me
    */
-  async fetchAdsByMe(token, page = 1) {
+  async fetchAdsByMe(token, page = 1, status = 'active') {
     try {
       const response = await fetch(
         this.buildRequest(
-          `api/ads/me?page=${page}`,
+          `api/ads/me?page=${page}&status=${status}`,
           "GET",
           null,
           token ?? this.fetchToken(),
@@ -96,7 +96,6 @@ export default class ApiController {
       
       const data = await response.json();
       
-      // Ensure we have proper default values for all fields
       return {
         ads: Array.isArray(data.ads) ? data.ads : [],
         totalCounts: {
@@ -117,7 +116,7 @@ export default class ApiController {
         totalPages: 1
       };
     }
-  }  /**
+  }   /**
    * Fetches one specific ad from the database by its id
    * @param {*} id The id of the ad to be fetched
    * @returns The ad

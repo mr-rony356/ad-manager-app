@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AdminLinks from "@components/admin/AdminLinks";
 import Ad from "@components/home/Ad";
 import ApiController from "@utils/API";
@@ -6,11 +6,10 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export async function getServerSideProps({ req, locale, query }) {
+export async function getServerSideProps({ req, locale }) {
   const api = new ApiController();
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
   const user = await api.checkAuth(auth.token);
-  const page = parseInt(query.page) || 1;
 
   if (!user || user.err) {
     return {
@@ -23,28 +22,7 @@ export async function getServerSideProps({ req, locale, query }) {
 
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
-
-  // Fetch ads with proper error handling
-  const adsResponse = await api.fetchAdsByMe(auth.token, page);
-
-  // Ensure all fields are serializable
-  const serializedAds = adsResponse.ads.map((ad) => ({
-    ...ad,
-    _id: ad._id.toString(), // Convert ObjectId to string if needed
-    startDate: ad.startDate ? new Date(ad.startDate).getTime() : null,
-    endDate: ad.endDate ? new Date(ad.endDate).getTime() : null,
-    active: ad.active ?? true, // Use nullish coalescing for default value
-    user: ad.user ? ad.user.toString() : null, // Convert ObjectId to string if needed
-    // Add any other fields that need serialization
-  }));
-
-  // Ensure counts are numbers or zero
-  const serializedCounts = {
-    active: adsResponse.totalCounts?.active || 0,
-    pending: adsResponse.totalCounts?.pending || 0,
-    inactive: adsResponse.totalCounts?.inactive || 0,
-    expired: adsResponse.totalCounts?.expired || 0,
-  };
+  const initialData = await api.fetchAdsByMe(auth.token, 1, "active");
 
   return {
     props: {
@@ -54,40 +32,79 @@ export async function getServerSideProps({ req, locale, query }) {
       ])),
       user: {
         ...user,
-        _id: user._id.toString(), // Convert ObjectId to string
-        // Add other user fields that need serialization
+        _id: user._id.toString(),
       },
-      ads: serializedAds,
+      initialAds: initialData.ads,
       attributes: attributes || {},
-      totalCounts: serializedCounts,
-      currentPage: page,
-      totalPages: adsResponse.totalPages || 1,
+      initialTotalCounts: initialData.totalCounts,
+      initialTotalPages: initialData.totalPages,
     },
   };
 }
-const AdManager = ({ user, attributes, ads, totalCounts, currentPage }) => {
+
+const AdManager = ({
+  user,
+  attributes,
+  initialAds,
+  initialTotalCounts,
+  initialTotalPages,
+}) => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("active");
   const [activeAdId, setActiveAdId] = useState(null);
-  const ITEMS_PER_PAGE = 50;
+  const [loading, setLoading] = useState(false);
 
-  const tabFilters = {
-    active: (ad) => ad.endDate >= Date.now() && ad.active,
-    pending: (ad) => !ad.endDate,
-    inactive: (ad) => ad.active === false && ad.endDate >= Date.now(),
-    expired: (ad) => ad.endDate < Date.now(),
-  };
+  // Separate pagination state for each status
+  const [paginationState, setPaginationState] = useState({
+    active: { page: 1, totalPages: initialTotalPages },
+    pending: { page: 1, totalPages: 1 },
+    inactive: { page: 1, totalPages: 1 },
+    expired: { page: 1, totalPages: 1 },
+  });
+
+  const [ads, setAds] = useState(initialAds);
+  const [totalCounts, setTotalCounts] = useState(initialTotalCounts);
+
+  const api = new ApiController();
 
   const toggleModal = (adId) => {
     setActiveAdId((prev) => (prev === adId ? null : adId));
   };
 
-  const filteredAds = ads.filter(tabFilters[activeTab]);
-  const totalPages = Math.ceil(totalCounts[activeTab] / ITEMS_PER_PAGE);
-
-  const handlePageChange = (newPage) => {
-    window.location.href = `/admin/ads?page=${newPage}&tab=${activeTab}`;
+  const fetchAds = async (status, page) => {
+    setLoading(true);
+    try {
+      const response = await api.fetchAdsByMe(null, page, status);
+      setAds(response.ads);
+      setTotalCounts(response.totalCounts);
+      setPaginationState((prev) => ({
+        ...prev,
+        [status]: {
+          page: response.currentPage,
+          totalPages: response.totalPages,
+        },
+      }));
+    } catch (error) {
+      console.error("Error fetching ads:", error);
+    }
+    setLoading(false);
   };
+
+  const handlePageChange = async (newPage) => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setPaginationState((prev) => ({
+      ...prev,
+      [activeTab]: { ...prev[activeTab], page: newPage },
+    }));
+    await fetchAds(activeTab, newPage);
+  };
+
+  const handleTabChange = async (tab) => {
+    setActiveTab(tab);
+    await fetchAds(tab, paginationState[tab].page);
+  };
+
+  const currentPagination = paginationState[activeTab];
 
   return (
     <>
@@ -109,10 +126,10 @@ const AdManager = ({ user, attributes, ads, totalCounts, currentPage }) => {
             <div className="adminCardNavigation">
               <h1 className="title manager--title">{t("adManager__title")}</h1>
               <div className="tabs">
-                {Object.keys(tabFilters).map((tab) => (
+                {Object.keys(paginationState).map((tab) => (
                   <label
                     key={tab}
-                    onClick={() => setActiveTab(tab)}
+                    onClick={() => handleTabChange(tab)}
                     className={`tab ${activeTab === tab ? "active" : ""}`}
                   >
                     <div className="ad_tab_content">
@@ -129,11 +146,13 @@ const AdManager = ({ user, attributes, ads, totalCounts, currentPage }) => {
             </div>
 
             <div className="offerList adManager--offerList">
-              {filteredAds.length === 0 ? (
+              {loading ? (
+                <div className="loading-spinner">Loading...</div>
+              ) : ads.length === 0 ? (
                 <p>{t("adManager__noAds")}</p>
               ) : (
                 <>
-                  {filteredAds.map((ad) => (
+                  {ads.map((ad) => (
                     <Ad
                       key={ad._id}
                       user={user}
@@ -147,20 +166,28 @@ const AdManager = ({ user, attributes, ads, totalCounts, currentPage }) => {
 
                   <div className="pagination">
                     <button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
+                      onClick={() =>
+                        handlePageChange(currentPagination.page - 1)
+                      }
+                      disabled={currentPagination.page === 1 || loading}
                       className="pagination__button"
                     >
                       {t("previous")}
                     </button>
 
                     <span className="pagination__info">
-                      {t("page")} {currentPage} {t("of")} {totalPages}
+                      {t("page")} {currentPagination.page} {t("of")}{" "}
+                      {currentPagination.totalPages}
                     </span>
 
                     <button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
+                      onClick={() =>
+                        handlePageChange(currentPagination.page + 1)
+                      }
+                      disabled={
+                        currentPagination.page ===
+                          currentPagination.totalPages || loading
+                      }
                       className="pagination__button"
                     >
                       {t("next")}
@@ -172,6 +199,46 @@ const AdManager = ({ user, attributes, ads, totalCounts, currentPage }) => {
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        .loading-spinner {
+          text-align: center;
+          padding: 2rem;
+          color: #666;
+        }
+
+        .pagination {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 1rem;
+          margin: 2rem 0;
+          padding: 1rem;
+        }
+
+        .pagination__button {
+          padding: 0.5rem 1rem;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          background: white;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .pagination__button:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+
+        .pagination__button:hover:not(:disabled) {
+          background: #f5f5f5;
+        }
+
+        .pagination__info {
+          font-size: 0.9rem;
+          color: #666;
+        }
+      `}</style>
     </>
   );
 };

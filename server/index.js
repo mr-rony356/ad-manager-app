@@ -187,44 +187,59 @@ server
         }
 
         const page = Math.max(1, parseInt(req.query.page) || 1);
+        const status = req.query.status || "active";
         const limit = 50;
         const skip = (page - 1) * limit;
-
-        // Get all ads for counting
-        const allAds = await req.db
-          .collection("ads")
-          .find({ user: user._id })
-          .toArray();
-
         const now = Date.now();
 
-        // Ensure proper type handling for date comparisons
-        const totalCounts = {
-          active: allAds.filter((ad) => {
-            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
-            return endDate && endDate >= now && (ad.active ?? true);
-          }).length,
-          pending: allAds.filter((ad) => !ad.endDate).length,
-          inactive: allAds.filter((ad) => {
-            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
-            return ad.active === false && endDate && endDate >= now;
-          }).length,
-          expired: allAds.filter((ad) => {
-            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
-            return endDate && endDate < now;
-          }).length,
+        // Define query conditions for each status
+        const statusQueries = {
+          active: {
+            user: user._id,
+            endDate: { $gte: new Date(now) },
+            active: true,
+          },
+          pending: {
+            user: user._id,
+            endDate: null,
+          },
+          inactive: {
+            user: user._id,
+            endDate: { $gte: new Date(now) },
+            active: false,
+          },
+          expired: {
+            user: user._id,
+            endDate: { $lt: new Date(now) },
+          },
         };
 
-        // Get paginated ads
+        // Get total counts for all statuses
+        const totalCounts = {
+          active: await req.db
+            .collection("ads")
+            .countDocuments(statusQueries.active),
+          pending: await req.db
+            .collection("ads")
+            .countDocuments(statusQueries.pending),
+          inactive: await req.db
+            .collection("ads")
+            .countDocuments(statusQueries.inactive),
+          expired: await req.db
+            .collection("ads")
+            .countDocuments(statusQueries.expired),
+        };
+
+        // Get paginated ads for the requested status
         const ads = await req.db
           .collection("ads")
-          .find({ user: user._id })
+          .find(statusQueries[status])
           .sort({ startDate: -1 })
           .skip(skip)
           .limit(limit)
           .toArray();
 
-        // Process ads to ensure all fields are properly handled
+        // Process ads
         const processedAds = ads.map((ad) => ({
           ...ad,
           _id: ad._id.toString(),
@@ -232,14 +247,13 @@ server
           startDate: ad.startDate ? new Date(ad.startDate).getTime() : null,
           endDate: ad.endDate ? new Date(ad.endDate).getTime() : null,
           active: ad.active ?? true,
-          // Ensure other fields are properly handled
         }));
 
         return res.status(200).json({
           ads: processedAds,
           totalCounts,
           currentPage: page,
-          totalPages: Math.ceil(allAds.length / limit),
+          totalPages: Math.ceil(totalCounts[status] / limit),
         });
       } catch (err) {
         console.error("Error in /api/ads/me:", err);
