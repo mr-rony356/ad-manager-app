@@ -21,7 +21,6 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
     try {
       const reviews = await api.getUserReviews(ad.user); // Assuming `user` contains `_id`
       setUserReviews(reviews);
-      console.log(reviews);
     } catch (err) {
       console.error("Error fetching user reviews:", err);
     }

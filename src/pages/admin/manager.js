@@ -105,7 +105,6 @@ const AdManager = ({
   };
 
   const currentPagination = paginationState[activeTab];
-
   return (
     <>
       <Head>
