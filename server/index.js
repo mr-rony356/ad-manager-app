@@ -190,57 +190,96 @@ server
         const status = req.query.status || "active";
         const limit = 50;
         const skip = (page - 1) * limit;
-        const now = Date.now();
+        const now = new Date();
 
-        // Define query conditions for each status
+        // Define query conditions for each status to match the filtering logic
         const statusQueries = {
           active: {
             user: user._id,
-            endDate: { $gte: new Date(now) },
-            active: true,
+            endDate: { $ne: null, $gte: now },
+            $or: [{ active: true }, { active: { $exists: false } }],
           },
           pending: {
             user: user._id,
-            endDate: null,
+            $or: [{ endDate: null }, { endDate: { $exists: false } }],
           },
           inactive: {
             user: user._id,
-            endDate: { $gte: new Date(now) },
+            endDate: { $ne: null, $gte: now },
             active: false,
           },
           expired: {
             user: user._id,
-            endDate: { $lt: new Date(now) },
+            endDate: { $ne: null, $lt: now },
           },
         };
 
         // Get total counts for all statuses
-        const totalCounts = {
-          active: await req.db
-            .collection("ads")
-            .countDocuments(statusQueries.active),
-          pending: await req.db
-            .collection("ads")
-            .countDocuments(statusQueries.pending),
-          inactive: await req.db
-            .collection("ads")
-            .countDocuments(statusQueries.inactive),
-          expired: await req.db
-            .collection("ads")
-            .countDocuments(statusQueries.expired),
-        };
-
-        // Get paginated ads for the requested status
-        const ads = await req.db
+        const allAds = await req.db
           .collection("ads")
-          .find(statusQueries[status])
-          .sort({ startDate: -1 })
-          .skip(skip)
-          .limit(limit)
+          .find({ user: user._id })
           .toArray();
 
-        // Process ads
-        const processedAds = ads.map((ad) => ({
+        const now_ms = now.getTime();
+
+        // Calculate counts using the exact same logic as provided
+        const totalCounts = {
+          active: allAds.filter((ad) => {
+            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
+            return endDate && endDate >= now_ms && (ad.active ?? true);
+          }).length,
+          pending: allAds.filter((ad) => !ad.endDate).length,
+          inactive: allAds.filter((ad) => {
+            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
+            return ad.active === false && endDate && endDate >= now_ms;
+          }).length,
+          expired: allAds.filter((ad) => {
+            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
+            return endDate && endDate < now_ms;
+          }).length,
+        };
+
+        // Get paginated ads based on status
+        let filteredAds = allAds;
+
+        // Apply the same filtering logic for pagination
+        switch (status) {
+          case "active":
+            filteredAds = allAds.filter((ad) => {
+              const endDate = ad.endDate
+                ? new Date(ad.endDate).getTime()
+                : null;
+              return endDate && endDate >= now_ms && (ad.active ?? true);
+            });
+            break;
+          case "pending":
+            filteredAds = allAds.filter((ad) => !ad.endDate);
+            break;
+          case "inactive":
+            filteredAds = allAds.filter((ad) => {
+              const endDate = ad.endDate
+                ? new Date(ad.endDate).getTime()
+                : null;
+              return ad.active === false && endDate && endDate >= now_ms;
+            });
+            break;
+          case "expired":
+            filteredAds = allAds.filter((ad) => {
+              const endDate = ad.endDate
+                ? new Date(ad.endDate).getTime()
+                : null;
+              return endDate && endDate < now_ms;
+            });
+            break;
+        }
+
+        // Apply pagination to filtered ads
+        const paginatedAds = filteredAds
+          .sort((a, b) => (b.startDate || 0) - (a.startDate || 0))
+          .slice(skip, skip + limit);
+
+        // Process ads for response
+        const processedAds = paginatedAds.map((ad) => ({
           ...ad,
           _id: ad._id.toString(),
           user: ad.user.toString(),
@@ -253,7 +292,7 @@ server
           ads: processedAds,
           totalCounts,
           currentPage: page,
-          totalPages: Math.ceil(totalCounts[status] / limit),
+          totalPages: Math.ceil(filteredAds.length / limit),
         });
       } catch (err) {
         console.error("Error in /api/ads/me:", err);
@@ -265,7 +304,8 @@ server
           error: "Internal server error",
         });
       }
-    }); /**
+    });
+    /**
      * Fetches a specific ad from the database by its id
      */
     app.get("/api/ad/:id", async (req, res) => {
