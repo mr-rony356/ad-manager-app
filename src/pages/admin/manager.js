@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AdminLinks from "@components/admin/AdminLinks";
 import Ad from "@components/home/Ad";
 import ApiController from "@utils/API";
@@ -6,10 +6,11 @@ import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
-export async function getServerSideProps({ req, locale }) {
+export async function getServerSideProps({ req, locale, query }) {
   const api = new ApiController();
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
   const user = await api.checkAuth(auth.token);
+  const page = parseInt(query.page) || 1;
 
   if (!user || user.err) {
     return {
@@ -22,7 +23,28 @@ export async function getServerSideProps({ req, locale }) {
 
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
-  const { ads, totalCounts } = await api.fetchAdsByMe(auth.token, 50, 1);
+
+  // Fetch ads with proper error handling
+  const adsResponse = await api.fetchAdsByMe(auth.token, page);
+
+  // Ensure all fields are serializable
+  const serializedAds = adsResponse.ads.map((ad) => ({
+    ...ad,
+    _id: ad._id.toString(), // Convert ObjectId to string if needed
+    startDate: ad.startDate ? new Date(ad.startDate).getTime() : null,
+    endDate: ad.endDate ? new Date(ad.endDate).getTime() : null,
+    active: ad.active ?? true, // Use nullish coalescing for default value
+    user: ad.user ? ad.user.toString() : null, // Convert ObjectId to string if needed
+    // Add any other fields that need serialization
+  }));
+
+  // Ensure counts are numbers or zero
+  const serializedCounts = {
+    active: adsResponse.totalCounts?.active || 0,
+    pending: adsResponse.totalCounts?.pending || 0,
+    inactive: adsResponse.totalCounts?.inactive || 0,
+    expired: adsResponse.totalCounts?.expired || 0,
+  };
 
   return {
     props: {
@@ -30,38 +52,24 @@ export async function getServerSideProps({ req, locale }) {
         "en",
         "de",
       ])),
-      user,
-      ads,
-      totalCounts,
-      attributes,
+      user: {
+        ...user,
+        _id: user._id.toString(), // Convert ObjectId to string
+        // Add other user fields that need serialization
+      },
+      ads: serializedAds,
+      attributes: attributes || {},
+      totalCounts: serializedCounts,
+      currentPage: page,
+      totalPages: adsResponse.totalPages || 1,
     },
   };
 }
-
-const AdManager = ({ user, attributes, ads: initialAds, totalCounts }) => {
+const AdManager = ({ user, attributes, ads, totalCounts, currentPage }) => {
   const { t } = useTranslation("common");
   const [activeTab, setActiveTab] = useState("active");
-  const [ads, setAds] = useState(initialAds);
-  const [counts, setCounts] = useState(totalCounts);
-  const [page, setPage] = useState(1);
   const [activeAdId, setActiveAdId] = useState(null);
-
-  const api = new ApiController();
-
-  const fetchAds = async (newPage) => {
-    const { ads: newAds, totalCounts: updatedCounts } = await api.fetchAdsByMe(
-      null,
-      50,
-      newPage,
-    );
-    setAds(newAds);
-    setCounts(updatedCounts);
-    setPage(newPage);
-  };
-
-  const toggleModal = (adId) => {
-    setActiveAdId((prev) => (prev === adId ? null : adId));
-  };
+  const ITEMS_PER_PAGE = 50;
 
   const tabFilters = {
     active: (ad) => ad.endDate >= Date.now() && ad.active,
@@ -70,9 +78,16 @@ const AdManager = ({ user, attributes, ads: initialAds, totalCounts }) => {
     expired: (ad) => ad.endDate < Date.now(),
   };
 
-  useEffect(() => {
-    if (ads.length === 0) fetchAds(1); // Ensure initial fetch
-  }, []);
+  const toggleModal = (adId) => {
+    setActiveAdId((prev) => (prev === adId ? null : adId));
+  };
+
+  const filteredAds = ads.filter(tabFilters[activeTab]);
+  const totalPages = Math.ceil(totalCounts[activeTab] / ITEMS_PER_PAGE);
+
+  const handlePageChange = (newPage) => {
+    window.location.href = `/admin/ads?page=${newPage}&tab=${activeTab}`;
+  };
 
   return (
     <>
@@ -101,12 +116,10 @@ const AdManager = ({ user, attributes, ads: initialAds, totalCounts }) => {
                     className={`tab ${activeTab === tab ? "active" : ""}`}
                   >
                     <div className="ad_tab_content">
-                      <p className="ad_count">{counts[tab] || 0}</p>
+                      <p className="ad_count">{totalCounts[tab]}</p>
                       <p className="ad_tab__title">
                         {t(
-                          `adManager__filter${
-                            tab.charAt(0).toUpperCase() + tab.slice(1)
-                          }`,
+                          `adManager__filter${tab.charAt(0).toUpperCase() + tab.slice(1)}`,
                         )}
                       </p>
                     </div>
@@ -116,31 +129,45 @@ const AdManager = ({ user, attributes, ads: initialAds, totalCounts }) => {
             </div>
 
             <div className="offerList adManager--offerList">
-              {ads.length === 0 ? (
+              {filteredAds.length === 0 ? (
                 <p>{t("adManager__noAds")}</p>
               ) : (
-                ads
-                  .filter(tabFilters[activeTab])
-                  .map((ad) => (
+                <>
+                  {filteredAds.map((ad) => (
                     <Ad
-                      user={user}
                       key={ad._id}
+                      user={user}
                       ad={ad}
                       attributes={attributes}
                       isAdmin={true}
                       isModalOpen={activeAdId === ad._id}
                       toggleModal={toggleModal}
                     />
-                  ))
-              )}
-            </div>
+                  ))}
 
-            <div className="pagination">
-              <button onClick={() => fetchAds(page - 1)} disabled={page === 1}>
-                {t("previous")}
-              </button>
-              <span>{page}</span>
-              <button onClick={() => fetchAds(page + 1)}>{t("next")}</button>
+                  <div className="pagination">
+                    <button
+                      onClick={() => handlePageChange(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="pagination__button"
+                    >
+                      {t("previous")}
+                    </button>
+
+                    <span className="pagination__info">
+                      {t("page")} {currentPage} {t("of")} {totalPages}
+                    </span>
+
+                    <button
+                      onClick={() => handlePageChange(currentPage + 1)}
+                      disabled={currentPage === totalPages}
+                      className="pagination__button"
+                    >
+                      {t("next")}
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

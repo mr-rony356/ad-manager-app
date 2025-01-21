@@ -177,44 +177,81 @@ server
           .collection("users")
           .findOne({ name: res.locals.user });
 
-        const { limit = 50, page = 1 } = req.query; // Defaults
+        if (!user) {
+          return res.status(404).json({
+            ads: [],
+            totalCounts: { active: 0, pending: 0, inactive: 0, expired: 0 },
+            currentPage: 1,
+            totalPages: 0,
+          });
+        }
+
+        const page = Math.max(1, parseInt(req.query.page) || 1);
+        const limit = 50;
         const skip = (page - 1) * limit;
 
-        const adsCursor = req.db
+        // Get all ads for counting
+        const allAds = await req.db
           .collection("ads")
           .find({ user: user._id })
-          .sort({ startDate: -1 });
-
-        // Count total ads for each status
-        const allAds = await adsCursor.toArray();
-        const totalCounts = {
-          active: allAds.filter((ad) => ad.endDate >= Date.now() && ad.active)
-            .length,
-          pending: allAds.filter((ad) => !ad.endDate).length,
-          inactive: allAds.filter(
-            (ad) => ad.active === false && ad.endDate >= Date.now(),
-          ).length,
-          expired: allAds.filter((ad) => ad.endDate < Date.now()).length,
-        };
-
-        // Fetch paginated results
-        const paginatedAds = await adsCursor
-          .skip(skip)
-          .limit(parseInt(limit, 10))
           .toArray();
 
-        const ads = paginatedAds.map((ad) => ({
+        const now = Date.now();
+
+        // Ensure proper type handling for date comparisons
+        const totalCounts = {
+          active: allAds.filter((ad) => {
+            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
+            return endDate && endDate >= now && (ad.active ?? true);
+          }).length,
+          pending: allAds.filter((ad) => !ad.endDate).length,
+          inactive: allAds.filter((ad) => {
+            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
+            return ad.active === false && endDate && endDate >= now;
+          }).length,
+          expired: allAds.filter((ad) => {
+            const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
+            return endDate && endDate < now;
+          }).length,
+        };
+
+        // Get paginated ads
+        const ads = await req.db
+          .collection("ads")
+          .find({ user: user._id })
+          .sort({ startDate: -1 })
+          .skip(skip)
+          .limit(limit)
+          .toArray();
+
+        // Process ads to ensure all fields are properly handled
+        const processedAds = ads.map((ad) => ({
           ...ad,
-          active: ad.active !== undefined ? ad.active : true, // Default to true
+          _id: ad._id.toString(),
+          user: ad.user.toString(),
+          startDate: ad.startDate ? new Date(ad.startDate).getTime() : null,
+          endDate: ad.endDate ? new Date(ad.endDate).getTime() : null,
+          active: ad.active ?? true,
+          // Ensure other fields are properly handled
         }));
 
-        return res.status(200).json({ ads, totalCounts });
+        return res.status(200).json({
+          ads: processedAds,
+          totalCounts,
+          currentPage: page,
+          totalPages: Math.ceil(allAds.length / limit),
+        });
       } catch (err) {
-        return res.status(500).json({ err: "Error fetching ads." });
+        console.error("Error in /api/ads/me:", err);
+        return res.status(500).json({
+          ads: [],
+          totalCounts: { active: 0, pending: 0, inactive: 0, expired: 0 },
+          currentPage: 1,
+          totalPages: 0,
+          error: "Internal server error",
+        });
       }
-    });
-
-    /**
+    }); /**
      * Fetches a specific ad from the database by its id
      */
     app.get("/api/ad/:id", async (req, res) => {
@@ -354,7 +391,6 @@ server
             .status(404)
             .json({ error: "No reviews found for this user" });
         }
-        ƒ;
 
         return res.status(200).json(reviews);
       } catch (err) {

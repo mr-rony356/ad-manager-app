@@ -79,21 +79,45 @@ export default class ApiController {
    * @param {*} limit The limit of ads to be fetched
    * @returns All the ads created by me
    */
-  async fetchAdsByMe(token, limit = 50, page = 1) {
+  async fetchAdsByMe(token, page = 1) {
     try {
-      const url = `api/ads/me?limit=${limit}&page=${page}`;
-      const promise = await fetch(
-        this.buildRequest(url, "GET", null, token ?? this.fetchToken()),
-      ).then((res) => res.json());
-
-      return promise; // Will include ads and totalCounts
+      const response = await fetch(
+        this.buildRequest(
+          `api/ads/me?page=${page}`,
+          "GET",
+          null,
+          token ?? this.fetchToken(),
+        ),
+      );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Ensure we have proper default values for all fields
+      return {
+        ads: Array.isArray(data.ads) ? data.ads : [],
+        totalCounts: {
+          active: data.totalCounts?.active ?? 0,
+          pending: data.totalCounts?.pending ?? 0,
+          inactive: data.totalCounts?.inactive ?? 0,
+          expired: data.totalCounts?.expired ?? 0
+        },
+        currentPage: data.currentPage ?? 1,
+        totalPages: data.totalPages ?? 1
+      };
     } catch (err) {
       console.error("API: Could not fetch ads by me", err);
-      return { ads: [], totalCounts: {} };
+      return {
+        ads: [],
+        totalCounts: { active: 0, pending: 0, inactive: 0, expired: 0 },
+        currentPage: 1,
+        totalPages: 1
+      };
     }
-  }
-
-  /**
+  }  /**
    * Fetches one specific ad from the database by its id
    * @param {*} id The id of the ad to be fetched
    * @returns The ad
