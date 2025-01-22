@@ -527,12 +527,52 @@ server
           return res.status(400).json({ error: "Invalid status" });
         }
 
-        const result = await req.db
+        // Update the review's status
+        const reviewUpdateResult = await req.db
           .collection("reviews")
-          .updateOne({ _id: new ObjectId(reviewId) }, { $set: { status } });
+          .findOneAndUpdate(
+            { _id: new ObjectId(reviewId) },
+            { $set: { status } },
+            { returnDocument: "after" },
+          );
 
-        if (result.matchedCount === 0) {
+        const updatedReview = reviewUpdateResult.value;
+
+        if (!updatedReview) {
           return res.status(404).json({ error: "Review not found" });
+        }
+
+        // If the review status is updated to "approved", recalculate the average rating
+        if (status === "approved") {
+          const { adId } = updatedReview;
+
+          // Calculate the new average rating for the ad
+          const ratings = await req.db
+            .collection("reviews")
+            .aggregate([
+              { $match: { adId: new ObjectId(adId), status: "approved" } },
+              {
+                $group: {
+                  _id: "$adId",
+                  averageRating: { $avg: "$rating" },
+                },
+              },
+            ])
+            .toArray();
+
+          const newAverageRating = ratings.length
+            ? ratings[0].averageRating
+            : null;
+
+          // Update the ad collection with the new average rating
+          if (newAverageRating !== null) {
+            await req.db
+              .collection("ads")
+              .updateOne(
+                { _id: new ObjectId(adId) },
+                { $set: { averageRating: newAverageRating } },
+              );
+          }
         }
 
         return res
