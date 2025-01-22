@@ -41,6 +41,7 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
     if (res.err) setErr(res.err);
     else setDisplayModal("reactivated");
     setShowModal(false);
+  ;
   };
 
   const deleteAd = () => {

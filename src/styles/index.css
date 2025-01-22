@@ -2090,7 +2090,7 @@ a:-webkit-any-link {
   .ad__menu {
     width: 13em;
     right: 15%;
-    top: -25px;
+    top: 0px;
   }
 
   .adminPage__contentLinks {
