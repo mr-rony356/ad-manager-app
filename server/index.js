@@ -380,50 +380,90 @@ server
 
     app.post("/api/reviews", async (req, res) => {
       try {
-        const { userId, rating, review, name } = req.body;
+        const { adId, rating, review, name } = req.body;
 
-        // Validate required fields
-        if (!userId || !rating) {
-          return res.status(400).json({ error: "Missing required fields" });
+        if (!ObjectId.isValid(adId)) {
+          return res.status(400).json({ error: "Invalid adId format" });
         }
 
-        if (rating < 1 || rating > 5) {
+        if (!rating || typeof rating !== "number" || rating < 1 || rating > 5) {
+          return res.status(400).json({ error: "Invalid rating value" });
+        }
+
+        if (!name || typeof name !== "string" || name.trim() === "") {
           return res
             .status(400)
-            .json({ error: "Rating must be between 1 and 5" });
+            .json({ error: "Name is required and must be a string" });
         }
 
-        if (review && review.length > 600) {
+        if (!review || typeof review !== "string" || review.trim() === "") {
           return res
             .status(400)
-            .json({ error: "Review must be 600 characters or less" });
+            .json({ error: "Review is required and must be a string" });
         }
 
-        // Create review object
-        const reviewData = {
-          userId: new ObjectId(userId),
+        // Create the review object
+        const newReview = {
+          _id: new ObjectId(), // Generate a unique ID for the review
+          adId: new ObjectId(adId),
+          name: name.trim(),
           rating,
-          review: review || null,
-          name: name || "Anonymous",
-          timestamp: new Date(),
-          status: "pending", // Default status for admin approval
+          review: review.trim(),
+          status: "pending", // Default status is "pending"
+          createdAt: new Date(),
         };
 
-        // Insert into the reviews collection
-        const result = await req.db.collection("reviews").insertOne(reviewData);
+        // Insert the review into the reviews collection
+        const result = await req.db.collection("reviews").insertOne(newReview);
 
         if (!result.acknowledged) {
-          return res.status(500).json({ error: "Failed to add review" });
+          return res.status(500).json({ error: "Failed to create review" });
         }
 
-        return res
-          .status(201)
-          .json({ message: "Review submitted for approval" });
+        // Add the review to the reviews array in the ads collection
+        const adUpdateResult = await req.db.collection("ads").updateOne(
+          { _id: new ObjectId(adId) },
+          { $push: { reviews: newReview } }, // Push the review to the reviews array
+        );
+
+        if (adUpdateResult.matchedCount === 0) {
+          return res.status(404).json({ error: "Ad not found" });
+        }
+
+        // Calculate the new average rating for the ad
+        const ratings = await req.db
+          .collection("reviews")
+          .aggregate([
+            { $match: { adId: new ObjectId(adId), status: "approved" } },
+            {
+              $group: {
+                _id: "$adId",
+                averageRating: { $avg: "$rating" },
+              },
+            },
+          ])
+          .toArray();
+
+        const newAverageRating = ratings.length
+          ? ratings[0].averageRating
+          : null;
+
+        // Update the ad collection with the new average rating
+        if (newAverageRating !== null) {
+          await req.db
+            .collection("ads")
+            .updateOne(
+              { _id: new ObjectId(adId) },
+              { $set: { averageRating: newAverageRating } },
+            );
+        }
+
+        return res.status(201).json({ message: "Review created successfully" });
       } catch (err) {
-        console.error(err);
+        console.error("Error creating review:", err);
         return res
           .status(500)
-          .json({ error: "An error occurred while adding the review" });
+          .json({ error: "An error occurred while creating the review" });
       }
     });
     app.get("/api/reviews/:userId", async (req, res) => {

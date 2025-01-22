@@ -613,13 +613,13 @@ export default class ApiController {
 
    */
 
-  async addReview({ userId, rating, review, name }) {
+  async addReview({adId, rating, review, name }) {
     try {
       const promise = await fetch(
         this.buildRequest(
           "api/reviews",
           "POST",
-          { userId, rating, review, name },
+          { adId, rating, review, name },
           this.fetchToken(),
         ),
       ).then((res) => res.json());

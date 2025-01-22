@@ -165,7 +165,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
   };
 
   const selectImage = (index) => {
-    setAd({ ...ad, frontImage: index });
+    setAd({ ...ad, frontImage: index || 0 });
   };
 
   const createAd = () => {

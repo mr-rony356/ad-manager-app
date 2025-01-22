@@ -92,7 +92,7 @@ const AdDetail = ({
 
     try {
       const response = await api.addReview({
-        userId: ad.user, // Assuming `user` contains `_id`
+        adId: ad._id, // Assuming `ad` contains `_id`
         rating,
         review: reviewText,
         name,
@@ -103,7 +103,6 @@ const AdDetail = ({
       console.error("Error submitting review:", err);
     }
   };
-
   const fetchUserReviews = async () => {
     try {
       const reviews = await api.getUserReviews(ad.user); // Assuming `user` contains `_id`
@@ -126,8 +125,6 @@ const AdDetail = ({
     fetchUserReviews();
     fetchAverageRating();
   }, [user._id]);
-  console.log(user);
-  console.log(ad);
   const tagIcon = "/assets/tag.png";
   const placeIcon = "/assets/place.png";
   const fav = "/assets/heart.png";
@@ -500,8 +497,8 @@ const AdDetail = ({
 
                       {/* Google Maps Button */}
                       <button
-                              className="flex  w-full md:min-w-64 p-3 my-2  justify-center border border-sky-500 rounded-md items-center gap-3"
-                              onClick={() => {
+                        className="flex  w-full md:min-w-64 p-3 my-2  justify-center border border-sky-500 rounded-md items-center gap-3"
+                        onClick={() => {
                           const addressParts = [
                             ad.street,
                             ad.city,
@@ -519,7 +516,8 @@ const AdDetail = ({
                           window.open(googleMapsURL, "_blank");
                         }}
                       >
-                        <img src={placeIcon} alt="place" className="h-5 w-5"/> Show on Google Maps
+                        <img src={placeIcon} alt="place" className="h-5 w-5" />{" "}
+                        Show on Google Maps
                       </button>
                     </div>
                   ) : null}
