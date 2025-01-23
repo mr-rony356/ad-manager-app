@@ -119,7 +119,7 @@ const Verifications = ({
           </Tab.List>
           <Tab.Panels className="mt-4">
             <Tab.Panel>
-              {ads.length > 0 ? (
+              {ads.length < 0 ? (
                 ads
                   .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
                   .map((ad) => (

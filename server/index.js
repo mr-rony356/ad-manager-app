@@ -466,34 +466,6 @@ server
           .json({ error: "An error occurred while creating the review" });
       }
     });
-    app.get("/api/reviews/:userId", async (req, res) => {
-      try {
-        const { userId } = req.params;
-
-        if (!ObjectId.isValid(userId)) {
-          return res.status(400).json({ error: "Invalid userId format" });
-        }
-
-        // Fetch approved reviews for the user
-        const reviews = await req.db
-          .collection("reviews")
-          .find({ userId: new ObjectId(userId), status: "approved" })
-          .toArray();
-
-        if (!reviews.length) {
-          return res
-            .status(404)
-            .json({ error: "No reviews found for this user" });
-        }
-
-        return res.status(200).json(reviews);
-      } catch (err) {
-        console.error(err);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while fetching reviews" });
-      }
-    });
     app.get("/api/reviews/pending/all", async (req, res) => {
       try {
         // Fetch reviews with status "pending"
@@ -519,10 +491,12 @@ server
         const { reviewId } = req.params;
         const { status } = req.body; // Status can be "approved" or "rejected"
 
+        // Validate reviewId
         if (!ObjectId.isValid(reviewId)) {
           return res.status(400).json({ error: "Invalid reviewId format" });
         }
 
+        // Validate status
         if (!["approved", "rejected"].includes(status)) {
           return res.status(400).json({ error: "Invalid status" });
         }
@@ -531,9 +505,9 @@ server
         const reviewUpdateResult = await req.db
           .collection("reviews")
           .findOneAndUpdate(
-            { _id: new ObjectId(reviewId) },
+            { _id: new ObjectId(reviewId) }, // Ensure the ID matches
             { $set: { status } },
-            { returnDocument: "after" },
+            { returnDocument: "after" }, // Return the updated document
           );
 
         const updatedReview = reviewUpdateResult.value;
@@ -564,14 +538,16 @@ server
             ? ratings[0].averageRating
             : null;
 
-          // Update the ad collection with the new average rating
+          // Update the ad collection with the new average rating and review status
           if (newAverageRating !== null) {
-            await req.db
-              .collection("ads")
-              .updateOne(
-                { _id: new ObjectId(adId) },
-                { $set: { averageRating: newAverageRating } },
-              );
+            await req.db.collection("ads").updateOne(
+              { _id: new ObjectId(adId) },
+              {
+                $set: { averageRating: newAverageRating },
+                $pull: { reviews: { _id: new ObjectId(reviewId) } }, // Remove old review
+                $push: { reviews: updatedReview }, // Push updated review
+              },
+            );
           }
         }
 
@@ -579,13 +555,13 @@ server
           .status(200)
           .json({ message: `Review ${status} successfully` });
       } catch (err) {
-        console.error(err);
+        console.error("Error updating review:", err);
         return res
           .status(500)
           .json({ error: "An error occurred while updating the review" });
       }
     });
-    app.get("/api/reviews/:userId/average", async (req, res) => {
+    app.get("/api/reviews/:adId/average", async (req, res) => {
       try {
         const { userId } = req.params;
 
