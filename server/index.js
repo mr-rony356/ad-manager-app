@@ -489,79 +489,50 @@ server
     app.patch("/api/reviews/:reviewId", async (req, res) => {
       try {
         const { reviewId } = req.params;
-        const { status } = req.body; // Status can be "approved" or "rejected"
-
-        // Validate reviewId
+        const { status } = req.body;
+    
         if (!ObjectId.isValid(reviewId)) {
+          console.error("Invalid reviewId format:", reviewId);
           return res.status(400).json({ error: "Invalid reviewId format" });
         }
-
-        // Validate status
+    
         if (!["approved", "rejected"].includes(status)) {
+          console.error("Invalid status provided:", status);
           return res.status(400).json({ error: "Invalid status" });
         }
-
-        // Update the review's status
+    
+        const objectId = new ObjectId(reviewId);
+    
         const reviewUpdateResult = await req.db
           .collection("reviews")
           .findOneAndUpdate(
-            { _id: new ObjectId(reviewId) }, // Ensure the ID matches
+            { _id: objectId },
             { $set: { status } },
-            { returnDocument: "after" }, // Return the updated document
+            { returnDocument: "after" }
           );
-
+    
+        if (!reviewUpdateResult || reviewUpdateResult.lastErrorObject.n === 0) {
+          console.error("Review not found or not updated:", reviewId);
+          return res.status(404).json({ error: "Review not found or not updated" });
+        }
+    
         const updatedReview = reviewUpdateResult.value;
-
+    
         if (!updatedReview) {
-          return res.status(404).json({ error: "Review not found" });
+          console.error("Failed to retrieve updated review:", reviewId);
+          return res.status(404).json({ error: "Updated review not found" });
         }
-
-        // If the review status is updated to "approved", recalculate the average rating
-        if (status === "approved") {
-          const { adId } = updatedReview;
-
-          // Calculate the new average rating for the ad
-          const ratings = await req.db
-            .collection("reviews")
-            .aggregate([
-              { $match: { adId: new ObjectId(adId), status: "approved" } },
-              {
-                $group: {
-                  _id: "$adId",
-                  averageRating: { $avg: "$rating" },
-                },
-              },
-            ])
-            .toArray();
-
-          const newAverageRating = ratings.length
-            ? ratings[0].averageRating
-            : null;
-
-          // Update the ad collection with the new average rating and review status
-          if (newAverageRating !== null) {
-            await req.db.collection("ads").updateOne(
-              { _id: new ObjectId(adId) },
-              {
-                $set: { averageRating: newAverageRating },
-                $pull: { reviews: { _id: new ObjectId(reviewId) } }, // Remove old review
-                $push: { reviews: updatedReview }, // Push updated review
-              },
-            );
-          }
-        }
-
+    
+        console.log("Successfully updated review:", updatedReview);
         return res
           .status(200)
-          .json({ message: `Review ${status} successfully` });
+          .json({ message: `Review ${status} successfully`, review: updatedReview });
       } catch (err) {
         console.error("Error updating review:", err);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while updating the review" });
+        return res.status(500).json({ error: "An error occurred while updating the review" });
       }
     });
-    app.get("/api/reviews/:adId/average", async (req, res) => {
+        app.get("/api/reviews/:adId/average", async (req, res) => {
       try {
         const { userId } = req.params;
 
