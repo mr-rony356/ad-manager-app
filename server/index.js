@@ -308,17 +308,16 @@ server
     /**
      * Fetches a specific ad from the database by its id
      */
-    app.get("/api/ad/:id", async (req, res) => {
+    app.get("/api/ad/:slug", async (req, res) => {
       try {
-        const id = req.params.id;
-        const objectId = ObjectId.isValid(id) ? new ObjectId(id) : null;
+        const slug = req.params.slug;
 
-        if (!objectId) {
-          // Handle the case when id is not a valid ObjectId
-          return res.status(400).json({ error: "Invalid id format" });
+        if (!slug) {
+          // Handle the case when slug is not provided
+          return res.status(400).json({ error: "Slug is required" });
         }
 
-        const ad = await req.db.collection("ads").findOne({ _id: objectId });
+        const ad = await req.db.collection("ads").findOne({ slug });
 
         if (!ad) {
           return res.status(404).json({ error: "Ad not found" });
@@ -359,7 +358,6 @@ server
         return res.status(500).json({ error: "Server error" });
       }
     });
-
     /**
      * Fetches all the ads to verify from the database
      */
