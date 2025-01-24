@@ -92,21 +92,14 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
         .replace(/ü/g, "u") // Replace 'ü' with 'u'
         .replace(/[^\w\s-]/g, "")
         .replace(/[\s_-]+/g, "-")
+        .replace(/ /g, "-") // Replace spaces with hyphens
         .replace(/^-+|-+$/g, "")
     : null;
-
-  const adSlug = ad.title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
   const isOwner = user.email === "cyrill.mueller@onlyfriend.ch";
   return (
     <Link
       href={{
-        pathname: `${isAdmin ? "/admin" : ""}/${ad.slug}?${
-          adSlugRegions ? adSlugRegions + "-" : ""
-        }`,
+        pathname: `${isAdmin ? "/admin" : ""}/${adSlugRegions ? adSlugRegions : ""}/${ad.slug}`,
       }}
     >
       <div className="ad ">
