@@ -170,11 +170,22 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
 
   const createAd = () => {
     const data = new FormData();
+    // Generate the slug from the ad title
+    const adSlug = ad.title
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "") // Remove invalid characters
+      .replace(/[\s_-]+/g, "-") // Replace spaces and underscores with hyphens
+      .replace(/^-+|-+$/g, ""); // Trim leading and trailing hyphens
+
+    // Append images, video, and verification image
     ad.images.forEach((image) => data.append("image", image));
     data.append("video", ad.video);
     data.append("verificationImage", ad.verificationImage);
-    data.append("ad", JSON.stringify(ad));
 
+    // Add slug to the ad object
+    const adWithSlug = { ...ad, slug: adSlug };
+    // Append the ad object as a JSON string
+    data.append("ad", JSON.stringify(adWithSlug));
     if (type === "free") {
       ad.credits = 0;
     }

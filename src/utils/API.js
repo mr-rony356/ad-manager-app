@@ -121,10 +121,10 @@ export default class ApiController {
    * @param {*} id The id of the ad to be fetched
    * @returns The ad
    */
-  async fetchAd(id) {
+  async fetchAd(slug) {
     try {
       const promise = await fetch(
-        this.buildRequest("api/ad/" + id, "GET"),
+        this.buildRequest("api/ad/" + slug, "GET"),
       ).then((res) => res.json());
       return promise;
     } catch (err) {
