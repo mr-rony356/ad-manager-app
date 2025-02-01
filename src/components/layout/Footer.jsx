@@ -42,9 +42,6 @@ const Footer = () => {
             <Link href="/blogs" className="footer__link  hover:underline">
               Blogs
             </Link>
-            <Link href="/imprint" className="footer__link  hover:underline">
-              Impressum
-            </Link>
           </div>
         </div>
       </div>

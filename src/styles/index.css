@@ -1019,7 +1019,8 @@ a:-webkit-any-link {
 }
 
 .footer a {
-  color: white;
+  color: rgb(177, 174, 174);
+  font-size: 15px;
 }
 
 .admin {
@@ -1573,7 +1574,6 @@ a:-webkit-any-link {
   position: fixed;
   bottom: 10px;
   left: 10px;
-  width: 20em;
   z-index: 10;
   border-radius: 10px;
   display: flex;

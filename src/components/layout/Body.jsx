@@ -17,7 +17,7 @@ import BlogList from "@pages/blogs";
 import Imprint from "@pages/imprint";
 import LoginPage from "@pages/loginPage";
 import PageAGB from "@pages/pageAgb";
-import Support from "@pages/pageSupport";
+import Support from "@pages/support";
 import Privacy from "@pages/privacy";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "@components/ui/toaster";

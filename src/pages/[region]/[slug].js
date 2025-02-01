@@ -577,7 +577,7 @@ const AdDetail = ({
                   </div>
                 ))}
               </div>
-              <div className="flex items-center space-x-2 justify-end pr-6">
+              <div className="flex items-center space-x-2 justify-end pr-6 -mt-4">
                 <span className="text-gray-700 text-sm font-medium">
                   {averageRating !== null && !isNaN(averageRating)
                     ? averageRating.toFixed(1)

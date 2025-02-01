@@ -9,13 +9,18 @@ const CookiesPopup = (props) => {
   };
 
   return (
-    <div className="cookies__popUp">
+    <div className="cookies__popUp !z-[99999999] w-[95%] md:w-[20em]">
       <p className="cookies__title">We use Cookies</p>
       <div className="cookies__text">
         We use necessary cookies to enhance your browsing experience on our
         website.
       </div>
-      <button onClick={() => clickHandler()}>Accept</button>
+      <button
+        onClick={() => clickHandler()}
+        className="bg-white text-black rounded-md p-2"
+      >
+        Accept
+      </button>
     </div>
   );
 };
