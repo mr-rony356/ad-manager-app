@@ -452,6 +452,11 @@ server
         const { reviewId } = req.params;
         const { status } = req.body;
 
+        // Log the reviewId and converted ObjectId
+        console.log("Review ID from request:", reviewId);
+        const objectId = new ObjectId(reviewId);
+        console.log("Converted ObjectId:", objectId);
+
         // Validation
         if (!ObjectId.isValid(reviewId)) {
           console.error("Invalid reviewId format:", reviewId);
@@ -463,24 +468,30 @@ server
           return res.status(400).json({ error: "Invalid status" });
         }
 
-        const objectId = new ObjectId(reviewId);
-
-        // Update the review status
+        // Update the review status and return the updated document
         const reviewUpdateResult = await req.db
           .collection("reviews")
           .findOneAndUpdate(
             { _id: objectId },
             { $set: { status } },
-            { returnDocument: "after" },
+            { returnDocument: "after" }, // Return the updated document
           );
+
+        // Log the result of findOneAndUpdate
+        console.log("Review update result:", reviewUpdateResult);
 
         // Check if the review was found and updated
         if (!reviewUpdateResult || !reviewUpdateResult.value) {
-          console.error("Review not found:", reviewId);
-          return res.status(404).json({ error: "Review not found" });
+          console.error("Review not found or not updated:", reviewId);
+          return res
+            .status(404)
+            .json({ error: "Review not found or not updated" });
         }
 
         const updatedReview = reviewUpdateResult.value;
+
+        // Log the updated review
+        console.log("Updated review:", updatedReview);
 
         // If the status is updated to "approved", add the review to the ad and recalculate the average rating
         if (status === "approved") {
