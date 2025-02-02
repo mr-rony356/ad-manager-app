@@ -458,7 +458,7 @@ server
           return res.status(400).json({ error: "Invalid reviewId format" });
         }
 
-        if (!["active", "rejected"].includes(status)) {
+        if (!["approved", "rejected"].includes(status)) {
           console.error("Invalid status provided:", status);
           return res.status(400).json({ error: "Invalid status" });
         }
