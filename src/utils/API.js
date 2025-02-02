@@ -79,7 +79,7 @@ export default class ApiController {
    * @param {*} limit The limit of ads to be fetched
    * @returns All the ads created by me
    */
-  async fetchAdsByMe(token, page = 1, status = 'active') {
+  async fetchAdsByMe(token, page = 1, status = "active") {
     try {
       const response = await fetch(
         this.buildRequest(
@@ -89,23 +89,23 @@ export default class ApiController {
           token ?? this.fetchToken(),
         ),
       );
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      
+
       return {
         ads: Array.isArray(data.ads) ? data.ads : [],
         totalCounts: {
           active: data.totalCounts?.active ?? 0,
           pending: data.totalCounts?.pending ?? 0,
           inactive: data.totalCounts?.inactive ?? 0,
-          expired: data.totalCounts?.expired ?? 0
+          expired: data.totalCounts?.expired ?? 0,
         },
         currentPage: data.currentPage ?? 1,
-        totalPages: data.totalPages ?? 1
+        totalPages: data.totalPages ?? 1,
       };
     } catch (err) {
       console.error("API: Could not fetch ads by me", err);
@@ -113,10 +113,10 @@ export default class ApiController {
         ads: [],
         totalCounts: { active: 0, pending: 0, inactive: 0, expired: 0 },
         currentPage: 1,
-        totalPages: 1
+        totalPages: 1,
       };
     }
-  }   /**
+  } /**
    * Fetches one specific ad from the database by its id
    * @param {*} id The id of the ad to be fetched
    * @returns The ad
@@ -613,7 +613,7 @@ export default class ApiController {
 
    */
 
-  async addReview({adId, rating, review, name }) {
+  async addReview({ adId, rating, review, name }) {
     try {
       const promise = await fetch(
         this.buildRequest(

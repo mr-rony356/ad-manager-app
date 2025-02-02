@@ -451,20 +451,20 @@ server
       try {
         const { reviewId } = req.params;
         const { status } = req.body;
-
+    
         // Validation
         if (!ObjectId.isValid(reviewId)) {
           console.error("Invalid reviewId format:", reviewId);
           return res.status(400).json({ error: "Invalid reviewId format" });
         }
-
+    
         if (!["approved", "rejected"].includes(status)) {
           console.error("Invalid status provided:", status);
           return res.status(400).json({ error: "Invalid status" });
         }
-
+    
         const objectId = new ObjectId(reviewId);
-
+    
         // Update the review status
         const reviewUpdateResult = await req.db
           .collection("reviews")
@@ -473,39 +473,39 @@ server
             { $set: { status } },
             { returnDocument: "after" },
           );
-
+    
         if (!reviewUpdateResult || reviewUpdateResult.lastErrorObject.n === 0) {
           console.error("Review not found or not updated:", reviewId);
           return res
             .status(404)
             .json({ error: "Review not found or not updated" });
         }
-
+    
         const updatedReview = reviewUpdateResult.value;
-
+    
         if (!updatedReview) {
           console.error("Failed to retrieve updated review:", reviewId);
           return res.status(404).json({ error: "Updated review not found" });
         }
-
-        // If the status is updated to "active", add the review to the ad and recalculate the average rating
-        if (status === "active") {
+    
+        // If the status is updated to "approved", add the review to the ad and recalculate the average rating
+        if (status === "approved") {
           const adId = updatedReview.adId;
-
+    
           // Add the review to the ad's reviews array
           const adUpdateResult = await req.db
             .collection("ads")
             .updateOne({ _id: adId }, { $push: { reviews: updatedReview } });
-
+    
           if (adUpdateResult.matchedCount === 0) {
             return res.status(404).json({ error: "Ad not found" });
           }
-
+    
           // Recalculate the average rating for the ad
           const ratings = await req.db
             .collection("reviews")
             .aggregate([
-              { $match: { adId, status: "active" } },
+              { $match: { adId, status: "approved" } },
               {
                 $group: {
                   _id: "$adId",
@@ -514,11 +514,11 @@ server
               },
             ])
             .toArray();
-
+    
           const newAverageRating = ratings.length
             ? ratings[0].averageRating
             : null;
-
+    
           // Update the ad collection with the new average rating
           if (newAverageRating !== null) {
             await req.db
@@ -529,20 +529,38 @@ server
               );
           }
         }
-
+    
         console.log("Successfully updated review:", updatedReview);
         return res.status(200).json({
           message: `Review ${status} successfully`,
           review: updatedReview,
         });
       } catch (err) {
-        console.error("Error updating review:", err);
-        return res
-          .status(500)
-          .json({ error: "An error occurred while updating the review" });
+        console.error("Error updating review:", {
+          message: err.message, // Error message
+          stack: err.stack, // Stack trace for debugging
+          name: err.name, // Error name (e.g., "MongoError")
+          code: err.code, // MongoDB error code (if applicable)
+          keyPattern: err.keyPattern, // MongoDB duplicate key pattern (if applicable)
+          keyValue: err.keyValue, // MongoDB duplicate key value (if applicable)
+        });
+    
+        // Return a more specific error message
+        if (err.name === "MongoError" && err.code === 11000) {
+          return res.status(400).json({
+            error: "Duplicate key error",
+            details: `A review with the same key already exists: ${JSON.stringify(
+              err.keyValue,
+            )}`,
+          });
+        }
+    
+        return res.status(500).json({
+          error: "An error occurred while updating the review",
+          details: err.message, // Include the error message in the response
+        });
       }
-    });
-    app.get("/api/reviews/:adId/average", async (req, res) => {
+    });    app.get("/api/reviews/:adId/average", async (req, res) => {
       try {
         const { userId } = req.params;
 
