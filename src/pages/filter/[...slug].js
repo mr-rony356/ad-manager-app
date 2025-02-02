@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import FilterForm from "@components/forms/FilterForm";
 import AdList from "@components/home/AdList";
 import ApiController from "@utils/API";
 import { generateMetaDesc2, generateMetaTitle2 } from "@utils/MetaGenerators";
 import Cookies from "js-cookie";
 import Head from "next/head";
-import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Pagination from "@components/home/Pagination";
+import useScrollRestoration from "@hooks/useScrollRestoration";
+import { useRouter } from "next/router";
 
 export async function getServerSideProps({ req, locale, params }) {
   const api = new ApiController();
@@ -72,7 +73,7 @@ export async function getServerSideProps({ req, locale, params }) {
   };
 }
 
-function HomePage({
+function FilterPage({
   user,
   attributes,
   ads,
@@ -80,24 +81,27 @@ function HomePage({
   filters: initialFilters,
 }) {
   const { t } = useTranslation("common");
+  const router = useRouter();
+  const [skipRestore, setSkipRestore] = useState(false); // Flag to control scroll restoration
+  useScrollRestoration(router, skipRestore); // Pass skipRestore flag
+
   const [filters, setFilters] = useState(initialFilters);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [activeType, setActiveType] = useState(0);
-
   const [currentPage, setCurrentPage] = useState(1);
   const adsPerPage = 25; // Set the number of ads per page
 
   const indexOfFirstAd = (currentPage - 1) * adsPerPage;
   const indexOfLastAd = Math.min(indexOfFirstAd + adsPerPage, ads.length);
   const currentAds = ads.slice(indexOfFirstAd, indexOfLastAd);
+
   useEffect(() => {
     const handleResize = () => {
       setIsFilterVisible(!window.matchMedia("(max-width: 820px)").matches);
     };
 
     handleResize();
-
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -117,13 +121,22 @@ function HomePage({
   };
 
   const paginate = (pageNumber) => {
+    setSkipRestore(true); // Disable scroll restoration for pagination
     setCurrentPage(pageNumber);
+
+    // Scroll to top with smooth behavior
     window.scrollTo({
       top: 300,
       left: 0,
       behavior: "smooth",
     });
+
+    // Reset the skipRestore flag after the scroll
+    setTimeout(() => {
+      setSkipRestore(false);
+    }, 300);
   };
+
   const offers =
     initialFilters.offers.map(
       (o) => attributes.find((a) => a.name === "offers")?.values[o],
@@ -161,7 +174,7 @@ function HomePage({
       </Head>
 
       <div className="page page--home">
-        <h1 className="home__title">
+        <h1 className="home__title md:text-3xl text-center my-2">
           {locations.length < 1 && !offers.length && !tags.length
             ? t("home__title", {
                 region: initialFilters.regions
@@ -192,52 +205,48 @@ function HomePage({
           {tags.length > 0 && locations.length > 0 && offers.length > 0
             ? ` ${tags[0]} / ${offers[0]} in ${locations.join(" , ")}`
             : null}
-        </h1>{" "}
-          <FilterForm
-            filters={filters}
-            setFilters={setFilters}
+        </h1>
+
+        <FilterForm
+          filters={filters}
+          setFilters={setFilters}
+          attributes={attributes}
+        />
+
+        <div>
+          <div className="button--inline">
+            {attributes &&
+              attributes.length > 0 &&
+              attributes
+                .find((attribute) => attribute.name === "types")
+                .values.map((value) => (
+                  <button
+                    key={value.id}
+                    className={
+                      activeType === value.id ? "button" : "button inactive"
+                    }
+                    onClick={() => setActiveType(value.id)}
+                  >
+                    {value.name} {t("home__ad")}
+                  </button>
+                ))}
+          </div>
+
+          <AdList
+            user={user}
+            className="home__ads"
+            ads={currentAds}
+            total={ads.length}
+            premiumAds={premiumAds}
             attributes={attributes}
           />
-          <div>
-            <div className="button--inline">
-              {attributes &&
-                attributes.length > 0 &&
-                attributes
-                  .find((attribute) => attribute.name === "types")
-                  .values.map((value) => (
-                    <button
-                      key={value.id}
-                      className={
-                        activeType === value.id ? "button" : "button inactive"
-                      }
-                      onClick={() => setActiveType(value.id)}
-                    >
-                      {value.name} {t("home__ad")}
-                    </button>
-                  ))}
-              {/* <Image
-                src={"/assets/filter.png"}
-                width={500}
-                height={500}
-                alt="filter"
-                className="filter"
-                onClick={toggleFilter}
-              /> */}
-            </div>
-            <AdList
-              user={user}
-              className="home__ads"
-              ads={currentAds}
-              total={ads.length}
-              premiumAds={premiumAds}
-              attributes={attributes}
-            />
-          </div>
+        </div>
+
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(ads.length / adsPerPage)}
           onPageChange={paginate}
-        />{" "}
+        />
         <div>
           <br />
           <br />
@@ -383,7 +392,7 @@ function HomePage({
           <br />
           <h3>Warum Onlyfriend.ch für erotische Kontakte?</h3>
           <p>
-            „Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
+            Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
             Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
             komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
             hochwertiges Nutzererlebnis.“
@@ -425,4 +434,4 @@ function HomePage({
   );
 }
 
-export default HomePage;
+export default FilterPage;

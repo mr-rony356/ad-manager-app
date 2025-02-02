@@ -92,7 +92,7 @@ const AdDetail = ({
 
     try {
       const response = await api.addReview({
-        userId: ad.user, // Assuming `user` contains `_id`
+        adId: ad._id, // Assuming `user` contains `_id`
         rating,
         review: reviewText,
         name,
@@ -159,7 +159,7 @@ const AdDetail = ({
   }, [ad.user, user._id]);
 
   // Run on component mount to set initial state
-  const nextAdSlugRegions = nextAd.regions
+  const nextAdSlugRegions = nextAd?.regions
     ? nextAd.regions
         .map((region) => {
           // Find the attribute object with the name "regions"
@@ -178,7 +178,7 @@ const AdDetail = ({
         .replace(/ /g, "-") // Replace spaces with hyphens
         .replace(/^-+|-+$/g, "")
     : null;
-  const prevAdSlugRegions = prevAd.regions
+  const prevAdSlugRegions = prevAd?.regions
     ? prevAd.regions
         .map((region) => {
           // Find the attribute object with the name "regions"

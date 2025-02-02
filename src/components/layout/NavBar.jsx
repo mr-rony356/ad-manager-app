@@ -50,7 +50,7 @@ const NavBar = ({ user }) => {
               loading="lazy"
             />
           </Link>
-          <Link href="/pageSupport" passHref className="nav__support">
+          <Link href="/support" passHref className="nav__support">
             Support
           </Link>
           <Link href="/blogs" passHref className="nav__support">
@@ -70,7 +70,7 @@ const NavBar = ({ user }) => {
         <ul className="menu">
           <li>
             <Link
-              href="/pageSupport"
+              href="/support"
               passHref
               className="nav__supportMenu"
               onClick={() => setIsMenuOpen(false)}
@@ -149,7 +149,7 @@ const NavBar = ({ user }) => {
           <ul className="mobile_menu">
             <li>
               <Link
-                href="/pageSupport"
+                href="/support"
                 passHref
                 className="nav__supportMenu"
                 onClick={() => setIsMenuOpen(false)}
