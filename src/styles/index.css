@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 /* Regular */
+
 @font-face {
   font-family: "Aptos";
   src: url("/aptos-fonts/Aptos-Regular.ttf") format("truetype");
@@ -259,11 +260,6 @@ a:-webkit-any-link {
   flex-direction: row;
   align-items: center;
   gap: 0.5em;
-}
-
-.flex {
-  display: flex;
-  flex-direction: row;
 }
 
 .column {

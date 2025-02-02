@@ -178,11 +178,14 @@
   "popUp__twint2": "via obigem QR Code und wenn es geklappt hat, werden Sie weitergeleitet.",
   "popUp__twint3": "WICHTIG: Bitte geben Sie Ihren Benutzername oder E-Mail Adresse in dem Kontaktformular an.",
 
-
-
   "review_text": "Teilen Sie uns Ihre Erfahrung",
   "submit_review": "Bewertung abgeben",
-  "user_reviews": "Bewertungen"
+  "user_reviews": "Bewertungen",
+  "no_reviews": "Keine Bewertungen vorhanden",
 
-
+  "do_you_like_this_ad": "Gefällt dir dieses Inserat?",
+  "share_whatsapp": "Inserat via WhatsApp teilen",
+  "save_ad": "Inserat speichern",
+  "report_ad": "Inserat melden",
+  "interesting_link": "Interessanter Link"
 }

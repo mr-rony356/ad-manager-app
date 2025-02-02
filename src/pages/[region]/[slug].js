@@ -132,7 +132,6 @@ const AdDetail = ({
   const placeIcon = "/assets/place.png";
   const fav = "/assets/heart.png";
   const linedHeart = "/assets/lined-heart.png";
-  const arrow = "/assets/arrow-left-v2.png";
   const editing = "/assets/editing.png";
   const verified = "/assets/verified-v2.png";
   const smartphone = "/assets/smart-phone-white.png";
@@ -140,41 +139,78 @@ const AdDetail = ({
   const webIcon = "/assets/web.png";
   const whatsapp = "/assets/whatsapp-white.png";
   const whatsappBlue = "/assets/whatsapp.png";
-  const home = "/assets/menue.png";
+  const home = "/assets/menu.png";
   const video = "/assets/video-icon.png";
+  const handleShare = () => {
+    const message = `Check out this ad: ${window.location.href}`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
 
+  const handleReport = () => {
+    const supportNumber = "+41772054730"; // Support number
+    const message = `Inserat melden: ${window.location.href}`;
+    const whatsappUrl = `https://wa.me/${supportNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
   useEffect(() => {
     if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
       setIsUser(true);
   }, [ad.user, user._id]);
 
   // Run on component mount to set initial state
+  const nextAdSlugRegions = nextAd.regions
+    ? nextAd.regions
+        .map((region) => {
+          // Find the attribute object with the name "regions"
+          const attributeObj = attributes
+            ? attributes.find((attribute) => attribute.name === "regions")
+            : null;
 
-  const prevAdSlug =
-    prevAd &&
-    prevAd.title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+          // If the attribute object exists, return the value at the index 'region'
+          return attributeObj ? attributeObj.values[region] : null;
+        })
+        .join("-")
+        .toLowerCase()
+        .replace(/ü/g, "u") // Replace 'ü' with 'u'
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/ /g, "-") // Replace spaces with hyphens
+        .replace(/^-+|-+$/g, "")
+    : null;
+  const prevAdSlugRegions = prevAd.regions
+    ? prevAd.regions
+        .map((region) => {
+          // Find the attribute object with the name "regions"
+          const attributeObj = attributes
+            ? attributes.find((attribute) => attribute.name === "regions")
+            : null;
 
-  const nextAdSlug =
-    nextAd &&
-    nextAd.title
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, "")
-      .replace(/[\s_-]+/g, "-")
-      .replace(/^-+|-+$/g, "");
+          // If the attribute object exists, return the value at the index 'region'
+          return attributeObj ? attributeObj.values[region] : null;
+        })
+        .join("-")
+        .toLowerCase()
+        .replace(/ü/g, "u") // Replace 'ü' with 'u'
+        .replace(/[^\w\s-]/g, "")
+        .replace(/[\s_-]+/g, "-")
+        .replace(/ /g, "-") // Replace spaces with hyphens
+        .replace(/^-+|-+$/g, "")
+    : null;
 
   const navigateToPreviousAd = () => {
     if (prevAd) {
-      router.push(`/ad/${prevAd._id}/${prevAdSlug}`);
+      router.push(
+        `/${prevAdSlugRegions ? prevAdSlugRegions : ""}/${prevAd.slug}`,
+      );
     }
   };
 
   const navigateToNextAd = () => {
     if (nextAd) {
-      router.push(`/ad/${nextAd._id}/${nextAdSlug}`);
+      router.push(
+        `/${nextAdSlugRegions ? nextAdSlugRegions : ""}/${nextAd.slug}`,
+      );
     }
   };
 
@@ -237,7 +273,40 @@ const AdDetail = ({
       alt: "ethnicity",
     },
   ];
+  const generateSearchLinks = (fields) => {
+    const searchLinks = [];
 
+    for (const field of fields) {
+      if (field.attributeName === "regions") {
+        for (const item of field.items) {
+          const regionValue = getAttributeValue(
+            field.attributeName,
+            item,
+          ).replace(/\s+/g, "-");
+          console.log(field);
+          searchLinks.push({
+            label: regionValue,
+            url: `https://onlyfriend.ch/filter/region/${field.items[0]}-${encodeURIComponent(regionValue)}`,
+          });
+        }
+      } else if (field.attributeName === "tags") {
+        for (const item of field.items) {
+          const tagValue = getAttributeValue(field.attributeName, item).replace(
+            /\s+/g,
+            "-",
+          );
+          searchLinks.push({
+            label: tagValue,
+            url: `https://onlyfriend.ch/filter/tag/${field.items[0]}-${encodeURIComponent(tagValue)}`,
+          });
+        }
+      }
+    }
+
+    return searchLinks;
+  };
+  const searchLinks = generateSearchLinks(fields);
+  console.log(searchLinks);
   return (
     <>
       <Head>
@@ -260,48 +329,9 @@ const AdDetail = ({
       ) : (
         <div className="adDetail">
           <div className="adDetail__titleSection">
-            <div className="adDetail__arrowTitle">
-              <Image
-                src={arrow}
-                width={500}
-                height={500}
-                alt="arrow"
-                className="adDetail__backArrow"
-                loading="lazy"
-                onClick={navigateToNextAd}
-              />
-              <Image
-                src={home}
-                width={500}
-                height={500}
-                alt="arrow"
-                className="adDetail__homeIcon"
-                loading="lazy"
-                onClick={() => router.push("/")}
-              />
-              <Image
-                src={arrow}
-                width={500}
-                height={500}
-                alt="arrow"
-                className="adDetail__nextArrow"
-                loading="lazy"
-                onClick={navigateToPreviousAd}
-              />
-              <div className="adDetail__verified"></div>
-            </div>
+            <div className="adDetail__verified"></div>
+
             <div className="adDetail__buttons">
-              {user && (
-                <Image
-                  src={isFavorite ? fav : linedHeart}
-                  width={500}
-                  height={500}
-                  alt="lined heart"
-                  className="adDetail__titleImage"
-                  loading="lazy"
-                  onClick={toggleFavorite}
-                />
-              )}
               {isUser && (
                 <Image
                   src={editing}
@@ -389,7 +419,7 @@ const AdDetail = ({
                 <div>
                   {user && (
                     <form
-                      className="space-y-4 w-full flex !flex-col justify-center items-center"
+                      className="space-y-4 w-full flex flex-col justify-center items-center"
                       onSubmit={sendMessage}
                     >
                       <Textfield
@@ -418,7 +448,7 @@ const AdDetail = ({
                     )}
                     <div className="flex flex-wrap gap-4">
                       {ad.phone && ad.areaCode && (
-                        <div className="flex !flex-col  items-center gap-3 w-full">
+                        <div className="flex flex-col  items-center gap-3 w-full">
                           <a
                             href={`tel:${areaCode}${ad.phone}`}
                             className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
@@ -500,8 +530,8 @@ const AdDetail = ({
 
                       {/* Google Maps Button */}
                       <button
-                              className="flex  w-full md:min-w-64 p-3 my-2  justify-center border border-sky-500 rounded-md items-center gap-3"
-                              onClick={() => {
+                        className="flex  w-full md:min-w-64 p-3 my-2  justify-center border border-sky-500 rounded-md items-center gap-3"
+                        onClick={() => {
                           const addressParts = [
                             ad.street,
                             ad.city,
@@ -519,7 +549,8 @@ const AdDetail = ({
                           window.open(googleMapsURL, "_blank");
                         }}
                       >
-                        <img src={placeIcon} alt="place" className="h-5 w-5"/> Show on Google Maps
+                        <img src={placeIcon} alt="place" className="h-5 w-5" />{" "}
+                        Show on Google Maps
                       </button>
                     </div>
                   ) : null}
@@ -577,6 +608,7 @@ const AdDetail = ({
                   </div>
                 ))}
               </div>
+
               <div className="flex items-center space-x-2 justify-end pr-6 -mt-4">
                 <span className="text-gray-700 text-sm font-medium">
                   {averageRating !== null && !isNaN(averageRating)
@@ -673,6 +705,125 @@ const AdDetail = ({
               )}
             </div>{" "}
           </div>
+          <div className="mx-2 p-2 md:mx-auto flex w-full justify-between flex-col md:flex-row">
+            <div>
+              <div className="flex flex-col space-y-2 mb-4 rounded-lg shadow-md p-4">
+                <div className="text-center">
+                  <h2 className="text-xl font-bold mb-2">
+                    {t("do_you_like_this_ad")}
+                  </h2>
+                </div>
+
+                <button
+                  className="text-sky-500 hover:text-gray-800 flex items-center gap-6"
+                  onClick={handleShare}
+                >
+                  <Image
+                    src={whatsappBlue}
+                    width={100}
+                    height={100}
+                    alt="whatsapp"
+                    className="h-5 w-5 mr-2"
+                  />
+                  {t("share_whatsapp")}
+                </button>
+                <hr className="my-4" />
+                {user && (
+                  <button className="text-sky-500 hover:text-gray-800 flex items-center gap-6">
+                    <Image
+                      src={isFavorite ? fav : linedHeart}
+                      width={500}
+                      height={500}
+                      alt="lined heart"
+                      className="h-5 w-5 mr-2"
+                      loading="lazy"
+                      onClick={toggleFavorite}
+                    />
+                    {t("save_ad")}
+                  </button>
+                )}
+                <hr className="my-4" />
+
+                <button
+                  className="text-sky-500 hover:text-gray-800 flex items-center gap-6"
+                  onClick={handleReport}
+                >
+                  <div className="h-5 w-5 mr-2 flex items-center justify-center">
+                    <span role="img" aria-label="danger">
+                      ⚠️
+                    </span>
+                  </div>
+                  {t("report_ad")}
+                </button>
+              </div>
+            </div>{" "}
+            <div className="mb-4 rounded-lg shadow-md p-4">
+              <h3 className="font-semibold mb-2">{t("interesting_link")}</h3>
+
+              {/* Render Search Links */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {searchLinks.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    className="px-3 py-1 text-sky-500 border-sky-500 rounded-md border-2 hover:bg-gray-100"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>{" "}
+          </div>{" "}
+          <div className="adDetail__arrowTitle flex justify-center items-center">
+            <button
+              className="pagination-arrow"
+              aria-label="Previous page"
+              onClick={navigateToNextAd}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+
+            <Image
+              src={home}
+              width={500}
+              height={500}
+              alt="arrow"
+              className=" p-4 bg-slate-50 shadow-xl  rounded-full h-12 w-12 cursor-pointer"
+              loading="lazy"
+              onClick={() => router.push("/")}
+            />
+            <button
+              className="pagination-arrow"
+              aria-label="Next page"
+              onClick={navigateToPreviousAd}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
+          </div>
           <div className="my-6 px-4 md:px-6">
             <h2 className="text-xl font-bold text-gray-800">
               {t("user_reviews")}
@@ -703,7 +854,7 @@ const AdDetail = ({
                 </div>
               ))
             ) : (
-              <p className="mt-2 text-gray-600">{t("no_reviews_yet")}</p>
+              <p className="mt-2 text-gray-600">{t("no_reviews")}</p>
             )}
           </div>{" "}
           <div className="mt-4 px-4 md:px-6">

@@ -285,7 +285,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
               <svg
                 key={star}
                 xmlns="http://www.w3.org/2000/svg"
-                className={`h-5 w-5 ${
+                className={`h-4 w-4 ${
                   star <= Math.floor(averageRating)
                     ? "text-yellow-400"
                     : star - averageRating <= 0

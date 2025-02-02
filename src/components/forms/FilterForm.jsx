@@ -154,7 +154,7 @@ const FilterForm = (props) => {
           {/* Mobile Filter Form */}
           {showForm && (
             <div className="fixed inset-0 bg-gray-800 bg-opacity-50 z-[99999] flex items-center justify-center w-full h-full">
-              <div className="bg-white rounded-lg p-4 w-full h-screen overflow-y-auto flex !flex-col gap-7 items-center justify-center">
+              <div className="bg-white rounded-lg p-4 w-full h-screen overflow-y-auto flex flex-col gap-7 items-center justify-center">
                 <div className="bg-gray-800 fixed top-0 w-full flex justify-center p-4  py-6 items-center ">
                   <button className="text-white hover:text-gray-700 text-lg">
                     Filter
@@ -272,7 +272,7 @@ const FilterForm = (props) => {
       ) : (
         // Desktop View - Keeping the original layout
         <form
-          className="flex !flex-col lg:items-center w-full justify-between gap-6"
+          className="flex flex-col lg:items-center w-full justify-between gap-6"
           onSubmit={doFilter}
         >
           <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">

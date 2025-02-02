@@ -179,11 +179,15 @@
   "faq_one_answer": "Placing an ad is simple: Click on the “Place Ad Now” button and follow the steps to create your listing. Within minutes, your ad will be on- line and visible to everyone.",
   "faq_two_question": "How do I place an ad on Onlyfriend.ch?",
   "faq_two_answer": "Placing an ad is simple: Click on the “Place Ad Now” button and follow the steps to create your listing. Within minutes, your ad will be on- line and visible to everyone.",
-  "faq_three_question":"tes",
-
+  "faq_three_question": "tes",
 
   "review_text": "Share Your Experience",
   "submit_review": "Submit Review",
-  "user_reviews": "User Reviews"
+  "user_reviews": "User Reviews",
+  "no_reviews": "No reviews yet",
 
+  "do_you_like_this_ad": "Do you like this ad?",
+  "share_whatsapp": "Share ad via WhatsApp",  "save_ad": "Save ad",
+  "report_ad": "Report ad",
+  "interesting_link": "Interesting link"
 }
