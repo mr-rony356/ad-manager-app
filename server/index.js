@@ -481,14 +481,14 @@ server
         console.log("Review update result:", reviewUpdateResult);
 
         // Check if the review was found and updated
-        if (!reviewUpdateResult || !reviewUpdateResult.value) {
+        if (!reviewUpdateResult) {
           console.error("Review not found or not updated:", reviewId);
           return res
             .status(404)
             .json({ error: "Review not found or not updated" });
         }
 
-        const updatedReview = reviewUpdateResult.value;
+        const updatedReview = reviewUpdateResult;
 
         // Log the updated review
         console.log("Updated review:", updatedReview);
