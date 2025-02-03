@@ -1,7 +1,6 @@
 import { Checkbox } from "@components/tags/Inputs";
 import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
-import ReviewVerification from "./ReviewVerification";
 
 const Verification = ({ id, ad, handleDelete, handleVerify}) => (
   <>

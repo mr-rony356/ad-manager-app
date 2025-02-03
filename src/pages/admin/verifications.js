@@ -49,9 +49,6 @@ const Verifications = ({
   const [ads, setAds] = useState(initialAds || []);
   const [reviews, setReviews] = useState(initialReviews || []);
 
-  console.log("Initial Reviews:", initialReviews);
-  console.log("State Reviews:", reviews);
-
   const handleVerify = async (id) => {
     await api.verifyAd(id);
     setAds((prevAds) => prevAds.filter((ad) => ad._id !== id));
@@ -119,7 +116,7 @@ const Verifications = ({
           </Tab.List>
           <Tab.Panels className="mt-4">
             <Tab.Panel>
-              {ads.length < 0 ? (
+              {ads.length > 0 ? (
                 ads
                   .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
                   .map((ad) => (

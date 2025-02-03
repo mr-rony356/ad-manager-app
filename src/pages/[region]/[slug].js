@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Carousel from "@components/home/Carousel";
 import { Textfield } from "@components/tags/Inputs";
 import { useApi } from "@contexts/APIContext";
@@ -99,35 +99,38 @@ const AdDetail = ({
       });
 
       console.log("Review submitted successfully", response);
+      setShowPopup(true);
     } catch (err) {
       console.error("Error submitting review:", err);
     }
   };
 
-  const fetchUserReviews = async () => {
+  const fetchUserReviews = useCallback(() => {
     try {
-      const reviews = await api.getUserReviews(ad.user); // Assuming `user` contains `_id`
-      setUserReviews(reviews);
+      if (ad?.reviews) {
+        setUserReviews(ad.reviews);
+      }
     } catch (err) {
       console.error("Error fetching user reviews:", err);
     }
-  };
+  }, [ad?.reviews]);
 
-  const fetchAverageRating = async () => {
+  const fetchAverageRating = useCallback(() => {
     try {
-      const average = await api.getUserAverageRating(ad.user); // Assuming `user` contains `_id`
-      setAverageRating(average.averageRating); // Adjust field based on API response
+      if (ad?.averageRating) {
+        averageRating;
+        setAverageRating(ad.averageRating);
+      }
     } catch (err) {
       console.error("Error fetching average rating:", err);
     }
-  };
+  }, [ad?.averageRating]);
 
   useEffect(() => {
     fetchUserReviews();
     fetchAverageRating();
-  }, [user._id]);
-  console.log(user);
-  console.log(ad);
+  }, [fetchUserReviews, fetchAverageRating]);
+
   const tagIcon = "/assets/tag.png";
   const placeIcon = "/assets/place.png";
   const fav = "/assets/heart.png";
@@ -306,7 +309,12 @@ const AdDetail = ({
     return searchLinks;
   };
   const searchLinks = generateSearchLinks(fields);
-  console.log(searchLinks);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const handleClosePopup = () => {
+    // Hide the pop-up
+    setShowPopup(false);
+  };
   return (
     <>
       <Head>
@@ -910,6 +918,24 @@ const AdDetail = ({
               {t("submit_review")}
             </button>
           </div>
+          {showPopup && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
+                <h2 className="text-2xl font-bold mb-4 text-gray-800">
+                  Vielen Dank für Ihre Bewertung
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Ihre Bewertung wird überprüft und anschliessend veröffentlicht
+                </p>
+                <button
+                  onClick={handleClosePopup}
+                  className="w-full bg-sky-400 text-white py-2 px-4 rounded-lg hover:bg-sky-500 transition-colors duration-200"
+                >
+                  Schließen
+                </button>
+              </div>
+            </div>
+          )}
           <RecentlyViewedAds attributes={attributes} />
         </div>
       )}

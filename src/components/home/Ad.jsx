@@ -1,15 +1,13 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import PopUp from "@components/alerts/PopUp";
 import AdModal from "@components/home/AdModal";
 import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
-import { useApi } from "@contexts/APIContext";
 
 const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const { t } = useTranslation("common");
-  const { api } = useApi();
   const [averageRating, setAverageRating] = useState(null);
   const [userReviews, setUserReviews] = useState([]);
   const [isUser, setIsUser] = useState(false);
@@ -17,28 +15,31 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const [showModal, setShowModal] = useState(false);
   const [err, setErr] = useState("");
   const [displayModal, setDisplayModal] = useState("");
-  const fetchUserReviews = async () => {
+  const fetchUserReviews = useCallback(() => {
     try {
-      const reviews = await api.getUserReviews(ad.user); // Assuming `user` contains `_id`
-      setUserReviews(reviews);
+      if (ad?.reviews) {
+        setUserReviews(ad.reviews);
+      }
     } catch (err) {
       console.error("Error fetching user reviews:", err);
     }
-  };
+  }, [ad?.reviews]);
 
-  const fetchAverageRating = async () => {
+  const fetchAverageRating = useCallback(() => {
     try {
-      const average = await api.getUserAverageRating(ad.user); // Assuming `user` contains `_id`
-      setAverageRating(average.averageRating); // Adjust field based on API response
+      if (ad?.averageRating) {
+        averageRating;
+        setAverageRating(ad.averageRating);
+      }
     } catch (err) {
       console.error("Error fetching average rating:", err);
     }
-  };
+  }, [ad?.averageRating]);
 
   useEffect(() => {
     fetchUserReviews();
     fetchAverageRating();
-  }, [user._id]);
+  }, [fetchUserReviews, fetchAverageRating]);
 
   useEffect(() => {
     if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
