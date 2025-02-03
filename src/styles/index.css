@@ -1964,9 +1964,9 @@ a:-webkit-any-link {
     align-items: center;
     position: relative; /* Ensure positioning context */
   }
-  .slick-slider {
+  /* .slick-slider {
     margin-left: -75px;
-  }
+  } */
 
   .menu {
     display: none;

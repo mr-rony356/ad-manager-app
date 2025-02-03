@@ -121,6 +121,7 @@ const FilterForm = (props) => {
     }
 
     router.push(params.length > 0 ? "/filter" + params : "/");
+    setShowForm(false);
   };
 
   return (

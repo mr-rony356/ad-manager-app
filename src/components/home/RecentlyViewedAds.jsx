@@ -31,6 +31,7 @@ const saveRecentAd = (ad) => {
       images: ad.images,
       regions: ad.regions,
       startDate: ad.startDate,
+      slug: ad.slug,
       // Add other essential properties you want to track
     });
 
@@ -63,7 +64,7 @@ const RecentlyViewedAds = ({ attributes }) => {
           <Link
             key={ad._id}
             href={{
-              pathname: `/ad/${ad._id}/${generateAdSlug(ad, attributes)}`,
+              pathname: `/${generateAdSlug(ad, attributes)}/${ad.slug}`,
             }}
             className="block hover:opacity-80 transition-opacity"
           >
@@ -101,13 +102,7 @@ const generateAdSlug = (ad, attributes) => {
         .replace(/^-+|-+$/g, "")
     : null;
 
-  const adSlug = ad.title
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/[\s_-]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-
-  return `${adSlugRegions ? adSlugRegions + "-" : ""}${adSlug}`;
+  return `${adSlugRegions ? adSlugRegions : ""}`;
 };
 
 export { RecentlyViewedAds, saveRecentAd };
