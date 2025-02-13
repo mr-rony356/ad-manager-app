@@ -125,11 +125,7 @@ function FilterPage({
     setCurrentPage(pageNumber);
 
     // Scroll to top with smooth behavior
-    window.scrollTo({
-      top: 300,
-      left: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 300, left: 0, behavior: "smooth" });
 
     // Reset the skipRestore flag after the scroll
     setTimeout(() => {
@@ -361,7 +357,8 @@ function FilterPage({
             Erlebe unverbindliche Abenteuer, entdecke spannende Inserate und
             geniesse aufregende Treffen – alles diskret und sicher. Besuche
             jetzt <strong> onlyfriend.ch</strong> und finde deinen perfekten
-            Sexpartner. Deine Erotikträume warten nur darauf, wahr zu werden!{" "}
+            Sexpartner. Deine Erotikträume warten nur darauf, wahr zu
+            werden!{" "}
           </p>
           <br />
           <br />

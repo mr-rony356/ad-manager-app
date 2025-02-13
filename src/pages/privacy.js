@@ -17,11 +17,7 @@ function Privacy() {
   return (
     <>
       <Head>
-        <title>
-          Erotische Anzeigen für Sexkontakte und Onlyfans Accounts in der
-          Schweiz - Die besten Sex & Erotik Anzeigen der Schweiz: Für jeden
-          Geschmack! onlyfriend.ch ▷ Das Schweizer Sex & Erotik Inserate Portal.
-        </title>
+        <title>Datenschutzerklärung | Onlyfriend.ch</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
@@ -61,9 +57,9 @@ function Privacy() {
             <p style={{ marginBottom: "0.5em" }}>
               Verantwortung für das Online-Angebot:
             </p>
-            <h3>OF Digital Solutions klg </h3>
-            <p className="info__text">Rugghölzli 9</p>
-            <p className="info__text">5453 Remetschwil</p>
+            <h3>Vision Digital Consulting klg </h3>
+            <p className="info__text">Schützenstrasse 23</p>
+            <p className="info__text">8953 Dietikon</p>
             <p style={{ marginTop: "0.5em", marginBottom: "1em" }}>
               support@onlyfriend.ch
             </p>

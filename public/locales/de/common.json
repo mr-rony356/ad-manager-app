@@ -187,5 +187,9 @@
   "share_whatsapp": "Inserat via WhatsApp teilen",
   "save_ad": "Inserat speichern",
   "report_ad": "Inserat melden",
-  "interesting_link": "Interessanter Link"
+  "interesting_link": "Interessanter Link",
+
+  "cookiesPopup__title": "Wir verwenden Cookies",
+  "cookiesPopup__text": "Wir verwenden notwendige Cookies, um Ihre Surf-Erfahrung auf unserer Website zu verbessern.",
+  "cookiesPopup__accept": "Akzeptieren"
 }

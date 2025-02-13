@@ -63,11 +63,7 @@ const BlogDetail = ({ blog, user }) => {
   return (
     <>
       <Head>
-        <title>
-          Erotische Anzeigen für Sexkontakte und Onlyfans Accounts in der
-          Schweiz - Die besten Sex & Erotik Anzeigen der Schweiz: Für jeden
-          Geschmack! onlyfriend.ch ▷ Das Schweizer Sex & Erotik Inserate Portal.
-        </title>
+        <title>Blog | Onlyfriend.ch</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />

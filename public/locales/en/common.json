@@ -187,7 +187,12 @@
   "no_reviews": "No reviews yet",
 
   "do_you_like_this_ad": "Do you like this ad?",
-  "share_whatsapp": "Share ad via WhatsApp",  "save_ad": "Save ad",
+  "share_whatsapp": "Share ad via WhatsApp",
+  "save_ad": "Save ad",
   "report_ad": "Report ad",
-  "interesting_link": "Interesting link"
+  "interesting_link": "Interesting link",
+
+  "cookiesPopup__title": "We use Cookies",
+  "cookiesPopup__text": "We use necessary cookies to enhance your browsing experience on our website.",
+  "cookiesPopup__accept": "Accept"
 }

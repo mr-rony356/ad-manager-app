@@ -11,6 +11,58 @@ const FAQPage = () => {
   };
 
   return (
+    <>
+      <Head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Preise für Erotische Anzeigen | Onlyfriend.ch</title>
+    <meta
+      name="description"
+      content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
+    />
+    <meta
+      name="keywords"
+      content="erotische Anzeigen, Sextreffen, Schweiz, Zürich, Bern, Basel, diskrete Kontakte, Escort, erotische Massagen, Anzeigenpreise"
+    />
+    <meta name="robots" content="index, follow" />
+
+    <meta
+      property="og:title"
+      content="Preise für Erotische Anzeigen in der Schweiz | Onlyfriend.ch"
+    />
+    <meta
+      property="og:description"
+      content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://onlyfriend.ch/ad-price" />
+
+    <link rel="canonical" href="https://onlyfriend.ch/ad-price" />
+
+    <Script type="application/ld+json">
+      {`
+        {
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Preise für Erotische Anzeigen",
+          "description": "Erotische Anzeigen und Sextreffen in der Schweiz",
+          "url": "https://onlyfriend.ch/ad-price",
+          "mainEntity": {
+            "@type": "Product",
+            "name": "Erotische Anzeigen",
+            "description": "Anzeigenoptionen für erotische Kontakte in der Schweiz",
+            "offers": {
+              "@type": "AggregateOffer",
+              "priceCurrency": "CHF",
+              "availability": "https://schema.org/InStock"
+            } 
+          }
+        }
+      `}
+    </Script>
+  </Head>
+
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold text-center mb-8">{t("title")}</h1>
       <div className="space-y-4">
@@ -44,10 +96,11 @@ const FAQPage = () => {
             {activeIndex === index && (
               <div className="px-4 py-3 bg-white text-lg text-gray-700">{item.a}</div>
             )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

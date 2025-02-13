@@ -191,5 +191,9 @@
   "share_whatsapp": "Compartir anuncio por WhatsApp",
   "save_ad": "Guardar anuncio",
   "report_ad": "Reportar anuncio",
-  "interesting_link": "Enlace interesante"
+  "interesting_link": "Enlace interesante",
+
+  "cookiesPopup__title": "Usamos Cookies",
+  "cookiesPopup__text": "Usamos cookies necesarias para mejorar tu experiencia de navegación en nuestro sitio web.",
+  "cookiesPopup__accept": "Aceptar"
 }

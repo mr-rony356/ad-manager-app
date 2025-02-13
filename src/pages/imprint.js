@@ -17,17 +17,13 @@ function Imprint() {
   return (
     <>
       <Head>
-        <title>
-          Erotische Anzeigen für Sexkontakte und Onlyfans Accounts in der
-          Schweiz - Die besten Sex & Erotik Anzeigen der Schweiz: Für jeden
-          Geschmack! onlyfriend.ch ▷ Das Schweizer Sex & Erotik Inserate Portal.
-        </title>
+        <title>Impressum | Onlyfriend.ch</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#000000" />
         <meta
           name="description"
-          content="Entdecken Sie auf unserer Webseite erotische Anzeigen für Sexkontake und Onlyfans Accounts in der Schweiz. Treffen Sie heiße Girls in Ihrer Nähe und erleben Sie prickelnde Abenteuer. Ohne Anmeldung können Sie direkt mit den Girls in Kontakt kommen."
+          content="Find erotic ads and sex meetings in Switzerland. Discover discreet contacts in Zurich, Bern or Basel – easily on Onlyfriend.ch!"
         />
         <meta
           name="keywords"
@@ -40,16 +36,23 @@ function Imprint() {
       <div className="info page">
         <h1>Impressum</h1>
         <div>
-          <h3>OF Digital Solutions klg </h3>
-          <p>Rugghölzli 9</p>
-          <p>5453 Remetschwil</p>
+          <h3>Vision Digital Consulting klg</h3>
+          <p>Schützenstrasse 23</p>
+          <p>8953 Dietikon</p>
         </div>
-        <p>E-Mail: support@onlyfriend.ch</p>
+        <p>
+          E-Mail:{" "}
+          <a
+            href="mailto:support@onlyfriend.ch"
+            className="text-sky-400 !underline"
+          >
+            support@onlyfriend.ch
+          </a>
+        </p>
 
         <p>
-          Die OF Digital Solutions klg mit Unternehmens-Identifikationsnummer
-          (UID) CHE-247.942.896 ist eingetragen im Handelsregister des Kantons
-          Aargau.
+          Die Vision Digital Consulting klg ist eingetragen im Handelsregister
+          des Kantons Zürich.{" "}
         </p>
         <div>
           <h3>Streitschlichtung:</h3> Die Europäische Kommission stellt eine

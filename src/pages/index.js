@@ -38,13 +38,7 @@ const AdSkeleton = () => (
         borderRadius: "0.375rem",
       }}
     ></div>
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
-      }}
-    >
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
       <div
         style={{
           height: "1rem",
@@ -186,19 +180,11 @@ function HomePage({
     (pageNumber) => {
       setSkipRestore(true); // Disable scroll restoration for pagination
       // Update URL with new page, preserving other query parameters
-      const newQuery = {
-        ...router.query,
-        page: pageNumber,
-      };
+      const newQuery = { ...router.query, page: pageNumber };
 
-      router.push(
-        {
-          pathname: router.pathname,
-          query: newQuery,
-        },
-        undefined,
-        { shallow: true },
-      );
+      router.push({ pathname: router.pathname, query: newQuery }, undefined, {
+        shallow: true,
+      });
 
       // Scroll to top with slight delay
       window.scrollTo({ top: 300, left: 0, behavior: "auto" });
@@ -216,9 +202,8 @@ function HomePage({
     <>
       <Head>
         <title>
-          Erotische Anzeigen in der Schweiz • Sextreffen und diskrete Kontakte
-          in Zürich, Bern, Basel und mehr • Unsere Services: Von Escort bis
-          erotische Massagen • Sicher, diskret und unkompliziert – Onlyfriend.ch
+          Find erotic ads and sex meetings in Switzerland. Discover discreet
+          contacts in Zurich, Bern or Basel – easily on Onlyfriend.ch!
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -244,11 +229,11 @@ function HomePage({
         <h1 className="home__title font-bold text-[32px]">
           {t("home__title", { region: "Schweiz" })}
         </h1>
-            <FilterForm
-              filters={filters}
-              setFilters={setFilters}
-              attributes={attributes}
-            />
+        <FilterForm
+          filters={filters}
+          setFilters={setFilters}
+          attributes={attributes}
+        />
         <div className="">
           <div className="button--inline">
             {attributes &&
@@ -312,187 +297,143 @@ function HomePage({
           totalPages={Math.ceil(total / adsPerPage)}
           onPageChange={paginate}
         />{" "}
-        <div>
-          <br />
-          <br />
-          <h3>
-            Sextreffen in der Schweiz: Die besten Sexinserate und Kontakte auf
-            onlyfriend.ch
-          </h3>
-          <br />
-          <p>
-            Du möchtest aufregende Sextreffen in der Schweiz erleben? Auf
-            <strong> onlyfriend.ch</strong> findest du die besten Sexkontakte
-            und Erotikanzeigen für jeden Geschmack. Egal, welche Wünsche,
-            Fantasien oder Neigungen du ausleben möchtest – bei uns gibt es für
-            alle etwas Passendes! Wähle aus verschiedenen Kategorien, entdecke
-            private Sexkontakte und erlebe sinnliche Abenteuer.{" "}
-          </p>
-          <br />
-          <br />
-          <h3>
-            onlyfriend.ch – Dein Erotikportal für diskrete Sextreffen und heisse
-            Kontakte
-          </h3>
-          <br />
-          <p>
-            <strong> onlyfriend.ch</strong> ist dein Schweizer Erotikportal für
-            unverbindliche Sextreffen, diskrete Sexkontakte und aufregende
-            Inserate. Unsere Plattform bietet dir eine grosse Auswahl an
-            Angeboten – von privaten Erotikanzeigen bis hin zu exklusiven
-            Verlinkungen zu deinem Lieblings-<strong>OnlyFans</strong>-Account.
-            Mit uns kannst du schnell und einfach heisse Begegnungen
-            arrangieren, die genau deinen Vorlieben entsprechen.
-            <br />
-            <br />
-            Um höchste Qualität zu gewährleisten, überprüft unser Team jedes
-            Inserat auf Echtheit und Verifizierung, damit du dich auf eine
-            sichere und seriöse Plattform verlassen kannst.
-          </p>
-          <br />
-          <br />
-          <h3>Vielfältige Sexinserate für jeden Geschmack</h3> <br />
-          <br />
-          <p>
-            Ob Escort-Service, erotische Massagen, Casual-Dates oder aufregende
-            Fetisch-Abenteuer – bei onlyfriend.ch findest du alles, was das Herz
-            begehrt. Hier sind einige Highlights unseres Angebots:
-            <br />
-            <br />
-            <ui>
+        <div className="seo-content">
+          <section className="seo-section">
+            <h2 className="text-2xl font-bold mb-4">
+              Sextreffen in der Schweiz: Die besten Sexinserate und Kontakte auf
+              onlyfriend.ch
+            </h2>
+            <p className="mb-6">
+              Du möchtest aufregende Sextreffen in der Schweiz erleben? Auf
+              <strong> onlyfriend.ch</strong> findest du die besten Sexkontakte
+              und Erotikanzeigen für jeden Geschmack. Egal, welche Wünsche,
+              Fantasien oder Neigungen du ausleben möchtest – bei uns gibt es
+              für alle etwas Passendes! Wähle aus verschiedenen Kategorien,
+              entdecke private Sexkontakte und erlebe sinnliche Abenteuer.
+            </p>
+          </section>
+
+          <section className="seo-section">
+            <h2 className="text-2xl font-bold mb-4">
+              onlyfriend.ch – Dein Erotikportal für diskrete Sextreffen und
+              heisse Kontakte
+            </h2>
+            <p className="mb-6">
+              <strong>onlyfriend.ch</strong> ist dein Schweizer Erotikportal für
+              unverbindliche Sextreffen, diskrete Sexkontakte und aufregende
+              Inserate. Unsere Plattform bietet dir eine grosse Auswahl an
+              Angeboten – von privaten Erotikanzeigen bis hin zu exklusiven
+              Verlinkungen zu deinem Lieblings-<strong>OnlyFans</strong>
+              -Account. Mit uns kannst du schnell und einfach heisse Begegnungen
+              arrangieren, die genau deinen Vorlieben entsprechen.
+            </p>
+            <p className="mb-6">
+              Um höchste Qualität zu gewährleisten, überprüft unser Team jedes
+              Inserat auf Echtheit und Verifizierung, damit du dich auf eine
+              sichere und seriöse Plattform verlassen kannst.
+            </p>
+          </section>
+
+          <section className="seo-section">
+            <h2 className="text-2xl font-bold mb-4">
+              Vielfältige Sexinserate für jeden Geschmack
+            </h2>
+            <p className="mb-4">
+              Ob Escort-Service, erotische Massagen, Casual-Dates oder
+              aufregende Fetisch-Abenteuer – bei onlyfriend.ch findest du alles,
+              was das Herz begehrt. Hier sind einige Highlights unseres
+              Angebots:
+            </p>
+            <ul className="list-none space-y-2 mb-6">
+              <li className="flex items-center">
+                <span className="font-bold mr-2">Escort-Service:</span>
+                Finde diskrete Begleitungen in Städten wie Zürich
+              </li>
+              <li className="flex items-center">
+                <span className="font-bold mr-2">Erotik-Massagen:</span>
+                Entspanne dich bei sinnlichen Massagen in deiner Nähe
+              </li>
+              <li className="flex items-center">
+                <span className="font-bold mr-2">OnlyFans-Verlinkungen:</span>
+                Entdecke exklusive Inhalte von frei arbeitenden Frauen
+              </li>
+              <li className="flex items-center">
+                <span className="font-bold mr-2">Sextreffen & Abenteuer:</span>
+                Plane aufregende Begegnungen in der ganzen Schweiz
+              </li>
+              <li className="flex items-center">
+                <span className="font-bold mr-2">Fetisch & BDSM:</span>
+                Tauche ein in eine Welt voller Fantasien und spezieller
+                Vorlieben
+              </li>
+            </ul>
+          </section>
+
+          <section className="seo-section">
+            <h2 className="text-2xl font-bold mb-4">
+              Für jeden das passende Abenteuer
+            </h2>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold mb-2">Für Ihn</h3>
+              <p>
+                Suchst du nach aufregendem Privatsex mit scharfen Girls, heißen
+                MILFs oder erfahrenen Frauen? Möchtest du deine Fantasien bei
+                Gangbangs, Gruppensex oder Fetisch-Treffen ausleben? Bei
+                onlyfriend.ch findest du Frauen, die dir all das und mehr
+                ermöglichen.
+              </p>
+            </div>
+            <div className="mb-6">
+              <h3 className="text-xl font-bold mb-2">Für Sie</h3>
+              <p>
+                Du wünschst dir einen starken, dominanten Mann mit Ausstrahlung?
+                Ob sinnliche Dates, leidenschaftliche Abenteuer oder wilder Sex
+                – auf onlyfriend.ch findest du garantiert den richtigen Partner,
+                der deine Wünsche wahr werden lässt.
+              </p>
+            </div>
+          </section>
+
+          <section className="seo-section">
+            <h2 className="text-2xl font-bold mb-4">
+              Warum Onlyfriend.ch für erotische Kontakte?
+            </h2>
+            <p className="mb-4">
+              Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
+              Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
+              komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
+              hochwertiges Nutzererlebnis.
+            </p>
+            <h3 className="text-xl font-bold mb-2">Entdecken Sie:</h3>
+            <ul className="list-disc pl-6 mb-6">
+              <li>Erotische Massagen in Zürich und Genf</li>
+              <li>Escort-Services für jeden Anlass</li>
+              <li>Swinger- und Fetisch-Kontakte in Ihrer Region</li>
+            </ul>
+            <h3 className="text-xl font-bold mb-2">
+              Sextreffen leicht gemacht – So funktioniert's
+            </h3>
+            <ol className="list-decimal pl-6 space-y-2">
               <li>
-                <strong>Escort-Service </strong> : Finde diskrete Begleitungen
-                in Städten wie Zürich,
+                <strong>Stöbern Sie durch unsere Kategorien:</strong> Wählen Sie
+                aus einer Vielzahl von Anzeigen, die nach Ihren Vorlieben und
+                Ihrem Standort sortiert sind.
               </li>
               <li>
-                <strong>Erotik-Massagen </strong> : Entspanne dich bei
-                sinnlichen Massagen in deiner Nähe.
+                <strong>Kontakt aufnehmen – direkt und diskret:</strong> Ohne
+                Anmeldung können Sie direkt über unsere Plattform mit den
+                Anbietern in Kontakt treten.
               </li>
               <li>
-                <strong>OnlyFans-Verlinkungen </strong> : Entdecke exklusive
-                Inhalte von frei arbeitenden Frauen.
+                <strong>Treffen Sie Ihre Wahl:</strong> Entscheiden Sie sich für
+                ein Treffen oder eine Interaktion Ihrer Wahl.
               </li>
               <li>
-                <strong>Sextreffen & Abenteuer </strong> : Plane aufregende
-                Begegnungen in der ganzen Schweiz.
+                <strong>Erleben Sie prickelnde Abenteuer:</strong> Genießen Sie
+                Ihre Erfahrung mit einer Person, die Ihre Wünsche teilt.
               </li>
-              <li>
-                <strong>Fetisch & BDSM </strong> : Tauche ein in eine Welt
-                voller Fantasien und spezieller Vorlieben.
-              </li>
-            </ui>
-            <br />
-            Unser breites Angebot umfasst auch Sexpartys, Callgirls,
-            Sugar-Babe-Dates und vieles mehr. Finde jetzt deine Vorliebe und
-            erlebe unvergleichliche Stunden.
-          </p>
-          <br />
-          <h3>Für jeden das passende Abenteuer: unser Angebot </h3>
-          <br />
-          <strong>Für inh</strong>
-          <p>
-            Suchst du nach aufregendem Privatsex mit scharfen Girls, heißen
-            MILFs oder erfahrenen Frauen? Möchtest du deine Fantasien bei
-            Gangbangs, Gruppensex oder Fetisch-Treffen ausleben? Bei
-            onlyfriend.ch findest du Frauen, die dir all das und mehr
-            ermöglichen.{" "}
-          </p>
-          <br /> <strong>Für sie</strong>
-          <p>
-            Du wünschst dir einen starken, dominanten Mann mit Ausstrahlung? Ob
-            sinnliche Dates, leidenschaftliche Abenteuer oder wilder Sex – auf
-            onlyfriend.ch findest du garantiert den richtigen Partner, der deine
-            Wünsche wahr werden lässt.
-          </p>
-          <br />
-          <h3>Erotik und Abenteuer in deiner Nähe </h3>
-          <br />
-          <p>
-            Von Zürich über Aargau bis hin zu Zug – bei uns findest du Inserate
-            von sexhungrigen Frauen und Männern in der ganzen Schweiz. Bestelle
-            dir deinen Wunsch- partner direkt nach Hause oder triff dich in
-            einem privaten Umfeld für heiße Stunden.
-            <br />
-            <br />
-            In unserem <strong> Schweizer Erotikforum</strong> kannst du dich
-            ausserdem mit anderen Mitgliedern austauschen und alles über die
-            besten Clubs und Events in deiner Re- gion erfahren. Von Bordellen
-            über Swingerclubs bis hin zu Domina-Studios – entdecke jetzt die
-            heissesten Locations für deine Fantasien.
-            <br />
-            <br />
-            <strong>Deine Plattform für Erotik, Sex und Leidenschaft</strong>
-            <br />
-            Erlebe unverbindliche Abenteuer, entdecke spannende Inserate und
-            geniesse aufregende Treffen – alles diskret und sicher. Besuche
-            jetzt <strong> onlyfriend.ch</strong> und finde deinen perfekten
-            Sexpartner. Deine Erotikträume warten nur darauf, wahr zu werden!{" "}
-          </p>
-          <br />
-          <br />
-          <h3>Keywords für dein Erotikabenteuer in der Schweiz </h3>
-          <br />
-          <p>
-            Auf <strong> onlyfriend.ch</strong> findest du eine grosse Auswahl
-            an Erotik-Kleinanzeigen und Sexinseraten für jede Vorliebe. Ob du
-            nach Callgirls, Escortservice, eroti- schen Massagen,
-            Fetisch-Anzeigen oder BDSM-Kontakten suchst – bei uns bist du
-            richtig. Unsere Plattform bietet zusätzlich Inserate für Sexpartys,
-            Swin- ger-Kontakte, Adult-Dating, Dominas, Webcam-Shows und mehr.{" "}
-            <br />
-            <br />
-            Finde private <strong> Sexkontakte </strong> in Städten wie{" "}
-            <strong> Zürich, Luzern, Aargau</strong> oder anderen Regionen der
-            Schweiz. Lass dich von aufregenden{" "}
-            <strong>Sexpartys, Stripper-Inse- raten,</strong> oder diskreten
-            TS-Inseraten inspirieren. Onlyfriend.ch ist dein verlässlicher
-            Begleiter für <strong> Bordell-Inserate, Erotikjobs</strong> und
-            alle anderen erotischen Aben- teuer. <br />
-            <br />
-            Erlebe prickelnde Stunden, entdecke die besten{" "}
-            <strong>Erotik-Shops</strong> und genieße eine diskrete Atmosphäre –
-            sicher, einfach und aufregend. Starte noch heute und entdecke deine
-            Fantasien auf <strong> onlyfriend.ch</strong> .{" "}
-          </p>
-          <br />
-          <h3>Warum Onlyfriend.ch für erotische Kontakte?</h3>
-          <p>
-            Onlyfriend.ch bietet Ihnen eine Plattform, die auf Diskretion und
-            Sicherheit ausgelegt ist. Treffen Sie attraktive Kontakte ohne
-            komplizierte Anmeldung. Unsere geprüften Anzeigen sorgen für ein
-            hochwertiges Nutzererlebnis.“
-          </p>
-          <h4>Entdecken Sie:</h4>
-          <ul>
-            <li>Erotische Massagen in Zürich und Genf</li>
-            <li>Escort-Services für jeden Anlass</li>
-            <li>Swinger- und Fetisch-Kontakte in Ihrer Region</li>
-          </ul>
-          <h4>Sextreffen leicht gemacht – So funktioniert's</h4>
-          <ol>
-            <li>
-              <strong>Stöbern Sie durch unsere Kategorien:</strong> Wählen Sie
-              aus einer Vielzahl von Anzeigen, die nach Ihren Vorlieben und
-              Ihrem Standort sortiert sind.
-            </li>
-            <li>
-              <strong>Kontakt aufnehmen – direkt und diskret:</strong> Ohne
-              Anmeldung können Sie direkt über unsere Plattform mit den
-              Anbietern in Kontakt treten. Alle Anzeigen sind klar und
-              transparent gestaltet.
-            </li>
-            <li>
-              <strong>Treffen Sie Ihre Wahl:</strong> Entscheiden Sie sich für
-              ein Treffen oder eine Interaktion Ihrer Wahl. Unsere geprüften
-              Anzeigen sorgen dafür, dass Sie sich auf Qualität und Diskretion
-              verlassen können.
-            </li>
-            <li>
-              <strong>Erleben Sie prickelnde Abenteuer:</strong> Genießen Sie
-              Ihre Erfahrung mit einer Person, die Ihre Wünsche teilt – alles in
-              einem sicheren und anonymen Rahmen.
-            </li>
-          </ol>
+            </ol>
+          </section>
         </div>
       </div>
     </>

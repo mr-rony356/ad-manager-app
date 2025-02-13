@@ -77,13 +77,55 @@ function Support() {
 
   return (
     <>
-      {" "}
       <Head>
-        <title>Kontakt - onlyfriend.ch</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#000000" />
-        {/* ... rest of your meta tags ... */}
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Kontakt | Onlyfriend.ch</title>
+        <meta
+          name="description"  
+          content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
+        />
+        <meta
+          name="keywords"
+          content="erotische Anzeigen, Sextreffen, Schweiz, Zürich, Bern, Basel, diskrete Kontakte, Escort, erotische Massagen, Anzeigenpreise"
+        />
+        <meta name="robots" content="index, follow" />
+
+        <meta
+          property="og:title"
+          content="Kontakt | Onlyfriend.ch"
+        />
+        <meta
+          property="og:description"
+          content="Finden Sie erotische Anzeigen und Sextreffen in der Schweiz. Entdecken Sie diskrete Kontakte in Zürich, Bern oder Basel – unkompliziert auf Onlyfriend.ch!"
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://onlyfriend.ch/support" />
+
+        <link rel="canonical" href="https://onlyfriend.ch/support" />
+
+        <Script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "name": "Kontakt",
+              "description": "Kontaktformular für Onlyfriend.ch",
+              "url": "https://onlyfriend.ch/support",
+              "mainEntity": {
+                "@type": "Product",
+                "name": "Kontakt",
+                "description": "Kontaktformular für Onlyfriend.ch",
+                "offers": {
+                  "@type": "AggregateOffer",
+                  "priceCurrency": "CHF",
+                  "availability": "https://schema.org/InStock"
+                } 
+              }
+            }
+          `}
+        </Script>
       </Head>
       <div className="min-h-screen bg-gray-50">
         <div className="px-4 py-6">
