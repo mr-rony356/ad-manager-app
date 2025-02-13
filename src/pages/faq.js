@@ -1,6 +1,9 @@
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import Script from "next/script";
+import Head from "next/head";
+
 
 const FAQPage = () => {
   const { t } = useTranslation("faq");

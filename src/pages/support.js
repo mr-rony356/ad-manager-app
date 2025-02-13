@@ -7,7 +7,7 @@ import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 import { Button } from "@components/ui/button";
 import { useToast } from "@components/hooks/use-toast";
-
+import Script from "next/script";
 export async function getStaticProps({ locale }) {
   return {
     props: {
