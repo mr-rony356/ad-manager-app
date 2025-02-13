@@ -202,8 +202,7 @@ function HomePage({
     <>
       <Head>
         <title>
-          Find erotic ads and sex meetings in Switzerland. Discover discreet
-          contacts in Zurich, Bern or Basel – easily on Onlyfriend.ch!
+          Find erotic ads and sex meetings in Switzerland | Onlyfriend.ch
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -60,7 +60,7 @@ const LoginPage = () => {
     <>
       <Head>
         <title>
-          Log in oder registrieren Sie sich auf unserer Webseite, um
+          Log in oder registrieren Sie sich auf unserer Webseite, um Ihre | Onlyfriends.ch
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
