@@ -2314,17 +2314,28 @@ server
 
     app.post("/pay/twint/webhook", async (req, res) => {
       try {
-        // Retrive the body
+        // Retrieve the body
         const body = req.body;
         // Retrieve the event
         const event = body.transaction;
+
+        // Check if the transaction ID already exists in the payments collection
+        const existingPayment = await req.db
+          .collection("payments")
+          .findOne({ transactionId: event.id });
+
+        if (existingPayment) {
+          // If the transaction ID already exists, skip processing
+          console.log("⚠️  Transaction already processed:", event.id);
+          return res.status(200).send("Transaction already processed.");
+        }
 
         // Handle the event
         switch (event.status) {
           case "confirmed": {
             // Retrieve the invoice
             const invoice = event.invoice;
-            // Retrive the contact
+            // Retrieve the contact
             const contact = event.contact;
 
             // Update the credits of the user in the database
@@ -2342,6 +2353,13 @@ server
                   }
                 },
               );
+
+            // Save the transaction ID in the payments collection
+            await req.db.collection("payments").insertOne({
+              transactionId: event.id,
+              processedAt: new Date(),
+            });
+
             break;
           }
           case "waiting":
@@ -2351,12 +2369,15 @@ server
             // Unexpected event type
             console.log(`Unhandled event type ${event.status}.`);
         }
+
+        // Send a response to acknowledge receipt of the webhook
+        res.status(200).send("Webhook processed successfully.");
       } catch (err) {
         // Failed verification
         console.log("⚠️  TWINT-Webhook failed.", err.message);
+        res.status(500).send("Internal Server Error");
       }
     });
-
     // Handle Next.js routing
     app.all("*", (req, res) => {
       return handle(req, res);
