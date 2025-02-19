@@ -8,39 +8,14 @@ import { useTranslation } from "react-i18next";
 
 const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const { t } = useTranslation("common");
-  const [averageRating, setAverageRating] = useState(null);
-  const [userReviews, setUserReviews] = useState([]);
+  const [averageRating, setAverageRating] = useState(ad.averageRating);
+  
+  const [userReviews, setUserReviews] = useState(ad.reviews);
   const [isUser, setIsUser] = useState(false);
   const [pastTime, setPastTime] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [err, setErr] = useState("");
   const [displayModal, setDisplayModal] = useState("");
-  const fetchUserReviews = useCallback(() => {
-    try {
-      if (ad?.reviews) {
-        setUserReviews(ad.reviews);
-      }
-    } catch (err) {
-      console.error("Error fetching user reviews:", err);
-    }
-  }, [ad?.reviews]);
-
-  const fetchAverageRating = useCallback(() => {
-    try {
-      if (ad?.averageRating) {
-        averageRating;
-        setAverageRating(ad.averageRating);
-      }
-    } catch (err) {
-      console.error("Error fetching average rating:", err);
-    }
-  }, [ad?.averageRating]);
-
-  useEffect(() => {
-    fetchUserReviews();
-    fetchAverageRating();
-  }, [fetchUserReviews, fetchAverageRating]);
-
   useEffect(() => {
     if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
       setIsUser(true);
@@ -104,6 +79,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
       }}
     >
       <div className="ad ">
+        {ad.averageRating}
         <div style={{ position: "relative", width: "100%" }}>
           {ad.images && ad.images.length > 0 && (
             <Image
@@ -277,7 +253,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
           <div className="flex items-center space-x-2 pb-2">
             <span className="text-gray-700 text-sm font-medium">
               {averageRating !== null && !isNaN(averageRating)
-                ? averageRating.toFixed(1)
+                ? ad.averageRating.toFixed(1)
                 : ""}{" "}
             </span>
 
