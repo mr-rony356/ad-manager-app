@@ -79,7 +79,6 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
       }}
     >
       <div className="ad ">
-        {ad.averageRating}
         <div style={{ position: "relative", width: "100%" }}>
           {ad.images && ad.images.length > 0 && (
             <Image
