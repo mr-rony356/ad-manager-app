@@ -106,6 +106,7 @@ function HomePage({
   const [loading, setLoading] = useState(false);
   const [activeType, setActiveType] = useState(initialActiveType);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const [filters, setFilters] = useState({
     regions: [],
     tags: [],
@@ -175,6 +176,12 @@ function HomePage({
     [api],
   );
 
+  // Show a short welcome overlay on initial load
+  useEffect(() => {
+    const timerId = setTimeout(() => setShowWelcome(false), 2000);
+    return () => clearTimeout(timerId);
+  }, []);
+
   // Improved pagination handler
   const paginate = useCallback(
     (pageNumber) => {
@@ -224,7 +231,20 @@ function HomePage({
         />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
-      <div className="page page--home">
+      {showWelcome && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black backdrop-blur-sm">
+          <div className="text-white text-2xl md:text-3xl font-semibold flex flex-col items-center justify-center">
+            <Image
+              src="/FINAL/13.png"
+              alt="welcome"
+              width={350}
+              height={350}
+            />
+            <p>Willkommen bei OnlyFriend.ch</p>
+          </div>
+        </div>
+      )}
+      <div className="page  page--home max-w-6xl !mx-auto">
         <h1 className="home__title font-bold text-[32px]">
           {t("home__title", { region: "Schweiz" })}
         </h1>

@@ -93,16 +93,20 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
     setMessage("");
   };
 
-  const areaCode =
-    ad && ad.areaCode
-      ? attributes &&
-        attributes
-          .find((a) => a.name === "areaCodes")
-          ?.values.find((value) => value.id === ad.areaCode)?.code
+  const areaCodesAttr =
+    attributes && attributes.find((a) => a.name === "areaCodes");
+  const areaCodeObj =
+    ad && ad.areaCode !== undefined && ad.areaCode !== null
+      ? areaCodesAttr?.values.find(
+          (value) => String(value.id) === String(ad.areaCode),
+        )
       : null;
+  const areaCode = areaCodeObj?.code ?? null;
 
   const number = areaCode + (ad ? ad.phone?.replace(/-/g, "") : "");
-
+  console.log('ad.areaCode:', ad?.areaCode, typeof ad?.areaCode);
+  console.log('areaCodeObj:', areaCodeObj);
+  console.log('areaCode:', areaCode);
   const switchSlide = (event, direction) => {
     const parent = event.target.parentNode;
     let offset = 0;
@@ -214,11 +218,12 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
             </div>
           )}
           {ad.video && (
-            <div className="adDetail__container__images" style={ 
-              {
-                margin:"10px"
-              }
-            }>
+            <div
+              className="adDetail__container__images"
+              style={{
+                margin: "10px",
+              }}
+            >
               <Image
                 src={video}
                 width={500}

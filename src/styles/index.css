@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: "Aptos";
-  src: url("/aptos-fonts/Aptos-Regular.ttf") format("truetype");
+  src: url("/aptos-fonts/Aptos.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -504,7 +504,8 @@ a:-webkit-any-link {
 }
 
 .ad__premium {
-  background: radial-gradient(
+  background:
+    radial-gradient(
       ellipse farthest-corner at right bottom,
       var(--blue) 20%,
       var(--darkblue) 40%,

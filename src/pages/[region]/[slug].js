@@ -229,13 +229,15 @@ const AdDetail = ({
     setMessage("");
   };
 
-  const areaCode =
-    ad && ad.areaCode
-      ? attributes &&
-        attributes
-          .find((a) => a.name === "areaCodes")
-          ?.values.find((value) => value.id === ad.areaCode)?.code
+  const areaCodesAttr =
+    attributes && attributes.find((a) => a.name === "areaCodes");
+  const areaCodeObj =
+    ad && ad.areaCode !== undefined && ad.areaCode !== null
+      ? areaCodesAttr?.values.find(
+          (value) => String(value.id) === String(ad.areaCode),
+        )
       : null;
+  const areaCode = areaCodeObj?.code ?? null;
 
   const number = areaCode + (ad ? ad.phone?.replace(/-/g, "") : "");
 

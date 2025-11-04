@@ -11,7 +11,7 @@ import Pagination from "@components/home/Pagination";
 import useScrollRestoration from "@hooks/useScrollRestoration";
 import { useRouter } from "next/router";
 
-export async function getServerSideProps({ req, locale, params }) {
+export async function getServerSideProps({ req, locale, params, query }) {
   const api = new ApiController();
   const { slug } = params;
   const auth = req.cookies.Auth ? JSON.parse(req.cookies.Auth) : "";
@@ -55,8 +55,15 @@ export async function getServerSideProps({ req, locale, params }) {
 
   const lang = locale === "de" ? "de" : "en";
   const attributes = await api.fetchAttributes(lang);
-  const ads = await api.filterAds(filters);
+  const allAds = await api.filterAds(filters);
   const premiumAds = await api.fetchPremiumAds(0);
+
+  // Server-side pagination to reduce page payload size
+  const adsPerPage = 25;
+  const page = parseInt(query.page, 10) || 1;
+  const start = (page - 1) * adsPerPage;
+  const end = start + adsPerPage;
+  const pagedAds = allAds.slice(start, end);
 
   return {
     props: {
@@ -66,7 +73,9 @@ export async function getServerSideProps({ req, locale, params }) {
       ])),
       user,
       attributes,
-      ads,
+      ads: pagedAds,
+      total: allAds.length,
+      page,
       premiumAds,
       filters,
     },
@@ -79,6 +88,8 @@ function FilterPage({
   ads,
   premiumAds,
   filters: initialFilters,
+  total = 0,
+  page = 1,
 }) {
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -89,12 +100,9 @@ function FilterPage({
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
   const [isFilterVisible, setIsFilterVisible] = useState(true);
   const [activeType, setActiveType] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-  const adsPerPage = 25; // Set the number of ads per page
-
-  const indexOfFirstAd = (currentPage - 1) * adsPerPage;
-  const indexOfLastAd = Math.min(indexOfFirstAd + adsPerPage, ads.length);
-  const currentAds = ads.slice(indexOfFirstAd, indexOfLastAd);
+  const [currentPage, setCurrentPage] = useState(page);
+  const adsPerPage = 25; // number per page (kept consistent with GSSP)
+  const currentAds = ads; // already paginated on the server
 
   useEffect(() => {
     const handleResize = () => {
@@ -121,16 +129,14 @@ function FilterPage({
   };
 
   const paginate = (pageNumber) => {
-    setSkipRestore(true); // Disable scroll restoration for pagination
+    setSkipRestore(true);
     setCurrentPage(pageNumber);
-
-    // Scroll to top with smooth behavior
+    const basePath = router.asPath.split("?")[0];
+    const search = new URLSearchParams(router.query);
+    search.set("page", String(pageNumber));
+    router.push(`${basePath}?${search.toString()}`);
     window.scrollTo({ top: 300, left: 0, behavior: "smooth" });
-
-    // Reset the skipRestore flag after the scroll
-    setTimeout(() => {
-      setSkipRestore(false);
-    }, 300);
+    setTimeout(() => setSkipRestore(false), 300);
   };
 
   const offers =
@@ -169,7 +175,7 @@ function FilterPage({
         />
       </Head>
 
-      <div className="page page--home">
+      <div className=" max-w-[1140px] !mx-auto page page--home">
         <h1 className="home__title md:text-3xl text-center my-2">
           {locations.length < 1 && !offers.length && !tags.length
             ? t("home__title", {
@@ -232,7 +238,7 @@ function FilterPage({
             user={user}
             className="home__ads"
             ads={currentAds}
-            total={ads.length}
+            total={total}
             premiumAds={premiumAds}
             attributes={attributes}
           />
@@ -240,7 +246,7 @@ function FilterPage({
 
         <Pagination
           currentPage={currentPage}
-          totalPages={Math.ceil(ads.length / adsPerPage)}
+          totalPages={Math.ceil(total / adsPerPage)}
           onPageChange={paginate}
         />
         <div>

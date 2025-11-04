@@ -79,14 +79,14 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
       }}
     >
       <div className="ad ">
-        <div style={{ position: "relative", width: "100%" }}>
+        <div className="relative w-full h-full">
           {ad.images && ad.images.length > 0 && (
             <Image
               src={API_ADDRESS + ad.images[ad.frontImage]}
               width={500}
               height={500}
               alt={ad.title}
-              className="ad__image"
+              className="w-full h-full object-cover"
               loading="lazy"
             />
           )}

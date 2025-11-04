@@ -191,5 +191,8 @@
 
   "cookiesPopup__title": "Wir verwenden Cookies",
   "cookiesPopup__text": "Wir verwenden notwendige Cookies, um Ihre Surf-Erfahrung auf unserer Website zu verbessern.",
-  "cookiesPopup__accept": "Akzeptieren"
+  "cookiesPopup__accept": "Akzeptieren",
+  "close": "Schliessen",
+  "reset": "Zurücksetzen",
+  "auto_renew": "Automatische Erneuerung"
 }

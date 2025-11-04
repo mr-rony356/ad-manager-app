@@ -194,5 +194,8 @@
 
   "cookiesPopup__title": "We use Cookies",
   "cookiesPopup__text": "We use necessary cookies to enhance your browsing experience on our website.",
-  "cookiesPopup__accept": "Accept"
+  "cookiesPopup__accept": "Accept",
+  "close": "Close",
+  "reset": "Reset",
+  "auto_renew": "Automatic Renewal"
 }

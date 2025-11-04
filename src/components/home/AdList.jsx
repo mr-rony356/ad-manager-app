@@ -21,10 +21,7 @@ const AdList = ({ ads, premiumAds, attributes, user, total }) => {
         <PremiumAdCarousel ads={premiumAds} attributes={attributes} />
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-content-center">
-        {ads
-          // .slice()
-          // .reverse()
-          .map((ad) => (
+        {ads.map((ad) => (
             <Ad
               key={ad._id}
               user={user}
