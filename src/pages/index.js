@@ -307,9 +307,9 @@ function HomePage({
               total={total}
             />
           )}{" "}
-          {isCookiesPopupOpen && (
+          {/* {isCookiesPopupOpen && (
             <CookiesPopup setIsCookiesPopupOpen={setIsCookiesPopupOpen} />
-          )}{" "}
+          )}{" "} */}
         </div>
         <Pagination
           currentPage={currentPage}

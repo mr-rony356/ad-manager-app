@@ -7,6 +7,7 @@ import {
 } from "@components/tags/Inputs";
 import { useTranslation } from "next-i18next";
 import Select from "react-select";
+import Image from "next/image";
 
 const AdForm2 = (props) => {
   const { t } = useTranslation("common");
@@ -155,7 +156,16 @@ const AdForm2 = (props) => {
       <div className="form__sections">
         <div className="form__sectionDescription">
           <h2 className="form__section-title">{t("adForm2__locationTitle")}</h2>
+          <div className="w-[100px]">
+            <Image
+              src="/FINAL/17.png"
+              alt="auto renew"
+              width={100}
+              height={100}
+            />
+          </div>
         </div>
+
         <div className="form__sectionPart">
           <div className="form__sectionTextCombo">
             <Textfield
@@ -222,7 +232,17 @@ const AdForm2 = (props) => {
       <div className="form__sections">
         <div className="form__sectionDescription">
           <h2 className="form__section-title">{t("adForm2__websiteTitle")}</h2>
+          <div className="w-[100px]">
+            {" "}
+            <Image
+              src="/FINAL/5.png"
+              alt="auto renew"
+              width={100}
+              height={100}
+            />
+          </div>
         </div>
+
         <div className="form__sectionPart">
           <Textfield
             id="tf-4-1"

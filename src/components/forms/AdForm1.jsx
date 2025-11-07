@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Image from "next/image";
 import { Checkbox, Radio } from "@components/tags/Inputs";
 import { useTranslation } from "next-i18next";
 import Select from "react-select";
@@ -62,6 +63,37 @@ const AdForm1 = (props) => {
           </div>
         </div>
       )}
+
+      <div className="form__sections">
+        <div className="form__sectionDescription">
+          <h2 className="form__section-title">{t("auto_renew")}</h2>
+        </div>
+        <div className="form__sectionPart">
+          <div className="flex items-center gap-3">
+            <Checkbox
+              id="cb-auto-renew"
+              name="cb-auto-renew"
+              checked={!!ad.autoRenew}
+              onChange={(event) =>
+                updateProperty("autoRenew", -1, event.target.checked)
+              }
+              label={
+                <div className="flex items-center gap-2">
+                  <span>{t("auto_renew")}</span>
+                  <div className="w-[100px]">
+                    <Image
+                      src="/FINAL/4.png"
+                      alt="auto renew"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
+                </div>
+              }
+            />
+          </div>
+        </div>
+      </div>
 
       <div className="form__sections">
         <div className="form__sectionDescription">

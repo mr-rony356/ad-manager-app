@@ -1364,6 +1364,12 @@ server
           if (!req.files || !req.files.verificationImage) {
             delete ad.duration; // Only remove duration if no verification image is provided
           }
+          // Persist the originally selected duration id for future renewals
+          if (typeof ad.selectedDurationId === "undefined") {
+            ad.selectedDurationId = typeof ad.duration === "number" ? ad.duration : null;
+          }
+          // Ensure autoRenew is boolean
+          ad.autoRenew = !!ad.autoRenew;
           ad.user = user._id;
           ad.startDate = Date.now();
           ad.endDate = Date.now() + duration.duration * 24 * 60 * 60 * 1000; // Expiration date based on duration
@@ -1681,6 +1687,21 @@ server
           // Modify the new ad for the database
           delete newAd._id;
           newAd.user = ad.user;
+          // Carry forward selectedDurationId for renewals
+          if (typeof newAd.selectedDurationId === "undefined") {
+            newAd.selectedDurationId =
+              typeof newAd.duration === "number"
+                ? newAd.duration
+                : typeof ad.selectedDurationId === "number"
+                ? ad.selectedDurationId
+                : null;
+          }
+          // Normalize autoRenew to boolean (preserve existing if not provided)
+          if (typeof newAd.autoRenew === "undefined") {
+            newAd.autoRenew = !!ad.autoRenew;
+          } else {
+            newAd.autoRenew = !!newAd.autoRenew;
+          }
           if (req.files && req.files.image) {
             req.files.image.map((image, i) => newAd.images.push(image.path));
           }
@@ -2387,6 +2408,64 @@ server
     app.listen(SERVER_PORT, "0.0.0.0", () => {
       console.log(`Server listening on ${SERVER_PORT}`);
     });
+
+    // Background job: Auto-renew expired ads with autoRenew enabled
+    (async () => {
+      const { MongoClient } = require("mongodb");
+      const dotenv = require("dotenv");
+      dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+
+      const client = new MongoClient(process.env.DATABASE_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+
+      try {
+        await client.connect();
+        const db = client.db(process.env.DATABASE_NAME);
+        const attributesColl = db.collection("attributes");
+        const adsColl = db.collection("ads");
+
+        setInterval(async () => {
+          try {
+            const durationsDoc = await attributesColl.findOne({ name: "durations" });
+            const durations = durationsDoc?.values || [];
+            const now = Date.now();
+
+            const cursor = adsColl.find({
+              autoRenew: true,
+              endDate: { $lte: now },
+            });
+
+            const adsToRenew = await cursor.toArray();
+            for (const ad of adsToRenew) {
+              const durationId =
+                typeof ad.selectedDurationId === "number"
+                  ? ad.selectedDurationId
+                  : typeof ad.duration === "number"
+                  ? ad.duration
+                  : null;
+
+              const durationObj =
+                typeof durationId === "number" ? durations[durationId] : null;
+              if (!durationObj || !durationObj.duration) continue;
+
+              const startDate = now;
+              const endDate = startDate + durationObj.duration * 24 * 60 * 60 * 1000;
+
+              await adsColl.updateOne(
+                { _id: ad._id },
+                { $set: { startDate, endDate } },
+              );
+            }
+          } catch (err) {
+            console.error("Auto-renew job error:", err);
+          }
+        }, 30 * 60 * 1000); // every 30 minutes
+      } catch (err) {
+        console.error("Failed to start auto-renew job:", err);
+      }
+    })();
   })
   .catch((ex) => {
     console.error(ex.stack);

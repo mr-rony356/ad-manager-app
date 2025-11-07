@@ -27,10 +27,7 @@ const Footer = () => {
             >
               Inserataufgeben
             </Link>
-            <Link
-              href="/ad-price"
-              className="footer__link  hover:underline"
-            >
+            <Link href="/ad-price" className="footer__link  hover:underline">
               Preise Inserate
             </Link>
             <Link href="/faq" className="footer__link  hover:underline">
@@ -49,11 +46,17 @@ const Footer = () => {
         style={{ width: "fit-content" }}
         className="support__content bg-gray-800 rounded-md"
       >
-        <div className="support__oppening">
-          <h3 style={{ color: "white" }}>Support-Hotline</h3>
-          <p style={{ color: "white" }} className="support__oppeningHours">
-            (Montag - Freitag 09:00 - 18:00 Uhr){" "}
-          </p>
+        <div className=" flex justify-between items-center">
+          <div>
+            <h3 style={{ color: "white" }}>Support-Hotline</h3>
+            <p style={{ color: "white" }} className="support__oppeningHours">
+              (Montag - Freitag 09:00 - 18:00 Uhr){" "}
+            </p>
+          </div>
+
+          <div className="w-[50px]">
+            <Image src="/FINAL/21.png" alt="upvote" width={100} height={100} />
+          </div>
         </div>
         <Link
           style={{ display: "inline-flex", width: "100%" }}

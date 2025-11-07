@@ -77,6 +77,14 @@ const AdForm3 = (props) => {
               className="icon"
             />
             <p>{t("adForm3__coverPictureTitle")}</p>
+            <div className="w-[100px]">
+              <Image
+                src="/FINAL/6.png"
+                alt="auto renew"
+                width={100}
+                height={100}
+              />
+            </div>
           </div>
         </div>
         <div className="form__sectionPart3">
@@ -249,16 +257,31 @@ const AdForm3 = (props) => {
               </div>
             )}
             <div className="adForm3__verificationButton">
-              <Files
-                id="fu-3-1"
-                name="fu-3-1"
-                onChange={(event) =>
-                  updateProperty("verificationImage", -1, event.target.files[0])
-                }
-                accept="image/png, image/PNG, image/jpeg, image/JPEG, image/jpg, image/JPG, image/gif, image/GIF"
-                multiple={false}
-                required={false}
-              />
+              <div className="flex justify-center items-center gap-2">
+                <Files
+                  id="fu-3-1"
+                  name="fu-3-1"
+                  onChange={(event) =>
+                    updateProperty(
+                      "verificationImage",
+                      -1,
+                      event.target.files[0],
+                    )
+                  }
+                  accept="image/png, image/PNG, image/jpeg, image/JPEG, image/jpg, image/JPG, image/gif, image/GIF"
+                  multiple={false}
+                  required={false}
+                />
+
+                <div className="w-[50px]">
+                  <Image
+                    src="/FINAL/8.png"
+                    alt="auto renew"
+                    width={100}
+                    height={100}
+                  />
+                </div>
+              </div>
               <p>{t("adForm3__verificationText6")}</p>
             </div>
           </div>

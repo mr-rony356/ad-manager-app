@@ -194,5 +194,11 @@
   "cookiesPopup__accept": "Akzeptieren",
   "close": "Schliessen",
   "reset": "Zurücksetzen",
-  "auto_renew": "Automatische Erneuerung"
+  "auto_renew": "Automatische Erneuerung",
+  "popup_inactive_title": "Inserat wurde auf inaktiv gesetzt",
+  "popup_inactive_message": "Ihr Inserat wurde erfolgreich auf inaktiv gesetzt und ist ab sofort nicht mehr öffentlich sichtbar.\nSie können es jederzeit wieder aktivieren, bearbeiten oder ein neues Inserat erstellen.\nSo behalten Sie die volle Kontrolle über Ihre Angebote – ganz unkompliziert.",
+  "popup_deleted_title": "Inserat gelöscht",
+  "popup_deleted_message": "Ihr Inserat wurde gelöscht.",
+  "popup_login_title": "Wussten Sie schon?",
+  "popup_login_message": "Die Inserate-Erstellung ist bei uns komplett kostenlos!"
 }

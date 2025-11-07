@@ -168,16 +168,28 @@ const NavBar = ({ user }) => {
               </Link>
             </li>
 
-            <li className="free-mobile-menu !py-12">
+            <li className="free-mobile-menu !py-12 flex">
+              <div className="flex justify-between items-centerx">
               <Link
                 href="/ad?type=free"
                 passHref
-                className="button"
+                className="button "
                 onClick={() => setIsMenuOpen(false)}
               >
                 {t("navBar__adButton")}
               </Link>
               <span className="freeBtn-mobile">{t("FreeButton")}</span>
+
+              <div className="w-[50px]">
+                <Image
+                  src="/FINAL/24.png"
+                  alt="upvote"
+                  width={100}
+                  height={100}
+                />
+              </div>
+
+              </div>
             </li>
 
             <li>
@@ -297,7 +309,7 @@ const NavBar = ({ user }) => {
                   </option>,
                   <option key={2} value="es" style={{ color: "black" }}>
                     ES
-                    </option>,
+                  </option>,
                 ]}
               />
             </li>

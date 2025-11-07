@@ -198,5 +198,11 @@
   "cookiesPopup__accept": "Aceptar",
   "close": "Cerrar",
   "reset": "Restablecer",
-  "auto_renew": "Renovación automática"
+  "auto_renew": "Renovación automática",
+  "popup_inactive_title": "El anuncio se ha puesto como inactivo",
+  "popup_inactive_message": "Tu anuncio se ha desactivado correctamente y ya no es visible públicamente.\nPuedes reactivarlo o editarlo en cualquier momento, o crear un nuevo anuncio cuando lo desees.\nAsí mantienes el control total sobre tus publicaciones, de forma sencilla y flexible.",
+  "popup_deleted_title": "Anuncio eliminado",
+  "popup_deleted_message": "Tu anuncio ha sido eliminado.",
+  "popup_login_title": "¿Lo sabías?",
+  "popup_login_message": "Publicar tus anuncios es totalmente gratis!"
 }

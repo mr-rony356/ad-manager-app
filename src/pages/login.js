@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ForgotPasswordForm from "@components/forms/ForgotPasswordForm";
 import LoginForm from "@components/forms/LoginForm";
 import ResetPasswordForm from "@components/forms/ResetPasswordForm";
@@ -8,6 +8,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import SmallPopUp from "@components/alerts/SmallPopUp";
 
 export async function getServerSideProps({ req, locale }) {
   // Initialize your API client
@@ -38,6 +39,7 @@ export async function getServerSideProps({ req, locale }) {
 const LoginPage = () => {
   const { t } = useTranslation();
   const [body, setBody] = useState("Login");
+  const [showInfoPopup, setShowInfoPopup] = useState(true);
 
   const toggleBody = (body) => setBody(body);
 
@@ -60,7 +62,8 @@ const LoginPage = () => {
     <>
       <Head>
         <title>
-          Log in oder registrieren Sie sich auf unserer Webseite, um Ihre | Onlyfriends.ch
+          Log in oder registrieren Sie sich auf unserer Webseite, um Ihre |
+          Onlyfriends.ch
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -91,6 +94,13 @@ const LoginPage = () => {
           </div>
           <div className="page--login">
             {renderBody()}
+            <SmallPopUp
+              isOpen={showInfoPopup}
+              onClose={() => setShowInfoPopup(false)}
+              title={t("popup_login_title")}
+              message={t("popup_login_message")}
+              iconSrc={"/FINAL/24.png"}
+            />
 
             <div className="button-group button-group--inline">
               {body === "Login" ? (

@@ -104,9 +104,9 @@ const AdDetail = ({ user, attributes, ad, initialIsFavorite }) => {
   const areaCode = areaCodeObj?.code ?? null;
 
   const number = areaCode + (ad ? ad.phone?.replace(/-/g, "") : "");
-  console.log('ad.areaCode:', ad?.areaCode, typeof ad?.areaCode);
-  console.log('areaCodeObj:', areaCodeObj);
-  console.log('areaCode:', areaCode);
+  console.log("ad.areaCode:", ad?.areaCode, typeof ad?.areaCode);
+  console.log("areaCodeObj:", areaCodeObj);
+  console.log("areaCode:", areaCode);
   const switchSlide = (event, direction) => {
     const parent = event.target.parentNode;
     let offset = 0;

@@ -197,5 +197,11 @@
   "cookiesPopup__accept": "Accept",
   "close": "Close",
   "reset": "Reset",
-  "auto_renew": "Automatic Renewal"
+  "auto_renew": "Automatic Renewal",
+  "popup_inactive_title": "Listing has been set to inactive",
+  "popup_inactive_message": "Your listing has been successfully set to inactive and is no longer visible to the public.\nYou can reactivate or edit it at any time, or create a new listing whenever you wish.\nThis way, you stay in full control of your listings with total flexibility.",
+  "popup_deleted_title": "Listing deleted",
+  "popup_deleted_message": "Your listing has been deleted.",
+  "popup_login_title": "Did you know?",
+  "popup_login_message": "Creating and publishing listings is completely free!"
 }

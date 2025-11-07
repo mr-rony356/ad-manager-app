@@ -64,6 +64,7 @@ const AdDetail = ({
   }, [ad]);
   const { t } = useTranslation("common");
   const { api } = useApi();
+  const upvoteIcon = "/FINAL/7.png";
   const router = useRouter();
   const [isUser, setIsUser] = useState(false);
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
@@ -71,7 +72,6 @@ const AdDetail = ({
   const [activeType, setActiveType] = useState("contact");
   const [toggler, setToggler] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [message, setMessage] = useState();
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [name, setName] = useState("");
@@ -100,6 +100,10 @@ const AdDetail = ({
 
       console.log("Review submitted successfully", response);
       setShowPopup(true);
+      setRating(0);
+      setReviewText("");
+      setName("");
+      setError("");
     } catch (err) {
       console.error("Error submitting review:", err);
     }
@@ -222,13 +226,6 @@ const AdDetail = ({
     setIsFavorite(!isFavorite);
   };
 
-  const sendMessage = (event) => {
-    event.preventDefault();
-
-    api.sendMessage(message, ad.user);
-    setMessage("");
-  };
-
   const areaCodesAttr =
     attributes && attributes.find((a) => a.name === "areaCodes");
   const areaCodeObj =
@@ -240,7 +237,6 @@ const AdDetail = ({
   const areaCode = areaCodeObj?.code ?? null;
 
   const number = areaCode + (ad ? ad.phone?.replace(/-/g, "") : "");
-
   const switchSlide = (event, direction) => {
     const parent = event.target.parentNode;
     let offset = 0;
@@ -427,28 +423,26 @@ const AdDetail = ({
               </div>
               {activeType === "contact" ? (
                 <div>
-                  {user && (
-                    <form
-                      className="space-y-4 w-full flex flex-col justify-center items-center"
-                      onSubmit={sendMessage}
-                    >
-                      <Textfield
-                        id="tf-1-1"
-                        name="tf-1-1"
-                        value={message}
-                        onChange={(event) => setMessage(event.target.value)}
-                        label="Nachricht"
-                        required={true}
-                        className="w-full border border-sky-500 "
+                  <div className="w-full flex  items-center gap-4 justify-center">
+                    <div className="w-[150px]">
+                      <Image
+                        src={"/FINAL/12.png"}
+                        width={800}
+                        height={600}
+                        alt="info"
+                        className="w-full max-w-[700px] h-auto rounded-md"
                       />
-                      <button
-                        type="submit"
-                        className="w-[50%]  bg-sky-500 text-white py-2 rounded-md hover:bg-sky-600"
-                      >
-                        Senden
-                      </button>
-                    </form>
-                  )}
+                    </div>
+                    <div className="w-[50px]">
+                      <Image
+                        src={"/FINAL/18.png"}
+                        width={100}
+                        height={100}
+                        alt="small-info"
+                        className="w-16 h-16"
+                      />
+                    </div>
+                  </div>
 
                   <div className="mt-8 space-y-8">
                     {ad.phone && ad.areaCode && (
@@ -715,6 +709,25 @@ const AdDetail = ({
               )}
             </div>{" "}
           </div>
+          <div className="mt-6 flex items-cente">
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await api.boostAd(ad._id);
+                  window.location.reload(true);
+                } catch (e) {
+                  console.error(e);
+                }
+              }}
+              className="lineButton flex items-center gap-2"
+            >
+              <div className="w-[100px]">
+                <Image src={upvoteIcon} alt="upvote" width={100} height={100} />
+              </div>
+              <span>Inserat auf den 1. Platz setzen (Upvote)</span>
+            </button>
+          </div>
           <div className="mx-2 p-2 md:mx-auto flex w-full justify-between flex-col md:flex-row">
             <div>
               <div className="flex flex-col space-y-2 mb-4 rounded-lg shadow-md p-4">
@@ -923,8 +936,17 @@ const AdDetail = ({
           {showPopup && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
-                <h2 className="text-2xl font-bold mb-4 text-gray-800">
-                  Vielen Dank für Ihre Bewertung
+                <h2 className="text-2xl font-bold mb-4 text-gray-800 flex items-center gap-3">
+                  <span>Vielen Dank für Ihre Bewertung</span>
+                  div
+                  <div className="w-[50px]">
+                    <Image
+                      src={"/FINAL/9.png"}
+                      alt="thank you"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </h2>
                 <p className="text-gray-600 mb-6">
                   Ihre Bewertung wird überprüft und anschliessend veröffentlicht

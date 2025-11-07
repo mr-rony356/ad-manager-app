@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import PopUp from "@components/alerts/PopUp";
+import SmallPopUp from "@components/alerts/SmallPopUp";
 import AdModal from "@components/home/AdModal";
 import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslation } from "react-i18next";
+import { useRouter } from "next/router";
 
 const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const { t } = useTranslation("common");
+  const router = useRouter();
   const [averageRating, setAverageRating] = useState(ad.averageRating);
-  
+
   const [userReviews, setUserReviews] = useState(ad.reviews);
   const [isUser, setIsUser] = useState(false);
   const [pastTime, setPastTime] = useState("");
@@ -45,12 +48,27 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
     setPastTime(pastTime);
   }, [hours, minutes, days, seconds]);
 
-  const title =
-    displayModal === "boosted"
-      ? "Das Inserat " + ad.title + " wurde auf den 1. Platz verschoben"
-      : "Ad premium";
+  const locale = router.locale || "de";
+  const upvoteTitle =
+    "Das Inserat " + ad.title + " wurde auf den 1. Platz verschoben";
+  const titles = {
+    boosted: upvoteTitle,
+    inactive: t("popup_inactive_title"),
+    deleted: t("popup_deleted_title"),
+    premium: "Ad premium",
+    reactivated: "Ad reactivated",
+  };
 
-  const message = user ? user.credits + " Credits verbleibend" : "";
+  const messages = {
+    inactive: t("popup_inactive_message"),
+    deleted: t("popup_deleted_message"),
+    boosted: user ? user.credits + " Credits verbleibend" : "",
+    premium: user ? user.credits + " Credits verbleibend" : "",
+    reactivated: "",
+  };
+
+  const currentTitle = titles[displayModal] || "";
+  const currentMessage = messages[displayModal] || "";
 
   const adSlugRegions = ad.regions
     ? ad.regions
@@ -101,13 +119,24 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
             />
           )}
         </div>
-        <PopUp
-          onClose={() => setDisplayModal("")}
-          isOpen={displayModal !== ""}
-          title={title}
-          message={message}
-          setDisplayModal={setDisplayModal}
-        />
+        {displayModal === "inactive" || displayModal === "deleted" ? (
+          <SmallPopUp
+            isOpen={true}
+            onClose={() => {
+              setDisplayModal("");
+              router.replace(router.asPath, undefined, { scroll: false });
+            }}
+            title={currentTitle}
+            message={currentMessage}
+          />
+        ) : (
+          <PopUp
+            onClose={() => setDisplayModal("")}
+            isOpen={displayModal !== ""}
+            title={currentTitle}
+            message={currentMessage}
+          />
+        )}
         <div className="ad__content">
           <div className="ad__titleTime">
             {ad.endDate < Date.now() ? (

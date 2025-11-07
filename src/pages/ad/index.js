@@ -60,6 +60,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
       video: null,
       verificationImage: null,
       verificationCode: Math.floor(Math.random() * 10000000),
+      autoRenew: false,
     },
   );
   const [err, setErr] = useState("");

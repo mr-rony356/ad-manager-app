@@ -8,11 +8,10 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
   const { api } = useApi();
   const router = useRouter();
 
-  const deactivateAd = () => {
-    const res = api.deactivateAd(ad._id);
-    if (res.err) setErr(res);
+  const deactivateAd = async () => {
+    api.deactivateAd(ad._id);
+    setDisplayModal("inactive");
     setShowModal(false);
-    router.reload();
   };
 
   const activateAd = () => {
@@ -41,18 +40,22 @@ const AdModal = ({ ad, setShowModal, owner, setErr, setDisplayModal }) => {
     if (res.err) setErr(res.err);
     else setDisplayModal("reactivated");
     setShowModal(false);
-  ;
   };
 
-  const deleteAd = () => {
-    const res = api.deleteAd(ad._id);
-    router.reload();
-
-    if (res.err) setErr(res.err);
+  const deleteAd = async () => {
+    const res = await api.deleteAd(ad._id);
+    if (res?.err) setErr(res.err);
+    else setDisplayModal("deleted");
     setShowModal(false);
   };
   return (
-    <div className="ad__menu">
+    <div
+      className="ad__menu"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       <div>
         <ul>
           {ad.endDate < Date.now() ? null : (
