@@ -106,7 +106,7 @@ function HomePage({
   const [loading, setLoading] = useState(false);
   const [activeType, setActiveType] = useState(initialActiveType);
   const [isCookiesPopupOpen, setIsCookiesPopupOpen] = useState(false);
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(true);
   const [filters, setFilters] = useState({
     regions: [],
     tags: [],

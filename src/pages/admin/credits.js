@@ -6,6 +6,7 @@ import ApiController from "@utils/API";
 import Head from "next/head";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import Image from "next/image";
 
 export async function getServerSideProps({ req, locale }) {
   // Initialize the API helper class
@@ -102,7 +103,8 @@ const CreditForm = ({ user, initPrices }) => {
                       {t("credits")} {user && user.credits}
                     </p>
                   </div>
-                  <div className="form__choices">
+                  <div className="form__choices flex items-center gap-2">
+                    <div className="flex justify-center items-center gap-2">
                     <Radio
                       className="form_radioButton"
                       id={"rb-1-1"}
@@ -126,6 +128,16 @@ const CreditForm = ({ user, initPrices }) => {
                       label={<p>EUR</p>}
                       required={true}
                     />
+
+                      </div>
+                  <div className="w-[100px]">
+                    <Image
+                      src="/FINAL/10.png"
+                      alt="upvote"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                   </div>
                 </div>
                 <div className="form__sectionsCredit">

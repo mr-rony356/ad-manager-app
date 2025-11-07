@@ -353,19 +353,6 @@ const AdDetail = ({
           </div>
           <h1 className="adDetail__title text-xl"> {ad.title}</h1>
           <div className="flex items-center justify-between">
-            {!ad.verified && (
-              <div className="adDetail__verifiedPart">
-                <Image
-                  src={verified}
-                  width={500}
-                  height={500}
-                  alt="edit"
-                  className="ad__verifiedDetail"
-                  loading="lazy"
-                />
-                <p>{t("adDetail__verifiedImages")}</p>
-              </div>
-            )}
             {ad.video && (
               <div className="adDetail__container__images">
                 <Image
@@ -381,6 +368,20 @@ const AdDetail = ({
                   }}
                 />
                 <p>{t("adDetail__videotext")}</p>
+              </div>
+            )}
+
+            {ad.verified && (
+              <div className="adDetail__verifiedPart">
+                <Image
+                  src="/FINAL/8.png"
+                  width={500}
+                  height={500}
+                  alt="edit"
+                  className="ad__verifiedDetail"
+                  loading="lazy"
+                />
+                <p>{t("adDetail__verifiedImages")}</p>
               </div>
             )}
           </div>{" "}
@@ -731,10 +732,18 @@ const AdDetail = ({
           <div className="mx-2 p-2 md:mx-auto flex w-full justify-between flex-col md:flex-row">
             <div>
               <div className="flex flex-col space-y-2 mb-4 rounded-lg shadow-md p-4">
-                <div className="text-center">
+                <div className="text-center flex justify-center items-center gap-2">
                   <h2 className="text-xl font-bold mb-2">
                     {t("do_you_like_this_ad")}
                   </h2>
+                  <div className="w-[30px]">
+                    <Image
+                      src="/FINAL/9.png"
+                      alt="upvote"
+                      width={100}
+                      height={100}
+                    />
+                  </div>
                 </div>
 
                 <button
