@@ -20,7 +20,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const [err, setErr] = useState("");
   const [displayModal, setDisplayModal] = useState("");
   useEffect(() => {
-    if (user?._id === ad.user || user.email === "cyrill.mueller@onlyfriend.ch")
+    if (user?._id === ad?.user || user?.email === "cyrill.mueller@onlyfriend.ch")
       setIsUser(true);
   }, [ad.user, user?._id]);
 
@@ -89,7 +89,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
         .replace(/ /g, "-") // Replace spaces with hyphens
         .replace(/^-+|-+$/g, "")
     : null;
-  const isOwner = user.email === "cyrill.mueller@onlyfriend.ch";
+  const isOwner = user?.email === "cyrill.mueller@onlyfriend.ch";
   return (
     <Link
       href={{
