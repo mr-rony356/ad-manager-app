@@ -246,7 +246,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
         <meta name="mobile-web-app-capable" content="yes" />
       </Head>
 
-      <div className="page">
+      <div className="page max-w-6xl !mx-auto">
         {displayModal !== null && (
           <PopUp
             isOpen={true} // Modal should be open when displayModal is not null
@@ -289,7 +289,7 @@ const AdvertisementPage = ({ user, attributes, tempAd, editMode }) => {
               </span>
             )}
           </p>
-        </div>
+        </div>  
 
         {body === 1 && (
           <AdForm1

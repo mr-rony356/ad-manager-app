@@ -201,7 +201,11 @@ server
           },
           pending: {
             user: user._id,
-            $or: [{ endDate: null }, { endDate: { $exists: false } }],
+            verificationImage: { $exists: true, $ne: null },
+            $or: [
+              { verified: { $exists: false } },
+              { verified: { $ne: true } },
+            ],
           },
           inactive: {
             user: user._id,
@@ -228,7 +232,11 @@ server
             const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
             return endDate && endDate >= now_ms && (ad.active ?? true);
           }).length,
-          pending: allAds.filter((ad) => !ad.endDate).length,
+          pending: allAds.filter(
+            (ad) =>
+              !!ad.verificationImage &&
+              (ad.verified === undefined || ad.verified !== true),
+          ).length,
           inactive: allAds.filter((ad) => {
             const endDate = ad.endDate ? new Date(ad.endDate).getTime() : null;
             return ad.active === false && endDate && endDate >= now_ms;
@@ -253,7 +261,11 @@ server
             });
             break;
           case "pending":
-            filteredAds = allAds.filter((ad) => !ad.endDate);
+            filteredAds = allAds.filter(
+              (ad) =>
+                !!ad.verificationImage &&
+                (ad.verified === undefined || ad.verified !== true),
+            );
             break;
           case "inactive":
             filteredAds = allAds.filter((ad) => {
@@ -360,13 +372,20 @@ server
     });
     /**
      * Fetches all the ads to verify from the database
+     * Criteria: contains a verificationImage and not yet verified
      */
     app.get("/api/ads/pending", verifyJWT, async (req, res) => {
       try {
         // Fetch all ads to verify from the database
         const ads = await req.db
           .collection("ads")
-          .find({ endDate: { $exists: false } })
+          .find({
+            verificationImage: { $exists: true, $ne: null },
+            $or: [
+              { verified: { $exists: false } },
+              { verified: { $ne: true } },
+            ],
+          })
           .sort({ startDate: -1 })
           .toArray();
 
@@ -1360,19 +1379,33 @@ server
             cTotal,
           );
 
-          // Modify the ad for insertion
-          if (!req.files || !req.files.verificationImage) {
-            delete ad.duration; // Only remove duration if no verification image is provided
-          }
-          // Persist the originally selected duration id for future renewals
+          // Determine if a real verification image file was uploaded
+          const hasVerificationImage =
+            Array.isArray(req.files?.verificationImage) &&
+            req.files.verificationImage.length > 0;
+
+          // Persist the originally selected duration id for future renewals BEFORE any mutation
           if (typeof ad.selectedDurationId === "undefined") {
-            ad.selectedDurationId = typeof ad.duration === "number" ? ad.duration : null;
+            ad.selectedDurationId =
+              typeof ad.duration === "number" ? ad.duration : null;
+          }
+          // Modify the ad for insertion (remove duration only for non-verified flow)
+          if (!hasVerificationImage) {
+            delete ad.duration;
           }
           // Ensure autoRenew is boolean
           ad.autoRenew = !!ad.autoRenew;
           ad.user = user._id;
           ad.startDate = Date.now();
-          ad.endDate = Date.now() + duration.duration * 24 * 60 * 60 * 1000; // Expiration date based on duration
+          // Calculate endDate for ads (also when a verification image is uploaded).
+          // We'll handle "pending verification" via verificationImage + verified=false, not via missing endDate.
+          const DAY_MS = 24 * 60 * 60 * 1000;
+          const durationDays =
+            Number.isFinite(Number(duration?.duration)) &&
+            Number(duration?.duration) > 0
+              ? Number(duration.duration)
+              : 7;
+          ad.endDate = ad.startDate + durationDays * DAY_MS; // Expiration date based on duration
 
           // Handle file uploads and add file paths to the ad object
           if (req.files?.image) {
@@ -1381,8 +1414,8 @@ server
           if (req.files?.video) {
             ad.video = req.files.video[0].path;
           }
-          if (req.files?.verificationImage) {
-            delete ad.endDate; // No end date for verified ads
+          if (hasVerificationImage) {
+            // Mark verification request by presence of verificationImage; keep verified=false until admin action
             ad.verificationImage = req.files.verificationImage[0].path;
           }
 
@@ -1693,8 +1726,8 @@ server
               typeof newAd.duration === "number"
                 ? newAd.duration
                 : typeof ad.selectedDurationId === "number"
-                ? ad.selectedDurationId
-                : null;
+                  ? ad.selectedDurationId
+                  : null;
           }
           // Normalize autoRenew to boolean (preserve existing if not provided)
           if (typeof newAd.autoRenew === "undefined") {
@@ -1863,6 +1896,59 @@ server
         return res.status(200).json({ ok: true });
       } catch (err) {
         return res.status(500).json({ err });
+      }
+    });
+
+    /** Decline ad verification but publish as normal ad */
+    app.put("/api/ad/decline/:id", verifyJWT, async (req, res) => {
+      try {
+        const objectId = ObjectId.isValid(req.params.id)
+          ? new ObjectId(req.params.id)
+          : null;
+
+        // Retrieve the ad
+        const ad = await req.db.collection("ads").findOne({ _id: objectId });
+
+        // Handle if ad not found
+        if (!ad) {
+          return res.status(404).json({ error: "Ad not found" });
+        }
+
+        // Retrieve the duration information
+        const durations = await req.db
+          .collection("attributes")
+          .findOne({ name: "durations" });
+        const duration = durations.values[ad.duration];
+
+        // Modify the ad for publication as a normal (unverified) ad
+        delete ad.duration;
+        ad.startDate = Date.now();
+        ad.endDate = Date.now() + duration.duration * 24 * 60 * 60 * 1000;
+        ad.verified = false;
+        // Remove verification image so it no longer shows up as "pending verification"
+        if (ad.verificationImage) {
+          delete ad.verificationImage;
+        }
+
+        // Persist the changes
+        await req.db
+          .collection("ads")
+          .replaceOne({ _id: ad._id }, ad, (err, item) => {
+            if (err) return res.status(500).json({ error: err.message });
+          });
+
+        // Notify the user that verification was declined but ad is published
+        const user = await req.db.collection("users").findOne({ _id: ad.user });
+        sendEmail(
+          user.email,
+          "Verifizierung abgelehnt",
+          { name: user.name, ad },
+          "./templates/declinedAd.handlebars",
+        );
+
+        return res.status(200).json({ ok: true });
+      } catch (err) {
+        return res.status(500).json({ error: err.message });
       }
     });
 
@@ -2426,42 +2512,48 @@ server
         const attributesColl = db.collection("attributes");
         const adsColl = db.collection("ads");
 
-        setInterval(async () => {
-          try {
-            const durationsDoc = await attributesColl.findOne({ name: "durations" });
-            const durations = durationsDoc?.values || [];
-            const now = Date.now();
+        setInterval(
+          async () => {
+            try {
+              const durationsDoc = await attributesColl.findOne({
+                name: "durations",
+              });
+              const durations = durationsDoc?.values || [];
+              const now = Date.now();
 
-            const cursor = adsColl.find({
-              autoRenew: true,
-              endDate: { $lte: now },
-            });
+              const cursor = adsColl.find({
+                autoRenew: true,
+                endDate: { $lte: now },
+              });
 
-            const adsToRenew = await cursor.toArray();
-            for (const ad of adsToRenew) {
-              const durationId =
-                typeof ad.selectedDurationId === "number"
-                  ? ad.selectedDurationId
-                  : typeof ad.duration === "number"
-                  ? ad.duration
-                  : null;
+              const adsToRenew = await cursor.toArray();
+              for (const ad of adsToRenew) {
+                const durationId =
+                  typeof ad.selectedDurationId === "number"
+                    ? ad.selectedDurationId
+                    : typeof ad.duration === "number"
+                      ? ad.duration
+                      : null;
 
-              const durationObj =
-                typeof durationId === "number" ? durations[durationId] : null;
-              if (!durationObj || !durationObj.duration) continue;
+                const durationObj =
+                  typeof durationId === "number" ? durations[durationId] : null;
+                if (!durationObj || !durationObj.duration) continue;
 
-              const startDate = now;
-              const endDate = startDate + durationObj.duration * 24 * 60 * 60 * 1000;
+                const startDate = now;
+                const endDate =
+                  startDate + durationObj.duration * 24 * 60 * 60 * 1000;
 
-              await adsColl.updateOne(
-                { _id: ad._id },
-                { $set: { startDate, endDate } },
-              );
+                await adsColl.updateOne(
+                  { _id: ad._id },
+                  { $set: { startDate, endDate } },
+                );
+              }
+            } catch (err) {
+              console.error("Auto-renew job error:", err);
             }
-          } catch (err) {
-            console.error("Auto-renew job error:", err);
-          }
-        }, 30 * 60 * 1000); // every 30 minutes
+          },
+          30 * 60 * 1000,
+        ); // every 30 minutes
       } catch (err) {
         console.error("Failed to start auto-renew job:", err);
       }

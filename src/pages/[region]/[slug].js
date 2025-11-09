@@ -333,7 +333,7 @@ const AdDetail = ({
           attributes={attributes}
         />
       ) : (
-        <div className="adDetail">
+        <div className="adDetail lg:max-w-6xl lg:mx-auto">
           <div className="adDetail__titleSection">
             <div className="adDetail__verified"></div>
 
@@ -384,6 +384,14 @@ const AdDetail = ({
                 <p>{t("adDetail__verifiedImages")}</p>
               </div>
             )}
+            <div className="w-[100px] ">
+              <Image
+                src="/FINAL/2.png"
+                alt="upvote"
+                width={200}
+                height={200}
+              />
+            </div>
           </div>{" "}
           <Carousel
             ad={ad}
@@ -434,22 +442,24 @@ const AdDetail = ({
                         className="w-full max-w-[700px] h-auto rounded-md"
                       />
                     </div>
-                    <div className="w-[50px]">
-                      <Image
-                        src={"/FINAL/18.png"}
-                        width={100}
-                        height={100}
-                        alt="small-info"
-                        className="w-16 h-16"
-                      />
-                    </div>
                   </div>
 
                   <div className="mt-8 space-y-8">
                     {ad.phone && ad.areaCode && (
-                      <p className="text-gray-900 text-2xl font-bold">
-                        {areaCode} {ad.phone.replace(/-/g, " ")}
-                      </p>
+                      <div className="flex items-center gap-4">
+                        <p className="text-gray-900 text-2xl font-bold">
+                          {areaCode} {ad.phone.replace(/-/g, " ")}
+                        </p>
+                        <div className="w-[60px]">
+                          <Image
+                            src={"/FINAL/18.png"}
+                            width={100}
+                            height={100}
+                            alt="small-info"
+                            className="w-16 h-20"
+                          />
+                        </div>
+                      </div>
                     )}
                     <div className="flex flex-wrap gap-4">
                       {ad.phone && ad.areaCode && (
@@ -510,9 +520,10 @@ const AdDetail = ({
 
                   {ad.country || ad.city || ad.street || ad.postCode ? (
                     <div className="mt-6">
-                      <p className="font-bold text-gray-900 text-base">
+                      <p className="ml-4 font-bold text-gray-900 text-base">
                         Adresse
                       </p>
+
                       {attributes.length > 0 &&
                         attributes.map((a, i) => {
                           if (a.name === "countries") {
@@ -521,17 +532,35 @@ const AdDetail = ({
                             );
                             if (country) {
                               return (
-                                <p key={i} className="text-base text-gray-600">
-                                  {country.name}
-                                </p>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-[40px] -ml-8">
+                                    <Image
+                                      src="/FINAL/17.png"
+                                      alt="upvote"
+                                      width={100}
+                                      height={100}
+                                    />{" "}
+                                  </div>
+
+                                  <p
+                                    key={i}
+                                    className="text-base text-gray-600"
+                                  >
+                                    {country.name}
+                                  </p>
+                                </div>
                               );
                             }
                           }
                           return null;
                         })}
-                      <p className="text-base text-gray-600">{ad.street}</p>
-                      <p className="text-base text-gray-600">{ad.city}</p>
-                      <p className="text-base text-gray-600">{ad.postCode}</p>
+                      <p className="ml-4 text-base text-gray-600">
+                        {ad.street}
+                      </p>
+                      <p className="ml-4 text-base text-gray-600">{ad.city}</p>
+                      <p className="ml-4 text-base text-gray-600">
+                        {ad.postCode}
+                      </p>
 
                       {/* Google Maps Button */}
                       <button
@@ -710,25 +739,6 @@ const AdDetail = ({
               )}
             </div>{" "}
           </div>
-          <div className="mt-6 flex items-cente">
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await api.boostAd(ad._id);
-                  window.location.reload(true);
-                } catch (e) {
-                  console.error(e);
-                }
-              }}
-              className="lineButton flex items-center gap-2"
-            >
-              <div className="w-[100px]">
-                <Image src={upvoteIcon} alt="upvote" width={100} height={100} />
-              </div>
-              <span>Inserat auf den 1. Platz setzen (Upvote)</span>
-            </button>
-          </div>
           <div className="mx-2 p-2 md:mx-auto flex w-full justify-between flex-col md:flex-row">
             <div>
               <div className="flex flex-col space-y-2 mb-4 rounded-lg shadow-md p-4">
@@ -736,14 +746,14 @@ const AdDetail = ({
                   <h2 className="text-xl font-bold mb-2">
                     {t("do_you_like_this_ad")}
                   </h2>
-                  <div className="w-[30px]">
-                    <Image
-                      src="/FINAL/9.png"
-                      alt="upvote"
-                      width={100}
-                      height={100}
-                    />
-                  </div>
+                </div>
+                <div className="w-[40px] mx-auto my-2">
+                  <Image
+                    src="/FINAL/9.png"
+                    alt="upvote"
+                    width={100}
+                    height={100}
+                  />
                 </div>
 
                 <button
@@ -787,24 +797,61 @@ const AdDetail = ({
                   </div>
                   {t("report_ad")}
                 </button>
+                <hr className="my-4" />
+                <button
+                  type="button"
+                  onClick={async () => {
+                    try {
+                      await api.boostAd(ad._id);
+                      window.location.reload(true);
+                    } catch (e) {
+                      console.error(e);
+                    }
+                  }}
+                  className="lineButton flex items-center gap-2"
+                >
+                  <div className="flex  gap-4">
+                    <div className="w-[30px]">
+                      <Image
+                        src={upvoteIcon}
+                        alt="upvote"
+                        width={100}
+                        height={100}
+                      />
+                    </div>
+                    <span className="text-base">
+                      Inserat auf den 1. Platz setzen (Upvote)
+                    </span>
+                  </div>
+                </button>
               </div>
             </div>{" "}
             <div className="mb-4 rounded-lg shadow-md p-4">
               <h3 className="font-semibold mb-2">{t("interesting_link")}</h3>
 
               {/* Render Search Links */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {searchLinks.map((link, i) => (
-                  <a
-                    key={i}
-                    href={link.url}
-                    className="px-3 py-1 text-sky-500 border-sky-500 rounded-md border-2 hover:bg-gray-100"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {link.label}
-                  </a>
-                ))}
+              <div className="mt-4 flex flex-wrap gap-2 items-center">
+                <div className="flex-1 flex flex-wrap gap-2">
+                  {searchLinks.map((link, i) => (
+                    <a
+                      key={i}
+                      href={link.url}
+                      className="px-3 py-1 text-sky-500 border-sky-500 rounded-md border-2 hover:bg-gray-100"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+                <div className="w-[120px]">
+                  <Image
+                    src="/FINAL/19.png"
+                    alt="upvote"
+                    width={100}
+                    height={100}
+                  />{" "}
+                </div>
               </div>
             </div>{" "}
           </div>{" "}
@@ -857,9 +904,22 @@ const AdDetail = ({
             </button>
           </div>
           <div className="my-6 px-4 md:px-6">
-            <h2 className="text-xl font-bold text-gray-800">
-              {t("user_reviews")}
-            </h2>
+            <div className="flex items-center gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-gray-800">
+                  {t("user_reviews")}
+                </h2>
+              </div>
+
+              <div className="w-[100px] ">
+                <Image
+                  src="/FINAL/16.png"
+                  alt="upvote"
+                  width={200}
+                  height={200}
+                />
+              </div>
+            </div>
             {userReviews?.length > 0 ? (
               userReviews.map((review) => (
                 <div key={review._id} className="mt-4 border-b pb-4">
@@ -947,7 +1007,6 @@ const AdDetail = ({
               <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full mx-4">
                 <h2 className="text-2xl font-bold mb-4 text-gray-800 flex items-center gap-3">
                   <span>Vielen Dank für Ihre Bewertung</span>
-                  div
                   <div className="w-[50px]">
                     <Image
                       src={"/FINAL/9.png"}

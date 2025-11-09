@@ -69,8 +69,8 @@ const FAQPage = () => {
       <div className="container mx-auto p-6">
         <h1 className="text-3xl font-bold text-center mb-8 flex items-center justify-center gap-2">
           <span>{t("title")}</span>
-          <div className="w-[150px]">
-            <Image src="/FINAL/19.png" alt="upvote" width={100} height={100} />
+          <div className="w-[180px]">
+            <Image src="/FINAL/23.png" alt="upvote" width={200} height={200} />
           </div>
         </h1>
         <div className="space-y-4">

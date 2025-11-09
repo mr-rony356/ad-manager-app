@@ -53,7 +53,7 @@ function AdminPage({ user, attributes, ads, messages }) {
         <meta name="mobile-web-app-capable" content="yes" />
       </Head>
 
-      <div className="page">
+      <div className="page w-[1150px] mx-auto">
         <h1 className="adminPage__activeUser">Hallo {user.name}</h1>
 
         <div className="adminPage__content">

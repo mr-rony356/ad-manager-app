@@ -55,7 +55,7 @@ const Verifications = ({
   };
 
   const handleDelete = async (id) => {
-    await api.deleteAd(id);
+    await api.declineAd(id);
     setAds((prevAds) => prevAds.filter((ad) => ad._id !== id));
   };
 

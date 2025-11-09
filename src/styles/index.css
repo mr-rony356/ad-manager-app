@@ -150,9 +150,10 @@ a:-webkit-any-link {
   display: flex;
   flex-direction: column;
   gap: 5em;
-  margin: 1rem 10% 0;
   min-height: 100vh;
-  margin-bottom: 3em;
+  margin:0 auto;
+  width: 1150px;
+  padding: 1rem 0;
 }
 
 .modal__title {
@@ -357,9 +358,9 @@ a:-webkit-any-link {
   display: flex;
   justify-content: space-between;
   background-color: #1a1a1a;
-  position: relative;
   align-items: center;
-  padding: 10px 10% 1em;
+  max-width: 1150px;
+  margin: 0 auto;
 }
 .nav__login {
   display: flex;

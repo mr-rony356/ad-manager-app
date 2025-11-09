@@ -20,7 +20,10 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   const [err, setErr] = useState("");
   const [displayModal, setDisplayModal] = useState("");
   useEffect(() => {
-    if (user?._id === ad?.user || user?.email === "cyrill.mueller@onlyfriend.ch")
+    if (
+      user?._id === ad?.user ||
+      user?.email === "cyrill.mueller@onlyfriend.ch"
+    )
       setIsUser(true);
   }, [ad.user, user?._id]);
 
@@ -139,9 +142,9 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
         )}
         <div className="ad__content">
           <div className="ad__titleTime">
-            {ad.endDate < Date.now() ? (
+            {ad.endDate && ad.endDate < Date.now() ? (
               <p className="ad__expired">Expired</p>
-            ) : ad.premiumEndDate > Date.now() ? (
+            ) : ad.premiumEndDate && ad.premiumEndDate > Date.now() ? (
               <p className="ad__premium">Premium</p>
             ) : ad.active === false ? (
               <p className="ad__inactive">Inaktiv</p>

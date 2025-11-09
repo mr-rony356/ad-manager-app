@@ -866,6 +866,27 @@ export default class ApiController {
   }
 
   /**
+   * Declines the ad verification but publishes it as a normal ad
+   * @param {*} id The id of the ad
+   * @returns Whether the ad was successfully declined (and published)
+   */
+  async declineAd(id) {
+    try {
+      const promise = await fetch(
+        this.buildRequest(
+          "api/ad/decline/" + id,
+          "PUT",
+          null,
+          this.fetchToken(),
+        ),
+      ).then((res) => res.json());
+      return promise;
+    } catch (err) {
+      console.error("API: Could not decline ad verification", err);
+    }
+  }
+
+  /**
    * Deactivates the ad
    * @param {*} id The id of the ad to be deactivated
    * @returns Whether the ad was successfully deactivated

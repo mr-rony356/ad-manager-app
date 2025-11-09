@@ -37,7 +37,7 @@ const NavBar = ({ user }) => {
     }
   }
   return (
-    <header>
+    <header className="bg-[#1a1a1a]">
       <nav className="nav" id="nav">
         <div className="nav__logoSupport">
           <Link href="/" passHref>
@@ -169,7 +169,7 @@ const NavBar = ({ user }) => {
             </li>
 
             <li className="free-mobile-menu !py-12 flex">
-              <div className="flex justify-between items-centerx">
+              <div className="flex justify-between items-center">
               <Link
                 href="/ad?type=free"
                 passHref
@@ -180,11 +180,11 @@ const NavBar = ({ user }) => {
               </Link>
               <span className="freeBtn-mobile">{t("FreeButton")}</span>
 
-              <div className="w-[50px]">
+              <div className="w-[70px]">
                 <Image
                   src="/FINAL/24.png"
                   alt="upvote"
-                  width={100}
+                  width={200}
                   height={100}
                 />
               </div>
@@ -238,7 +238,7 @@ const NavBar = ({ user }) => {
                     >
                       {t("admin__linkCredits")}
                     </Link>
-                    <p className="adModal__credits">{user.credits}</p>
+                    <p className="adModal__credits">{user?.credits || 0}</p>
                   </div>
                 </li>
                 <li>
