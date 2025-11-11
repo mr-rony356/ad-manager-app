@@ -743,17 +743,9 @@ const AdDetail = ({
             <div>
               <div className="flex flex-col space-y-2 mb-4 rounded-lg shadow-md p-4">
                 <div className="text-center flex justify-center items-center gap-2">
-                  <h2 className="text-xl font-bold mb-2">
+                  <h2 className="text-xl font-bold mb-4">
                     {t("do_you_like_this_ad")}
                   </h2>
-                </div>
-                <div className="w-[40px] mx-auto my-2">
-                  <Image
-                    src="/FINAL/9.png"
-                    alt="upvote"
-                    width={100}
-                    height={100}
-                  />
                 </div>
 
                 <button

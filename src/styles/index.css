@@ -155,7 +155,11 @@ a:-webkit-any-link {
   width: 1150px;
   padding: 1rem 0;
 }
-
+@media (max-width: 768px) {
+  .page {
+    width: 100%;
+  }
+}
 .modal__title {
   font-size: 1.5em;
   font-weight: 600;
