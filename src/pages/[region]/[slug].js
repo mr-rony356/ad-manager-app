@@ -385,12 +385,7 @@ const AdDetail = ({
               </div>
             )}
             <div className="w-[100px] ">
-              <Image
-                src="/FINAL/2.png"
-                alt="upvote"
-                width={200}
-                height={200}
-              />
+              <Image src="/FINAL/2.png" alt="upvote" width={200} height={200} />
             </div>
           </div>{" "}
           <Carousel
@@ -742,10 +737,18 @@ const AdDetail = ({
           <div className="mx-2 p-2 md:mx-auto flex w-full justify-between flex-col md:flex-row">
             <div>
               <div className="flex flex-col space-y-2 mb-4 rounded-lg shadow-md p-4">
-                <div className="text-center flex justify-center items-center gap-2">
-                  <h2 className="text-xl font-bold mb-4">
+                <div className="text-center flex justify-center items-center gap-2 flex-col">
+                  <h2 className="text-xl font-bold mb-2">
                     {t("do_you_like_this_ad")}
-                  </h2>
+                  </h2>{" "}
+                  <div className="w-[150px] max-h-[150px]">
+                    <Image
+                      src={"/FINAL/14.png"}
+                      width={1000}
+                      height={100}
+                      alt="like"
+                    />
+                  </div>
                 </div>
 
                 <button
