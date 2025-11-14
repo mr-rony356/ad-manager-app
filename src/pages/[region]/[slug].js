@@ -14,6 +14,7 @@ import {
   RecentlyViewedAds,
   saveRecentAd,
 } from "@components/home/RecentlyViewedAds";
+import ContactComponentsDemo from "@components/Chat";
 
 export async function getServerSideProps({ params, req, locale }) {
   // Initialize your API client
@@ -403,9 +404,9 @@ const AdDetail = ({
                 boxShadow: "0 0.3125rem 1.25rem rgba(53,58,62,0.1215686275)",
               }}
             >
-              <div className="flex justify-center gap-4 mb-8">
-                <button
-                  className={`px-6 py-2 text-[16px] font-medium rounded-md ${
+              <div className="flex justify-center gap-4 mb-8 w-full text-center">
+                <div
+                  className={`px-6 py-2 text-[16px] font-medium rounded-md w-full  cursor-pointer ${
                     activeType === "contact"
                       ? "bg-sky-500 text-white"
                       : "bg-gray-200 text-gray-600"
@@ -413,9 +414,9 @@ const AdDetail = ({
                   onClick={() => setActiveType("contact")}
                 >
                   Kontakt
-                </button>
-                <button
-                  className={`px-6 py-2 text-[16px] font-medium rounded-md ${
+                </div>
+                <div
+                  className={`px-6 py-2 text-[16px] font-medium rounded-md w-full cursor-pointer ${
                     activeType === "offer"
                       ? " bg-sky-500 text-white"
                       : "bg-gray-200 text-gray-600"
@@ -423,35 +424,33 @@ const AdDetail = ({
                   onClick={() => setActiveType("offer")}
                 >
                   Angebote
-                </button>
+                </div>
               </div>
               {activeType === "contact" ? (
                 <div>
                   <div className="w-full flex  items-center gap-4 justify-center">
-                    <div className="w-[150px]">
+                    <div className="w-[80px]">
                       <Image
                         src={"/FINAL/12.png"}
                         width={800}
                         height={600}
                         alt="info"
-                        className="w-full max-w-[700px] h-auto rounded-md"
                       />
                     </div>
                   </div>
 
-                  <div className="mt-8 space-y-8">
+                  <div className="mt-0 space-y-3">
                     {ad.phone && ad.areaCode && (
                       <div className="flex items-center gap-4">
                         <p className="text-gray-900 text-2xl font-bold">
                           {areaCode} {ad.phone.replace(/-/g, " ")}
                         </p>
-                        <div className="w-[60px]">
+                        <div className="w-[70px] -ml-6">
                           <Image
                             src={"/FINAL/18.png"}
-                            width={100}
-                            height={100}
+                            width={1000}
+                            height={1000}
                             alt="small-info"
-                            className="w-16 h-20"
                           />
                         </div>
                       </div>
@@ -460,25 +459,11 @@ const AdDetail = ({
                       {ad.phone && ad.areaCode && (
                         <div className="flex flex-col  items-center gap-3 w-full">
                           <a
-                            href={`tel:${areaCode}${ad.phone}`}
-                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
-                          >
-                            <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
-                              <Image
-                                alt="support icon"
-                                width={20}
-                                height={20}
-                                src={smartphoneBlue}
-                              />
-                              Anrufen
-                            </button>
-                          </a>
-                          <a
                             href={`https://wa.me/${number.replace(
                               /\s/g,
                               "",
                             )}?text=%C2%ABHallo%20ich%20habe%20dein%20Inserat%20auf%20Onlyfriend.ch%20gesehen.%C2%BB`}
-                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
+                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md bg-slate-50"
                           >
                             <button className="ml-4 flex items-center gap-4 px-4 py-2  text-blue-600  ">
                               <Image
@@ -491,10 +476,25 @@ const AdDetail = ({
                               Whatsapp
                             </button>
                           </a>
+
+                          <a
+                            href={`tel:${areaCode}${ad.phone}`}
+                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md bg-slate-50"
+                          >
+                            <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
+                              <Image
+                                alt="support icon"
+                                width={20}
+                                height={20}
+                                src={smartphoneBlue}
+                              />
+                              Anrufen
+                            </button>
+                          </a>
                           {ad.website && (
                             <a
                               href={ad.website}
-                              className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md"
+                              className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md bg-slate-50"
                             >
                               <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
                                 <Image
@@ -515,9 +515,20 @@ const AdDetail = ({
 
                   {ad.country || ad.city || ad.street || ad.postCode ? (
                     <div className="mt-6">
-                      <p className="ml-4 font-bold text-gray-900 text-base">
-                        Adresse
-                      </p>
+                      <div className="flex  items-center">
+                        <div className="w-[40px] mb-3 -ml-3">
+                          <Image
+                            src="/FINAL/17.png"
+                            alt="upvote"
+                            width={100}
+                            height={100}
+                          />{" "}
+                        </div>
+
+                        <p className="font-bold text-gray-900 text-base mb-2">
+                          Adresse
+                        </p>
+                      </div>
 
                       {attributes.length > 0 &&
                         attributes.map((a, i) => {
@@ -528,15 +539,6 @@ const AdDetail = ({
                             if (country) {
                               return (
                                 <div className="flex items-center gap-2">
-                                  <div className="w-[40px] -ml-8">
-                                    <Image
-                                      src="/FINAL/17.png"
-                                      alt="upvote"
-                                      width={100}
-                                      height={100}
-                                    />{" "}
-                                  </div>
-
                                   <p
                                     key={i}
                                     className="text-base text-gray-600"
@@ -549,13 +551,9 @@ const AdDetail = ({
                           }
                           return null;
                         })}
-                      <p className="ml-4 text-base text-gray-600">
-                        {ad.street}
-                      </p>
-                      <p className="ml-4 text-base text-gray-600">{ad.city}</p>
-                      <p className="ml-4 text-base text-gray-600">
-                        {ad.postCode}
-                      </p>
+                      <p className="text-base text-gray-600">{ad.street}</p>
+                      <p className="text-base text-gray-600">{ad.city}</p>
+                      <p className="text-base text-gray-600">{ad.postCode}</p>
 
                       {/* Google Maps Button */}
                       <button
@@ -578,7 +576,7 @@ const AdDetail = ({
                           window.open(googleMapsURL, "_blank");
                         }}
                       >
-                        <img src={placeIcon} alt="place" className="h-5 w-5" />{" "}
+                        {/* <img src={placeIcon} alt="place" className="h-5 w-5" />{" "} */}
                         Show on Google Maps
                       </button>
                     </div>

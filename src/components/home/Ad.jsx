@@ -96,7 +96,7 @@ const Ad = ({ user, attributes, ad, isAdmin, isModalOpen, toggleModal }) => {
   return (
     <Link
       href={{
-        pathname: `${isAdmin ? "/admin" : ""}/${adSlugRegions ? adSlugRegions : ""}/${ad.slug}`,
+        pathname: `${isAdmin ? "" : ""}/${adSlugRegions ? adSlugRegions : ""}/${ad.slug}`,
       }}
     >
       <div className="ad ">
