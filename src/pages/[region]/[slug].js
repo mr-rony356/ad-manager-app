@@ -14,7 +14,6 @@ import {
   RecentlyViewedAds,
   saveRecentAd,
 } from "@components/home/RecentlyViewedAds";
-import ContactComponentsDemo from "@components/Chat";
 
 export async function getServerSideProps({ params, req, locale }) {
   // Initialize your API client
