@@ -78,6 +78,7 @@ const AdDetail = ({
   const [error, setError] = useState("");
   const [userReviews, setUserReviews] = useState([]);
   const [averageRating, setAverageRating] = useState(null);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const handleSubmit = async () => {
     if (!name.trim()) {
       setError("Name is required");
@@ -313,6 +314,18 @@ const AdDetail = ({
     // Hide the pop-up
     setShowPopup(false);
   };
+  const MAX_LINES = 12;
+
+  const descriptionLines = ad.description
+    ? ad.description.split("\n").filter((line) => line.trim() !== "")
+    : [];
+
+  const shouldShowToggle = descriptionLines.length > MAX_LINES;
+
+  const visibleText = isDescriptionExpanded
+    ? descriptionLines.join("\n")
+    : descriptionLines.slice(0, MAX_LINES).join("\n");
+
   return (
     <>
       <Head>
@@ -350,6 +363,54 @@ const AdDetail = ({
                 />
               )}
             </div>
+          </div>
+          <div className="adDetail__arrowTitle flex justify-end items-center my-4 mr-4">
+            <button
+              className="pagination-arrow"
+              aria-label="Previous page"
+              onClick={navigateToNextAd}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+
+            <Image
+              src={home}
+              width={500}
+              height={500}
+              alt="arrow"
+              className=" p-4 bg-slate-50 shadow-xl  rounded-full h-12 w-12 cursor-pointer"
+              loading="lazy"
+              onClick={() => router.push("/")}
+            />
+            <button
+              className="pagination-arrow"
+              aria-label="Next page"
+              onClick={navigateToPreviousAd}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </button>
           </div>
           <h1 className="adDetail__title text-xl"> {ad.title}</h1>
           <div className="flex items-center justify-between">
@@ -412,6 +473,17 @@ const AdDetail = ({
                   }`}
                   onClick={() => setActiveType("contact")}
                 >
+                  {" "}
+                  <div className="flex justify-center items-center">
+                    <div className="w-[30px]">
+                      <Image
+                        src={"/FINAL/17.png"}
+                        width={1000}
+                        height={1000}
+                        alt="small-info"
+                      />
+                    </div>
+                  </div>
                   Kontakt
                 </div>
                 <div
@@ -462,9 +534,9 @@ const AdDetail = ({
                               /\s/g,
                               "",
                             )}?text=%C2%ABHallo%20ich%20habe%20dein%20Inserat%20auf%20Onlyfriend.ch%20gesehen.%C2%BB`}
-                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md bg-slate-50"
+                            className="flex  w-full md:min-w-64 pr-2 border border-sky-500 rounded-md bg-slate-50 items-center justify-between"
                           >
-                            <button className="ml-4 flex items-center gap-4 px-4 py-2  text-blue-600  ">
+                            <button className="ml-4 flex items-center gap-4  py-2  text-blue-600  ">
                               <Image
                                 alt="support icon"
                                 width={20}
@@ -474,13 +546,21 @@ const AdDetail = ({
                               />
                               Whatsapp
                             </button>
+                            <div className="w-[30px]">
+                              <Image
+                                src={"/FINAL/8.png"}
+                                width={800}
+                                height={600}
+                                alt="info"
+                              />
+                            </div>
                           </a>
 
                           <a
                             href={`tel:${areaCode}${ad.phone}`}
-                            className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md bg-slate-50"
+                            className="flex  w-full md:min-w-64 pr-2 border border-sky-500 rounded-md bg-slate-50 items-center justify-between"
                           >
-                            <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
+                            <button className="flex items-center gap-4 px-2 py-2  text-blue-600  ">
                               <Image
                                 alt="support icon"
                                 width={20}
@@ -489,11 +569,19 @@ const AdDetail = ({
                               />
                               Anrufen
                             </button>
+                            <div className="w-[30px]">
+                              <Image
+                                src={"/FINAL/8.png"}
+                                width={800}
+                                height={600}
+                                alt="info"
+                              />
+                            </div>
                           </a>
                           {ad.website && (
                             <a
                               href={ad.website}
-                              className="flex  w-full md:min-w-64  justify-center border border-sky-500 rounded-md bg-slate-50"
+                              className="flex  w-full md:min-w-64 pr-2 border border-sky-500 rounded-md bg-slate-50 items-center justify-between"
                             >
                               <button className="flex items-center gap-4 px-4 py-2  text-blue-600  ">
                                 <Image
@@ -505,6 +593,14 @@ const AdDetail = ({
                                 />
                                 Website
                               </button>
+                              <div className="w-[30px]">
+                                <Image
+                                  src={"/FINAL/8.png"}
+                                  width={800}
+                                  height={600}
+                                  alt="info"
+                                />
+                              </div>
                             </a>
                           )}
                         </div>
@@ -693,8 +789,17 @@ const AdDetail = ({
 
               <div className="adDetail__description">
                 <pre className="whitespace-pre-wrap text-gray-800">
-                  {ad.description}
+                  {visibleText}
                 </pre>
+
+                {shouldShowToggle && (
+                  <button
+                    onClick={() => setIsDescriptionExpanded((prev) => !prev)}
+                    className="mt-2 text-sky-500 hover:text-sky-600 font-medium"
+                  >
+                    {isDescriptionExpanded ? t("show_less") : t("show_more")}
+                  </button>
+                )}
               </div>
 
               {ad.phone && number && (

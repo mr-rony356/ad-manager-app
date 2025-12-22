@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Dropdown } from "@components/tags/Inputs";
+import { useState, useEffect, useRef } from "react";
+import { Dropdown, Textfield } from "@components/tags/Inputs";
 import { useApi } from "@contexts/APIContext";
 import { API_ADDRESS } from "@utils/API";
 import Image from "next/image";
@@ -7,19 +7,77 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Cookies from "js-cookie"; // Import the js-cookie library
+import { FaRegUser } from "react-icons/fa";
+import { CiSearch } from "react-icons/ci";
+import { CiSquarePlus } from "react-icons/ci";
+import { TbWorld } from "react-icons/tb";
 const NavBar = ({ user }) => {
   const { t } = useTranslation("common");
   const { api } = useApi();
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOverlayOpen, setIsSearchOverlayOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
+  const searchInputRef = useRef(null);
+  const languageDropdownRef = useRef(null);
 
   const toggleLanguage = (value) => {
     router.push(router.pathname, router.asPath, { locale: value });
+    setIsLanguageDropdownOpen(false);
   };
 
   const doLogout = () => {
     api.doLogout();
   };
+
+  const encodeFilterValue = (value) => {
+    return encodeURIComponent(
+      value
+        .replace(/[\s_-]+/g, "-")
+        .replace(/\//g, "-")
+        .replace(/&/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-+/, "")
+        .replace(/-+$/, ""),
+    );
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      const encodedSearch = encodeFilterValue(searchQuery.trim());
+      router.push(`/filter/search/${encodedSearch}`);
+      setIsSearchOverlayOpen(false);
+      setSearchQuery("");
+    }
+  };
+
+  useEffect(() => {
+    if (isSearchOverlayOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOverlayOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target)
+      ) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    if (isLanguageDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isLanguageDropdownOpen]);
+
   // Extract token and user data from the cookie
   const cookieValue = Cookies.get("Auth");
   let loggedIn = false;
@@ -46,7 +104,7 @@ const NavBar = ({ user }) => {
               width={500}
               height={500}
               alt="logo"
-              className="logo h-24"
+              className="logo h-16"
               loading="lazy"
             />
           </Link>
@@ -55,6 +113,60 @@ const NavBar = ({ user }) => {
           </Link>
           <Link href="/blogs" passHref className="nav__support">
             Blogs
+          </Link>
+        </div>
+        <div className="flex gap-4 items-center text-white  md:hidden">
+          <div className="relative" ref={languageDropdownRef}>
+            <div
+              className="cursor-pointer"
+              onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+            >
+              <TbWorld size={24} />
+            </div>
+            {isLanguageDropdownOpen && (
+              <div className="absolute top-full right-0 mt-2 bg-[#1a1a1a] border border-gray-300 rounded-md shadow-lg z-50 min-w-[50px] text-xs">
+                <button
+                  onClick={() => toggleLanguage("de")}
+                  className={`w-full text-left px-4 py-1 text-white hover:bg-gray-700 first:rounded-t-md ${
+                    router.locale === "de" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  DE
+                </button>
+                <button
+                  onClick={() => toggleLanguage("en")}
+                  className={`w-full text-left px-4 py-1 text-white hover:bg-gray-700 ${
+                    router.locale === "en" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  EN
+                </button>
+                <button
+                  onClick={() => toggleLanguage("es")}
+                  className={`w-full text-left px-4 py-1 text-white hover:bg-gray-700 last:rounded-b-md ${
+                    router.locale === "es" ? "bg-gray-700" : ""
+                  }`}
+                >
+                  ES
+                </button>
+              </div>
+            )}
+          </div>
+          <Link href="/ad?type=free" passHref>
+            <CiSquarePlus size={24} className="cursor-pointer" />
+          </Link>
+          <div
+            className="cursor-pointer"
+            onClick={() => setIsSearchOverlayOpen(true)}
+          >
+            <CiSearch size={24} />
+          </div>
+          <Link
+            href={loggedIn ? "/admin" : "/login"}
+            passHref
+            className="cursor-pointer"
+          >
+            <FaRegUser size={20} />
           </Link>
         </div>
 
@@ -170,25 +282,24 @@ const NavBar = ({ user }) => {
 
             <li className="free-mobile-menu !py-12 flex">
               <div className="flex justify-between items-center">
-              <Link
-                href="/ad?type=free"
-                passHref
-                className="button "
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {t("navBar__adButton")}
-              </Link>
-              <span className="freeBtn-mobile">{t("FreeButton")}</span>
+                <Link
+                  href="/ad?type=free"
+                  passHref
+                  className="button "
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t("navBar__adButton")}
+                </Link>
+                <span className="freeBtn-mobile">{t("FreeButton")}</span>
 
-              <div className="w-[70px]">
-                <Image
-                  src="/FINAL/24.png"
-                  alt="upvote"
-                  width={200}
-                  height={100}
-                />
-              </div>
-
+                <div className="w-[70px]">
+                  <Image
+                    src="/FINAL/24.png"
+                    alt="upvote"
+                    width={200}
+                    height={100}
+                  />
+                </div>
               </div>
             </li>
 
@@ -316,6 +427,53 @@ const NavBar = ({ user }) => {
           </ul>
         )}
       </nav>
+      {isSearchOverlayOpen && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+          onClick={() => {
+            setIsSearchOverlayOpen(false);
+            setSearchQuery("");
+          }}
+        >
+          <div
+            className="bg-[#1a1a1a] p-6 rounded-lg w-full max-w-md mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <form onSubmit={handleSearchSubmit}>
+              <div className="inputBox">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  id="nav-search"
+                  className="p-[8px] rounded-md form__input--textfield border border-sky-500 text-base !tracking-wider w-full"
+                  name="nav-search"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder={t("searchInput")}
+                />
+              </div>
+              <div className="flex gap-3 justify-end mt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsSearchOverlayOpen(false);
+                    setSearchQuery("");
+                  }}
+                  className="px-4 py-2 text-white border border-gray-300 rounded-md hover:bg-gray-700"
+                >
+                  {t("close")}
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600"
+                >
+                  {t("searchInput")}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

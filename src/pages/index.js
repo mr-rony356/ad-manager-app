@@ -114,6 +114,8 @@ function HomePage({
     search: null,
     verified: false,
   });
+  const [verifiedImagesFilter, setVerifiedImagesFilter] = useState(false);
+  const [videoAdsFilter, setVideoAdsFilter] = useState(false);
   const adsPerPage = 26;
 
   // Enhanced route and page handling
@@ -205,6 +207,22 @@ function HomePage({
 
     [router],
   );
+
+  // Filter ads based on verified images and video filters
+  const filteredAds = useMemo(() => {
+    let result = ads;
+
+    if (verifiedImagesFilter) {
+      result = result.filter((ad) => ad.verified === true);
+    }
+
+    if (videoAdsFilter) {
+      result = result.filter((ad) => ad.video && ad.video !== "");
+    }
+
+    return result;
+  }, [ads, verifiedImagesFilter, videoAdsFilter]);
+
   return (
     <>
       <Head>
@@ -234,12 +252,7 @@ function HomePage({
       {showWelcome && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black backdrop-blur-sm">
           <div className="text-white text-2xl md:text-3xl font-semibold flex flex-col items-center justify-center">
-            <Image
-              src="/FINAL/13.png"
-              alt="welcome"
-              width={350}
-              height={350}
-            />
+            <Image src="/FINAL/13.png" alt="welcome" width={350} height={350} />
             <p>Willkommen bei OnlyFriend.ch</p>
           </div>
         </div>
@@ -248,39 +261,42 @@ function HomePage({
         <h1 className="home__title font-bold text-[32px]">
           {t("home__title", { region: "Schweiz" })}
         </h1>
-        <FilterForm
-          filters={filters}
-          setFilters={setFilters}
-          attributes={attributes}
-        />
         <div className="">
-          <div className="button--inline">
-            {attributes &&
-              attributes.length > 0 &&
-              attributes
-                .find((attribute) => attribute.name === "types")
-                .values.map((value) => (
-                  <button
-                    key={value.id}
-                    className={
-                      activeType === value.id ? "button" : "button inactive"
-                    }
-                    onClick={() => {
-                      fetchAds(value.id);
-                      setActiveType(value.id);
-                    }}
-                  >
-                    {value.name} {t("home__ad")}
-                  </button>
-                ))}
-            {/* <Image
-                src="/assets/filter.png"
-                width={500}
-                height={500}
-                alt="filter"
-                className="filter"
-                priority
-              /> */}
+          <FilterForm
+            filters={filters}
+            setFilters={setFilters}
+            attributes={attributes}
+          />
+          {/* Filter checkboxes for verified images and video ads */}
+          <div className="flex flex-row gap-6 mt-24 mb-4 md:hidden ml-4">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={verifiedImagesFilter}
+                onChange={(e) => setVerifiedImagesFilter(e.target.checked)}
+                className="w-5 h-5 rounded border-2 border-blue-500 bg-transparent appearance-none checked:bg-blue-500 checked:border-blue-500 focus:outline-none transition-all"
+                style={{
+                  accentColor: "#3b82f6",
+                }}
+              />
+              <span className="text-gray-300 text-base select-none">
+                {t("filter__verifiedImages")}
+              </span>
+            </label>
+            <label className="flex items-center gap-2 cursor-pointer ">
+              <input
+                type="checkbox"
+                checked={videoAdsFilter}
+                onChange={(e) => setVideoAdsFilter(e.target.checked)}
+                className="w-5 h-5 rounded border-2 border-blue-500 bg-transparent appearance-none checked:bg-blue-500 checked:border-blue-500 focus:outline-none transition-all"
+                style={{
+                  accentColor: "#3b82f6",
+                }}
+              />
+              <span className="text-gray-300 text-base select-none">
+                {t("filter__videoAds")}
+              </span>
+            </label>
           </div>
           {loading ? (
             <div className="ads-skeleton-container">
@@ -300,12 +316,14 @@ function HomePage({
               ))}
             </div>
           ) : (
-            <AdList
-              user={user}
-              ads={ads}
-              attributes={attributes}
-              total={total}
-            />
+            <div className="mt-24">
+              <AdList
+                user={user}
+                ads={filteredAds}
+                attributes={attributes}
+                total={total}
+              />
+            </div>
           )}{" "}
           {/* {isCookiesPopupOpen && (
             <CookiesPopup setIsCookiesPopupOpen={setIsCookiesPopupOpen} />
@@ -316,7 +334,27 @@ function HomePage({
           totalPages={Math.ceil(total / adsPerPage)}
           onPageChange={paginate}
         />{" "}
-        <div className="seo-content">
+        <div className="seo-content px-2 md:px-0">
+          {/* here */}
+          <section className="seo-section flex-col flex md:flex-row justify-between items-center">
+            <div>
+              <h2 className="text-2xl font-bold mb-4">
+                {t("verified__title")}
+              </h2>
+              <p className="mb-6">{t("verified__paragraph1")}</p>
+              <p className="mb-6">{t("verified__paragraph2")}</p>
+              <p className="mb-6">{t("verified__paragraph3")}</p>
+            </div>
+            <div className="w-[350px]">
+              <Image
+                src="/FINAL/6.png"
+                alt="upvote"
+                width={1000}
+                height={1000}
+              />{" "}
+            </div>
+          </section>
+
           <section className="seo-section">
             <h2 className="text-2xl font-bold mb-4">
               Sextreffen in der Schweiz: Die besten Sexinserate und Kontakte auf

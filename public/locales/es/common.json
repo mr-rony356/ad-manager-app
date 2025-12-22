@@ -9,6 +9,8 @@
 
   "filterForm__filterButton": "Aplicar filtro",
   "filterForm__verifiedCheck": "Solo anuncios verificados",
+  "filter__verifiedImages": "Imágenes verificadas",
+  "filter__videoAds": "Anuncios de video",
 
   "login__error": "Nota: si olvidaste tu nombre de usuario, ve a tu correo electrónico, te hemos enviado directamente el nombre de usuario.",
   "signup__error": "El correo electrónico ya está en uso",
@@ -204,5 +206,12 @@
   "popup_deleted_title": "Anuncio eliminado",
   "popup_deleted_message": "Tu anuncio ha sido eliminado.",
   "popup_login_title": "¿Lo sabías?",
-  "popup_login_message": "Publicar tus anuncios es totalmente gratis!"
+  "popup_login_message": "Publicar tus anuncios es totalmente gratis!",
+  
+  "verified__title": "OnlyFriend.ch – Los Anuncios Han Sido Verificados por su Autenticidad",
+  "verified__paragraph1": "Los anuncios verificados en OnlyFriend.ch han sido sometidos a controles certificados de identidad y reconocimiento facial para confirmar su autenticidad. Esto garantiza que cada perfil verificado corresponde a una persona real y que no se publiquen contenidos manipulados o falsificados.",
+  "verified__paragraph2": "Todos los anuncios verificados se revisan individualmente antes de su aprobación. La verificación incluye la coincidencia entre las imágenes subidas y la persona correspondiente, además de mecanismos internos adicionales de seguridad. De este modo, garantizamos que nuestros usuarios encuentren únicamente anuncios auténticos y confiables.",
+  "verified__paragraph3": "Con estas medidas, OnlyFriend.ch ofrece un entorno seguro, transparente y fiable — para personas reales y anuncios reales.",
+  "show_more": "mostrar más",
+  "show_less":"mostrar menos"
 }

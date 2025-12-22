@@ -9,6 +9,8 @@
 
   "filterForm__filterButton": "Filter Anwenden",
   "filterForm__verifiedCheck": "Nur verifizierte Inserate",
+  "filter__verifiedImages": "Verifizierte Bilder",
+  "filter__videoAds": "Video Inserate",
 
   "login__error": "Hinweis, falls Sie ihr Benutzername vergessen haben, gehen Sie in Ihre Mailbox, wir haben Sie direkt mit dem Benutzername angesprochen",
   "signup__error": "Die email wird bereits verwendet",
@@ -200,5 +202,12 @@
   "popup_deleted_title": "Inserat gelöscht",
   "popup_deleted_message": "Ihr Inserat wurde gelöscht.",
   "popup_login_title": "Wussten Sie schon?",
-  "popup_login_message": "Die Inserate-Erstellung ist bei uns komplett kostenlos!"
+  "popup_login_message": "Die Inserate-Erstellung ist bei uns komplett kostenlos!",
+
+  "verified__title": "OnlyFriend.ch – Inserate wurden auf ihre Echtheit überprüft",
+  "verified__paragraph1": "Die verifizierten Inserate auf OnlyFriend.ch wurden mittels einer zertifizierten Identitäts- und Gesichtserkennungsprüfung auf ihre Echtheit kontrolliert. Dadurch stellen wir sicher, dass hinter jedem verifizierten Profil eine reale Person steht und keine manipulierten oder gefälschten Inhalte veröffentlicht werden.",
+  "verified__paragraph2": "Alle verifizierten Inserate werden vor der Freischaltung einzeln geprüft. Die Überprüfung umfasst die Übereinstimmung der hochgeladenen Bilder mit der jeweiligen Person sowie zusätzliche interne Sicherheitsmechanismen. So gewährleisten wir, dass unsere Nutzerinnen und Nutzer ausschliesslich authentische und vertrauenswürdige Inserate vorfinden.",
+  "verified__paragraph3": "Mit diesen Massnahmen schafft OnlyFriend.ch eine sichere, transparente und verlässliche Umgebung, für echte Menschen und echte Inserate.",
+  "show_more": "mehr anzeigen",
+  "show_less":"weniger anzeigen"
 }

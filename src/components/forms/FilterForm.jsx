@@ -41,7 +41,7 @@ const FilterForm = (props) => {
   // Handle scroll for text fade effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      if (window.scrollY >1) {
         setShowText(false);
       } else {
         setShowText(true);
@@ -232,27 +232,29 @@ const FilterForm = (props) => {
     <>
       {isMobile ? (
         // Mobile View
-        <div className="fixed bottom-4 right-4 z-50">
+        <div className="fixed top-40 z-50 flex justify-end w-[98%]">
           <div
-            className="bg-sky-400 rounded-full p-3 shadow-lg cursor-pointer transition-all duration-300 ease-in-out"
+            className={`bg-sky-400 rounded-full p-4 px-6 shadow-lg cursor-pointer transition-all duration-300 ease-in-out ${showText ? "w-[98%]" : "w-[72px]"}`}
             onClick={() => setShowForm((prev) => !prev)}
           >
-            <div className="flex items-center">
+            <div className="flex items-center justify-between w-full">
               <p
-                className={`text-white font-bold mr-2 transition-opacity duration-300 whitespace-nowrap overflow-hidden ${
-                  showText ? "opacity-100 max-w-[200px]" : "opacity-0 max-w-0"
+                className={`text-white font-semibold mr-2 whitespace-nowrap overflow-hidden transition-all duration-200 ease-in-out w-full !text-lg ${
+                  showText
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 max-w-0 translate-x-16"
                 }`}
               >
                 {t("filterForm__filterButton")}
               </p>
               <Image
                 src="/assets/sliders.png"
-                width={24}
-                height={24}
-                alt="filter"
-                className="filter-icon-slider"
-                priority
-              />
+                width={100}
+                height={100}
+                  alt="filter"
+                  className="filter-icon-slider"
+                  priority
+                />
             </div>
           </div>
 

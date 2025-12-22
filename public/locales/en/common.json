@@ -9,6 +9,8 @@
 
   "filterForm__filterButton": "Apply filter",
   "filterForm__verifiedCheck": "Nur verifizierte Inserate",
+  "filter__verifiedImages": "Verified Images",
+  "filter__videoAds": "Video Ads",
 
   "login__error": "Note, if you have forgotten your username, go to your mailbox, we have addressed you directly with the username.",
   "signup__error": "The email is already taken",
@@ -203,5 +205,12 @@
   "popup_deleted_title": "Listing deleted",
   "popup_deleted_message": "Your listing has been deleted.",
   "popup_login_title": "Did you know?",
-  "popup_login_message": "Creating and publishing listings is completely free!"
+  "popup_login_message": "Creating and publishing listings is completely free!",
+
+  "verified__title": "OnlyFriend.ch – Listings Have Been Verified for Authenticity",
+  "verified__paragraph1": "The verified listings on OnlyFriend.ch have undergone certified identity and facial recognition checks to confirm their authenticity. This ensures that every verified profile represents a real person and that no manipulated or fraudulent content is published.",
+  "verified__paragraph2": "All verified listings are individually reviewed before being approved. The verification includes matching the uploaded images with the respective person, along with additional internal security measures. In this way, we guarantee that our users encounter only authentic and trustworthy listings.",
+  "verified__paragraph3": "Through these measures, OnlyFriend.ch provides a safe, transparent, and reliable environment — for real people and real listings.",
+  "show_more": "show more",
+  "show_less":"show less"
 }
