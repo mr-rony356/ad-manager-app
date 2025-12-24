@@ -6,10 +6,12 @@ import AdvertisementPage from "@pages/ad";
 import ApiController from "@utils/API";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { User } from "lucide-react";
+import { IoMdHome } from "react-icons/io";
 import {
   RecentlyViewedAds,
   saveRecentAd,
@@ -1126,6 +1128,35 @@ const AdDetail = ({
             </div>
           )}
           <RecentlyViewedAds attributes={attributes} />
+          {/* Breadcrumb Navigation */}
+          <div className="px-4 py-3">
+            <nav className="flex items-center gap-2 text-sm text-gray-600 flex-wrap">
+              <Link
+                href="/"
+                className="hover:text-sky-600 transition-colors duration-200"
+              >
+                <IoMdHome size={20} />
+              </Link>
+              {/* {router.query.region && (
+                <>
+                  <span className="text-gray-400">/</span>
+                  <span className="text-gray-800 capitalize">
+                    {decodeURIComponent(String(router.query.region))
+                      .replace(/-/g, " ")
+                      .replace(/\b\w/g, (l) => l.toUpperCase())}
+                  </span>
+                </>
+              )} */}
+              {ad?.title && (
+                <>
+                  <span className="text-gray-400"> &gt;</span>
+                  <span className="text-gray-800 font-medium text-sm truncate max-w-[200px] sm:max-w-none">
+                    {ad.title}
+                  </span>
+                </>
+              )}
+            </nav>
+          </div>
         </div>
       )}
     </>

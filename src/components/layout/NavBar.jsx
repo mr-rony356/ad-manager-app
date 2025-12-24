@@ -257,29 +257,9 @@ const NavBar = ({ user }) => {
             </div>
           </li>
         </ul>
+
         {isMenuOpen && (
           <ul className="mobile_menu">
-            <li>
-              <Link
-                href="/support"
-                passHref
-                className="nav__supportMenu"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Support
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/blogs"
-                passHref
-                className="nav__supportMenu"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Blogs
-              </Link>
-            </li>
-
             <li className="free-mobile-menu !py-12 flex">
               <div className="flex justify-between items-center">
                 <Link
@@ -302,31 +282,45 @@ const NavBar = ({ user }) => {
                 </div>
               </div>
             </li>
-
             <li>
               <Link
-                href={loggedIn ? "/admin" : "/login"}
-                passHref
-                className="nav__login"
-                onClick={() => setIsMenuOpen(false)}
+                href="/ad?type=free"
+                className="footer__link  hover:underline"
               >
-                <Image
-                  src={
-                    user && !user.err && user.image
-                      ? API_ADDRESS + user.image
-                      : "/assets/user-icon.png"
-                  }
-                  width={25}
-                  height={30}
-                  alt="user-icon"
-                  className="nav__userIcon"
-                  loading="lazy"
-                />
-                <p className="login__button">
-                  {loggedIn ? userName : t("navBar__SignUpButton")}
-                </p>
+                Inserataufgeben
               </Link>
             </li>
+            <li>
+              <Link href="/ad-price" className="footer__link  hover:underline">
+                Preise Inserate
+              </Link>
+            </li>
+            <li>
+              <Link href="/faq" className="footer__link  hover:underline">
+                Fragen & Antworten (FAQ)
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/blogs"
+                passHref
+                className="nav__supportMenu"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Blogs
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/support"
+                passHref
+                className="nav__supportMenu"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Support
+              </Link>
+            </li>
+
             {loggedIn && isMenuOpen && (
               <>
                 <li>
@@ -404,26 +398,6 @@ const NavBar = ({ user }) => {
                 </li>
               </>
             )}
-            <li className="nav__languageLi">
-              <Dropdown
-                className="nav__language"
-                id="lang"
-                name="lang"
-                value={router.locale}
-                onChange={(event) => toggleLanguage(event.target.value)}
-                options={[
-                  <option key={0} value="de" style={{ color: "black" }}>
-                    DE
-                  </option>,
-                  <option key={1} value="en" style={{ color: "black" }}>
-                    EN
-                  </option>,
-                  <option key={2} value="es" style={{ color: "black" }}>
-                    ES
-                  </option>,
-                ]}
-              />
-            </li>
           </ul>
         )}
       </nav>

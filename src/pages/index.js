@@ -258,7 +258,7 @@ function HomePage({
         </div>
       )}
       <div className="page  page--home md:max-w-6xl !mx-auto">
-        <h1 className="home__title font-bold text-[32px]">
+        <h1 className="home__title font-bold md:text-[32px] text-[20px] text-center">
           {t("home__title", { region: "Schweiz" })}
         </h1>
         <div className="">

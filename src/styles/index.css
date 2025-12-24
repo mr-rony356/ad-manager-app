@@ -151,7 +151,7 @@ a:-webkit-any-link {
   flex-direction: column;
   gap: 5em;
   min-height: 100vh;
-  margin:0 auto;
+  margin: 0 auto;
   width: 1150px;
   padding: 1rem 0;
 }
@@ -1941,7 +1941,6 @@ a:-webkit-any-link {
 
   .home__title {
     text-align: center;
-    font-size: x-large;
     color: white;
     margin-bottom: 1em;
   }
@@ -1982,12 +1981,15 @@ a:-webkit-any-link {
     position: absolute;
     top: 0;
     margin-top: 4.5em;
+    padding-top: 2em;
     left: 0;
     flex-direction: column;
     width: 100%;
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    height: 100vh !important ;
+    background-color: #1a1f21;
   }
 
   .menu-button,
@@ -2039,9 +2041,9 @@ a:-webkit-any-link {
 
   .mobile_menu > li {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     margin: 0;
-    padding: 1.5em 0;
+    padding: 0.8em 0.5em;
     width: 100%;
     color: white;
     background-color: var(--dark);
@@ -2050,9 +2052,9 @@ a:-webkit-any-link {
   .adDetail__verifiedPart {
     margin-bottom: 0px;
   }
-  .mobile_menu > li:not(:last-child) {
+  /* .mobile_menu > li:not(:last-child) {
     border-bottom: 1px solid #444;
-  }
+  } */
 
   .nav {
     display: flex;
@@ -2498,10 +2500,10 @@ a:-webkit-any-link {
   .free-mobile-menu {
     position: relative;
     height: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: start !important;
+    justify-content: center !important;
   }
 }
 
@@ -2756,4 +2758,43 @@ li {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Distance Slider Styles */
+input[type="range"].slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="range"].slider-thumb::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"].slider-thumb::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #0ea5e9;
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input[type="range"].slider-thumb::-webkit-slider-thumb:hover {
+  background: #0284c7;
+}
+
+input[type="range"].slider-thumb::-moz-range-thumb:hover {
+  background: #0284c7;
 }
