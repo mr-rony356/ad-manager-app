@@ -15,11 +15,7 @@ const FilterForm = (props) => {
   const [openFilter, setOpenFilter] = useState(null); // 'regions' | 'tags' | 'offers' | null
   const [showDistanceSlider, setShowDistanceSlider] = useState(false);
   const [distance, setDistance] = useState(1); // Distance in km (1-25)
-  const [expandedSections, setExpandedSections] = useState({
-    regions: false,
-    tags: false,
-    offers: false,
-  });
+  const [activeMobileSection, setActiveMobileSection] = useState(null); // 'regions' | 'tags' | 'offers' | null
 
   const regionsBtnRef = useRef(null);
   const tagsBtnRef = useRef(null);
@@ -375,221 +371,196 @@ const FilterForm = (props) => {
                 </div>
 
                 <form className="space-y-4 w-full px-4" onSubmit={doFilter}>
-                  {/* Regions Selection Boxes */}
-                  <div className="mb-4 border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                  {/* Parent Selection Buttons - Side by Side */}
+                  <div className="flex gap-2 mb-4">
                     <button
                       type="button"
                       onClick={() =>
-                        setExpandedSections((prev) => ({
-                          ...prev,
-                          regions: !prev.regions,
-                        }))
+                        setActiveMobileSection(
+                          activeMobileSection === "regions" ? null : "regions",
+                        )
                       }
-                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
+                      className={`flex-1 flex flex-col items-center justify-center gap-1 px-3 py-3 rounded-lg border-2 transition-all duration-200 ${
+                        activeMobileSection === "regions"
+                          ? "bg-sky-400 text-white border-sky-500 shadow-sm"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-sky-400"
+                      }`}
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-base font-semibold text-gray-800">
-                          Region
+                      <span className="text-sm font-semibold">Region</span>
+                      {filters.regions?.length > 0 && (
+                        <span
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                            activeMobileSection === "regions"
+                              ? "bg-white text-sky-400"
+                              : "bg-sky-400 text-white"
+                          }`}
+                        >
+                          {filters.regions.length}
                         </span>
-                        {filters.regions?.length > 0 && (
-                          <span className="px-2 py-0.5 bg-sky-400 text-white text-xs font-medium rounded-full">
-                            {filters.regions.length}
-                          </span>
-                        )}
-                      </div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={`h-5 w-5 text-gray-600 transition-transform ${
-                          expandedSections.regions ? "rotate-180" : ""
-                        }`}
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      )}
                     </button>
-                    {expandedSections.regions && (
-                      <div className="p-4 pt-3">
-                        <div className="flex flex-wrap gap-2.5">
-                          {regionOptions.map((option) => {
-                            const isSelected = filters.regions?.includes(
-                              option.value,
-                            );
-                            return (
-                              <button
-                                key={option.value}
-                                type="button"
-                                onClick={() => {
-                                  const currentRegions = filters.regions || [];
-                                  const newRegions = isSelected
-                                    ? currentRegions.filter(
-                                        (r) => r !== option.value,
-                                      )
-                                    : [...currentRegions, option.value];
-                                  updateFilters("regions", newRegions);
-                                }}
-                                className={`px-3.5 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
-                                  isSelected
-                                    ? "bg-sky-400 text-white border-sky-500 font-semibold shadow-sm"
-                                    : "bg-white text-gray-700 border-gray-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700"
-                                }`}
-                              >
-                                {option.label}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveMobileSection(
+                          activeMobileSection === "tags" ? null : "tags",
+                        )
+                      }
+                      className={`flex-1 flex flex-col items-center justify-center gap-1 px-3 py-3 rounded-lg border-2 transition-all duration-200 ${
+                        activeMobileSection === "tags"
+                          ? "bg-sky-400 text-white border-sky-500 shadow-sm"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-sky-400"
+                      }`}
+                    >
+                      <span className="text-sm font-semibold">
+                        {t("rubricInput")}
+                      </span>
+                      {filters.tags?.length > 0 && (
+                        <span
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                            activeMobileSection === "tags"
+                              ? "bg-white text-sky-400"
+                              : "bg-sky-400 text-white"
+                          }`}
+                        >
+                          {filters.tags.length}
+                        </span>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveMobileSection(
+                          activeMobileSection === "offers" ? null : "offers",
+                        )
+                      }
+                      className={`flex-1 flex flex-col items-center justify-center gap-1 px-3 py-3 rounded-lg border-2 transition-all duration-200 ${
+                        activeMobileSection === "offers"
+                          ? "bg-sky-400 text-white border-sky-500 shadow-sm"
+                          : "bg-white text-gray-700 border-gray-300 hover:border-sky-400"
+                      }`}
+                    >
+                      <span className="text-sm font-semibold">
+                        {t("offerInput")}
+                      </span>
+                      {filters.offers?.length > 0 && (
+                        <span
+                          className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                            activeMobileSection === "offers"
+                              ? "bg-white text-sky-400"
+                              : "bg-sky-400 text-white"
+                          }`}
+                        >
+                          {filters.offers.length}
+                        </span>
+                      )}
+                    </button>
                   </div>
 
-                  {/* Tags Selection Boxes */}
-                  <div className="mb-4 border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setExpandedSections((prev) => ({
-                          ...prev,
-                          tags: !prev.tags,
-                        }))
-                      }
-                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-base font-semibold text-gray-800">
-                          {t("rubricInput")}
-                        </span>
-                        {filters.tags?.length > 0 && (
-                          <span className="px-2 py-0.5 bg-sky-400 text-white text-xs font-medium rounded-full">
-                            {filters.tags.length}
-                          </span>
-                        )}
+                  {/* Options Display Area - Shows below based on active section */}
+                  {activeMobileSection === "regions" && (
+                    <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex flex-wrap gap-2.5">
+                        {regionOptions.map((option) => {
+                          const isSelected = filters.regions?.includes(
+                            option.value,
+                          );
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                const currentRegions = filters.regions || [];
+                                const newRegions = isSelected
+                                  ? currentRegions.filter(
+                                      (r) => r !== option.value,
+                                    )
+                                  : [...currentRegions, option.value];
+                                updateFilters("regions", newRegions);
+                              }}
+                              className={`px-3.5 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
+                                isSelected
+                                  ? "bg-sky-400 text-white border-sky-500 font-semibold shadow-sm"
+                                  : "bg-white text-gray-700 border-gray-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700"
+                              }`}
+                            >
+                              {option.label}
+                            </button>
+                          );
+                        })}
                       </div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={`h-5 w-5 text-gray-600 transition-transform ${
-                          expandedSections.tags ? "rotate-180" : ""
-                        }`}
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                    {expandedSections.tags && (
-                      <div className="p-4 pt-3">
-                        <div className="flex flex-wrap gap-2.5">
-                          {tagOptions.map((option) => {
-                            const isSelected = filters.tags?.includes(
-                              option.value,
-                            );
-                            return (
-                              <button
-                                key={option.value}
-                                type="button"
-                                onClick={() => {
-                                  const currentTags = filters.tags || [];
-                                  const newTags = isSelected
-                                    ? currentTags.filter(
-                                        (t) => t !== option.value,
-                                      )
-                                    : [...currentTags, option.value];
-                                  updateFilters("tags", newTags);
-                                }}
-                                className={`px-3.5 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
-                                  isSelected
-                                    ? "bg-sky-400 text-white border-sky-500 font-semibold shadow-sm"
-                                    : "bg-white text-gray-700 border-gray-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700"
-                                }`}
-                              >
-                                {option.label}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
-                  {/* Offers Selection Boxes */}
-                  <div className="mb-4 border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setExpandedSections((prev) => ({
-                          ...prev,
-                          offers: !prev.offers,
-                        }))
-                      }
-                      className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors"
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-base font-semibold text-gray-800">
-                          {t("offerInput")}
-                        </span>
-                        {filters.offers?.length > 0 && (
-                          <span className="px-2 py-0.5 bg-sky-400 text-white text-xs font-medium rounded-full">
-                            {filters.offers.length}
-                          </span>
-                        )}
+                  {activeMobileSection === "tags" && (
+                    <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex flex-wrap gap-2.5">
+                        {tagOptions.map((option) => {
+                          const isSelected = filters.tags?.includes(
+                            option.value,
+                          );
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                const currentTags = filters.tags || [];
+                                const newTags = isSelected
+                                  ? currentTags.filter(
+                                      (t) => t !== option.value,
+                                    )
+                                  : [...currentTags, option.value];
+                                updateFilters("tags", newTags);
+                              }}
+                              className={`px-3.5 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
+                                isSelected
+                                  ? "bg-sky-400 text-white border-sky-500 font-semibold shadow-sm"
+                                  : "bg-white text-gray-700 border-gray-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700"
+                              }`}
+                            >
+                              {option.label}
+                            </button>
+                          );
+                        })}
                       </div>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className={`h-5 w-5 text-gray-600 transition-transform ${
-                          expandedSections.offers ? "rotate-180" : ""
-                        }`}
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </button>
-                    {expandedSections.offers && (
-                      <div className="p-4 pt-3">
-                        <div className="flex flex-wrap gap-2.5">
-                          {offerOptions.map((option) => {
-                            const isSelected = filters.offers?.includes(
-                              option.value,
-                            );
-                            return (
-                              <button
-                                key={option.value}
-                                type="button"
-                                onClick={() => {
-                                  const currentOffers = filters.offers || [];
-                                  const newOffers = isSelected
-                                    ? currentOffers.filter(
-                                        (o) => o !== option.value,
-                                      )
-                                    : [...currentOffers, option.value];
-                                  updateFilters("offers", newOffers);
-                                }}
-                                className={`px-3.5 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
-                                  isSelected
-                                    ? "bg-sky-400 text-white border-sky-500 font-semibold shadow-sm"
-                                    : "bg-white text-gray-700 border-gray-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700"
-                                }`}
-                              >
-                                {option.label}
-                              </button>
-                            );
-                          })}
-                        </div>
+                    </div>
+                  )}
+
+                  {activeMobileSection === "offers" && (
+                    <div className="mb-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                      <div className="flex flex-wrap gap-2.5">
+                        {offerOptions.map((option) => {
+                          const isSelected = filters.offers?.includes(
+                            option.value,
+                          );
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                const currentOffers = filters.offers || [];
+                                const newOffers = isSelected
+                                  ? currentOffers.filter(
+                                      (o) => o !== option.value,
+                                    )
+                                  : [...currentOffers, option.value];
+                                updateFilters("offers", newOffers);
+                              }}
+                              className={`px-3.5 py-2 text-sm rounded-lg border-2 transition-all duration-200 ${
+                                isSelected
+                                  ? "bg-sky-400 text-white border-sky-500 font-semibold shadow-sm"
+                                  : "bg-white text-gray-700 border-gray-300 hover:border-sky-400 hover:bg-sky-50 hover:text-sky-700"
+                              }`}
+                            >
+                              {option.label}
+                            </button>
+                          );
+                        })}
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
 
                   {/* Search Field */}
                   <div className="mb-4 px-4">
